@@ -1,0 +1,16 @@
+.btn {
+    flex: content;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+}
+
+.nav {
+    display: flex;
+}
+
+.navLastElement {
+    margin-left: auto;
+}

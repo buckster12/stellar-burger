@@ -1,0 +1,9 @@
+.h1 {
+    text-align: left;
+}
+
+.list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between
+}
