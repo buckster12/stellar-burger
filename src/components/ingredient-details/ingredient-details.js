@@ -1,13 +1,11 @@
 import IngredientDetailsStyles from './ingredient-details.module.css';
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import Modal from "../modal/modal";
 
-const IngredientDetails = ({close, ...props}) => {
+const IngredientDetails = (props) => {
 
     return (
-        <Modal onClose={close} title="Детали ингредиента">
-
+        <>
             <img src={props.image_large} alt={props.name}/>
 
             <span className="text text_type_main-medium mt-10">{props.name}</span>
@@ -33,18 +31,17 @@ const IngredientDetails = ({close, ...props}) => {
                     <span className="text text_type_digits-default">{props.carbohydrates}</span>
                 </div>
             </div>
-        </Modal>
+        </>
     );
 };
 
 IngredientDetails.propTypes = {
-    close: PropTypes.func.isRequired,
+    calories: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
     image_large: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired
 }
 
 export default IngredientDetails;

@@ -20,7 +20,10 @@ function App() {
     useEffect(() => {
         const getData = () => {
             fetch(DOMAIN_URL + '/api/ingredients ')
-                .then(res => res.json())
+                .then(response => {
+                    if (response.ok) return response.json();
+                    throw new Error('Ошибка при загрузке данных');
+                })
                 .then(data => {
                     setState({
                         ...state,
@@ -35,7 +38,8 @@ function App() {
                         isLoading: false,
                         hasError: true
                     });
-                    console.error(err);
+                    console.log('Ошибка при загрузке данных', err);
+                    // console.error(err);
                 });
         };
 
@@ -65,34 +69,34 @@ function App() {
     }
 
     return (
-        <>
-            <div className={AppStyle.App}>
-
-                <div className="mt-5">
-                    <AppHeader/>
-                </div>
-
-                {!state.isLoading ?
-                    (<div className={AppStyle.mainContent}>
-                        <BurgerIngredients
-                            data={state.data}
-                            bunBasket={bunBasket}
-                            mainBasket={mainBasket}
-                        />
-                        <BurgerConstructor
-                            bunBasket={bunBasket}
-                            mainBasket={mainBasket}
-                            removeIngredient={removeIngredient}
-                        />
-                    </div>)
-                    :
-                    (<div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
-                        Загрузка...
-                    </div>)
-                }
+        <div className={AppStyle.App}>
+            <div className="mt-5">
+                <AppHeader/>
             </div>
-            <div id="react-modals"></div>
-        </>
+
+            {!state.isLoading && state.hasError &&
+                <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
+
+            {state.isLoading && !state.hasError &&
+                <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
+                    Загрузка...
+                </div>}
+
+            {!state.isLoading && !state.hasError &&
+                (<div className={AppStyle.mainContent}>
+                    <BurgerIngredients
+                        data={state.data}
+                        bunBasket={bunBasket}
+                        mainBasket={mainBasket}
+                    />
+                    <BurgerConstructor
+                        bunBasket={bunBasket}
+                        mainBasket={mainBasket}
+                        removeIngredient={removeIngredient}
+                    />
+                </div>)
+            }
+        </div>
     );
 }
 

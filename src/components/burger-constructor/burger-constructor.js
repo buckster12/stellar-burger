@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import {Scrollbars} from "react-custom-scrollbars";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
-import IngredientShape from "../ingredient/ingredient";
+import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
 
 const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
 
@@ -74,7 +74,7 @@ const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
 
                     </div>}
 
-                    <li className={classNames(BurgerConstructorStyles.bottomBun, "mt-3")}>
+                    <li className={classNames("mt-3")}>
                         {bunBasket && <ConstructorElement
                             type="bottom"
                             isLocked={true}
@@ -102,9 +102,9 @@ const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
 }
 
 BurgerConstructor.propTypes = {
-    removeIngredient: PropTypes.func.isRequired,
-    bunBasket: IngredientShape,
-    mainBasket: PropTypes.arrayOf(IngredientShape),
+    bunBasket: IngredientProptypes.isRequired,
+    mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired,
+    removeIngredient: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;

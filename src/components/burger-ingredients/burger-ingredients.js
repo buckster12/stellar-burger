@@ -6,9 +6,10 @@ import BurgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import IngredientShape from "../ingredient/ingredient";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ingredientType from "../../utils/types";
+import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
+import Modal from "../modal/modal";
 
 const BurgerIngredients = ({data, ...props}) => {
     const [currentTab, setCurrentTab] = React.useState('bun')
@@ -92,23 +93,26 @@ const BurgerIngredients = ({data, ...props}) => {
                 </Scrollbars>
             </div>
 
-            {isModalOpen && <IngredientDetails
-                close={hideModal}
-                name={modalContent.name}
-                image_large={modalContent.image_large}
-                proteins={modalContent.proteins}
-                fat={modalContent.fat}
-                carbohydrates={modalContent.carbohydrates}
-                calories={modalContent.calories}
-            />}
+            {isModalOpen &&
+                <Modal onClose={hideModal} title="Детали ингредиента">
+                    <IngredientDetails
+                        name={modalContent.name}
+                        image_large={modalContent.image_large}
+                        proteins={modalContent.proteins}
+                        fat={modalContent.fat}
+                        carbohydrates={modalContent.carbohydrates}
+                        calories={modalContent.calories}
+                    />
+                </Modal>
+            }
         </div>
     );
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(IngredientShape),
-    bunBasket: IngredientShape,
-    mainBasket: PropTypes.arrayOf(IngredientShape),
+  bunBasket: IngredientProptypes.isRequired,
+  data: PropTypes.arrayOf(IngredientProptypes).isRequired,
+  mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired
 }
 
 export default BurgerIngredients;
