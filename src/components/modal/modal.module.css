@@ -1,0 +1,64 @@
+.modal {
+    position: absolute;
+    width: 720px;
+    height: 539px;
+
+    top: calc(50% - (539px / 2));
+    left: calc(50% - (720px / 2));
+
+    /* interface/accent */
+    background: #1C1C21;
+    border: 1px solid rgba(76, 76, 255, 0.2);
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+
+    z-index: 999;
+}
+
+/* card */
+.card {
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 40px 60px 40px;
+}
+
+/* Auto layout */
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    gap: 36px;
+    background: #1C1C21;
+}
+
+/* icon */
+.icon {
+    width: 24px;
+    height: 24px;
+    background: #1C1C21;
+    border: 0;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+
+    cursor: pointer;
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;*/
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    /*gap: 36px;*/
+}

@@ -1,0 +1,47 @@
+.div {
+    box-sizing: border-box;
+    margin-left: 40px;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    justify-content: right;
+}
+
+.ul li {
+    list-style: none;
+}
+
+.mainIngredients {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: right;
+}
+
+.mainIngredientLi {
+    list-style: none;
+    max-width: 536px;
+    display: flex;
+    align-content: center;
+}
+
+.divOverScrollbar {
+    min-height: 300px;
+    max-height: 464px;
+    height: 1px;
+}
+
+.dragIcon {
+    align-self: center;
+}
+
+.totalAmountContainer {
+    display: flex;
+    justify-content: right;
+    column-gap: 40px;
+}
+
+.totalPrice {
+    align-self: center;
+}

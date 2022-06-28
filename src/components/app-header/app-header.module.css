@@ -1,0 +1,25 @@
+
+
+.header {
+    display: flex;
+    justify-content: center;
+}
+
+.nav {
+    display: flex;
+    width: 1200px;
+}
+
+.topButton {
+    display: flex;
+    align-content: center;
+}
+
+.logo {
+    flex-basis: 500px;
+}
+
+.topRightButton {
+    composes: topButton;
+    margin-left: auto;
+}

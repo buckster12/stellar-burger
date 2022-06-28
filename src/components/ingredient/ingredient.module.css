@@ -1,0 +1,19 @@
+.ingredientContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.img {
+    display: block;
+}
+
+.priceContainer {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.counter {
+    position: relative;
+}
