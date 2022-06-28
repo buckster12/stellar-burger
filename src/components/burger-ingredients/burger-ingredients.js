@@ -1,55 +1,62 @@
-import React from "react";
+import React, {useState} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Scrollbars} from 'react-custom-scrollbars';
 import Ingredient from "../ingredient/ingredient";
-import IngredientsStyle from './burger-ingredients.module.css';
+import BurgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import IngredientShape from "../ingredient/ingredient";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import ingredientType from "../../utils/types";
 
-const BurgerIngredients = (props) => {
-    const [current, setCurrent] = React.useState('bun')
+const BurgerIngredients = ({data, ...props}) => {
+    const [currentTab, setCurrentTab] = React.useState('bun')
 
-    const ingredientsTypes = [
-        {
-            id: "bun",
-            title: "Булки"
-        }, {
-            id: "sauce",
-            title: "Соусы"
-        }, {
-            id: "main",
-            title: "Начинки"
-        }
-    ];
+    // Modal window vars
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState({});
+
+    const showModal = (ingredient) => {
+        setModalContent({
+            image_large: ingredient.image_large,
+            name: ingredient.name,
+            proteins: ingredient.proteins,
+            fat: ingredient.fat,
+            carbohydrates: ingredient.carbohydrates,
+            calories: ingredient.calories,
+        })
+        setIsModalOpen(true);
+    }
+    const hideModal = () => {
+        setIsModalOpen(false);
+    }
 
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient) => {
         let count = 0;
-        props.bunBasket.forEach(item => {
-                if (item._id === ingredient._id) {
-                    count++;
-                }
-            }
-        );
+        // add 2 because of top and bottom buns
+        if (props.bunBasket !== 'undefined' && ingredient._id === props.bunBasket._id) {
+            count = count + 2;
+        }
+
         props.mainBasket.forEach(item => {
                 if (item._id === ingredient._id) {
                     count++;
                 }
             }
         );
-        return count > 0 ? count : null;
+        return count;
     }
 
     return (
-        <div>
-            <h1 className={classNames('text text_type_main-large', IngredientsStyle.h1)}>Соберите бургер</h1>
-            <div style={{display: 'flex'}} className="pb-5">
-                {ingredientsTypes.map(function (el, index) {
+        <div className="mb-10">
+            <h1 className={classNames('text text_type_main-large', BurgerIngredientsStyle.h1)}>Соберите бургер</h1>
+            <div className={classNames(BurgerIngredientsStyle.tabs, "pb-5")}>
+                {ingredientType.map(function (el, index) {
                     return (
                         <a href={'#' + el.id} key={index}>
-                            <Tab value={el.id} active={current === el.id} onClick={setCurrent}>
+                            <Tab value={el.id} active={currentTab === el.id} onClick={setCurrentTab}>
                                 {el.title}
                             </Tab>
                         </a>
@@ -57,39 +64,51 @@ const BurgerIngredients = (props) => {
                 })}
             </div>
 
-            <Scrollbars style={{height: "500px"}}>
+            <div className={BurgerIngredientsStyle.scrollContainer}>
+                <Scrollbars>
+                    <div className={classNames(BurgerIngredientsStyle.ingredientBlock, "pr-2")}>
+                        {ingredientType.map(function (type, index) {
+                            return (
+                                <IngredientList key={index} id={type.id} title={type.title}>
+                                    {data
+                                        .filter((x) => x.type === type.id)
+                                        .map((mapIngredient, index) => {
+                                                return (
+                                                    <Ingredient
+                                                        onClick={() => {
+                                                            showModal(mapIngredient)
+                                                        }}
+                                                        key={mapIngredient._id ?? index}
+                                                        ingredient={mapIngredient}
+                                                        counter={countCurrentIngredient(mapIngredient)}
+                                                    />
+                                                )
+                                            }
+                                        )}
+                                </IngredientList>
+                            )
+                        })}
+                    </div>
+                </Scrollbars>
+            </div>
 
-                <div style={{display: "flex", flexDirection: "column", rowGap: "30pt"}} className="pr-2">
-
-                    {ingredientsTypes.map(function (ingredientType, index) {
-                        return (
-                            <IngredientList key={index} id={ingredientType.id} title={ingredientType.title}>
-                                {props.data
-                                    .filter((el) => el.type === ingredientType.id)
-                                    .map((ingredient) =>
-                                        <Ingredient
-                                            onClick={function () {
-                                                props.addIngredient(ingredient)
-                                            }}
-                                            key={ingredient._id}
-                                            ingredient={ingredient}
-                                            counter={countCurrentIngredient(ingredient)}
-                                        />
-                                    )}
-                            </IngredientList>
-                        )
-                    })}
-                </div>
-            </Scrollbars>
+            {isModalOpen && <IngredientDetails
+                close={hideModal}
+                name={modalContent.name}
+                image_large={modalContent.image_large}
+                proteins={modalContent.proteins}
+                fat={modalContent.fat}
+                carbohydrates={modalContent.carbohydrates}
+                calories={modalContent.calories}
+            />}
         </div>
     );
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(IngredientShape).isRequired,
-    addIngredient: PropTypes.func,
-    bunBasket: PropTypes.arrayOf(IngredientShape).isRequired,
-    mainBasket: PropTypes.arrayOf(IngredientShape).isRequired,
+    data: PropTypes.arrayOf(IngredientShape),
+    bunBasket: IngredientShape,
+    mainBasket: PropTypes.arrayOf(IngredientShape),
 }
 
 export default BurgerIngredients;

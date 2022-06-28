@@ -1,6 +1,4 @@
-.btn {
-    flex: content;
-}
+
 
 .header {
     display: flex;
@@ -9,8 +7,19 @@
 
 .nav {
     display: flex;
+    width: 1200px;
 }
 
-.navLastElement {
+.topButton {
+    display: flex;
+    align-content: center;
+}
+
+.logo {
+    flex-basis: 500px;
+}
+
+.topRightButton {
+    composes: topButton;
     margin-left: auto;
 }

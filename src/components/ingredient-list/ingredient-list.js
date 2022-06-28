@@ -3,18 +3,17 @@ import PropTypes from "prop-types";
 import IngredientListStyles from "./ingredients-list.module.css";
 import classNames from 'classnames';
 
-class IngredientList extends React.Component {
-    render() {
-        const h1classes = classNames('text', 'text_type_main-medium', IngredientListStyles.h1);
-        return (
-            <>
-                <h1 id={this.props.id} className={h1classes}>{this.props.title}</h1>
-                <section className={IngredientListStyles.list}>
-                    {this.props.children}
-                </section>
-            </>
-        )
-    }
+
+const IngredientList = (props) => {
+    const h1classes = classNames('text', 'text_type_main-medium', IngredientListStyles.h1);
+    return (
+        <>
+            <h1 id={props.id} className={h1classes}>{props.title}</h1>
+            <section className={IngredientListStyles.list}>
+                {props.children}
+            </section>
+        </>
+    )
 }
 
 IngredientList.propTypes = {
