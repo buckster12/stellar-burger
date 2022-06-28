@@ -6,18 +6,19 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
 const Modal = ({title, onClose, children}) => {
-    const escKeyUp = (e) => {
-        if (e.key === "Escape") {
-            onClose();
-        }
-    }
+
     useEffect(() => {
+        const escKeyUp = (e) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        }
         window.addEventListener('keyup', escKeyUp);
 
         return () => {
             window.removeEventListener('keyup', escKeyUp);
         }
-    }, []);
+    }, [onClose]);
 
     return ReactDOM.createPortal(
         <ModalOverlay close={onClose}>

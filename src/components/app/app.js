@@ -19,10 +19,10 @@ function App() {
 
     useEffect(() => {
         const getData = () => {
-            fetch(DOMAIN_URL + '/api/ingredients ')
+            fetch(DOMAIN_URL + '/api/ingredients')
                 .then(response => {
                     if (response.ok) return response.json();
-                    throw new Error('Ошибка при загрузке данных');
+                    return Promise.reject(`Ошибка ${response.status}`);
                 })
                 .then(data => {
                     setState({

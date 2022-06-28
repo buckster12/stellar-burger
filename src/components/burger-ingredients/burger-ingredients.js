@@ -95,14 +95,7 @@ const BurgerIngredients = ({data, ...props}) => {
 
             {isModalOpen &&
                 <Modal onClose={hideModal} title="Детали ингредиента">
-                    <IngredientDetails
-                        name={modalContent.name}
-                        image_large={modalContent.image_large}
-                        proteins={modalContent.proteins}
-                        fat={modalContent.fat}
-                        carbohydrates={modalContent.carbohydrates}
-                        calories={modalContent.calories}
-                    />
+                    <IngredientDetails chosenIngredient={modalContent}/>
                 </Modal>
             }
         </div>
@@ -110,9 +103,9 @@ const BurgerIngredients = ({data, ...props}) => {
 }
 
 BurgerIngredients.propTypes = {
-  bunBasket: IngredientProptypes.isRequired,
-  data: PropTypes.arrayOf(IngredientProptypes).isRequired,
-  mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired
+    bunBasket: IngredientProptypes.isRequired,
+    data: PropTypes.arrayOf(IngredientProptypes).isRequired,
+    mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired
 }
 
 export default BurgerIngredients;
