@@ -44,7 +44,7 @@ function App() {
 
     const selectRandomIngredients = (data) => {
         // randomly add ingredients to the basket
-        const mainIngredients = data.filter(item => item.type === 'main');
+        const mainIngredients = data.filter(item => item.type === 'main' || item.type === 'sauce');
         let mainBasketRandom = [];
         for (let i = 0; i < 10; i++) {
             const random = Math.floor(Math.random() * mainIngredients.length);
