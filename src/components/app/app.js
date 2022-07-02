@@ -4,17 +4,20 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import classNames from "classnames";
+import {IngredientContext} from "../../utils/context/ingredient";
+import {BunBasketContext} from "../../utils/context/bun-basket";
+import {MainBasketContext} from "../../utils/context/main-basket";
 
 const DOMAIN_URL = 'https://norma.nomoreparties.space';
 
 function App() {
     const [mainBasket, setMainBasket] = React.useState([]);
     const [bunBasket, setBunBasket] = React.useState(null);
+    const [data, setData] = React.useState([]);
 
     const [state, setState] = React.useState({
         isLoading: true,
         hasError: false,
-        data: []
     });
 
     useEffect(() => {
@@ -28,8 +31,8 @@ function App() {
                     setState({
                         ...state,
                         isLoading: false,
-                        data: data.data
                     });
+                    setData(data.data);
                     selectRandomIngredients(data.data);
                 })
                 .catch(err => {
@@ -64,38 +67,32 @@ function App() {
         setBunBasket(bunIngredient);
     }
 
-    const removeIngredient = (ingredient) => {
-        setMainBasket(mainBasket.filter(item => item !== ingredient));
-    }
-
     return (
         <div className={AppStyle.App}>
             <div className="mt-5">
                 <AppHeader/>
             </div>
 
-            {!state.isLoading && state.hasError &&
-                <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
+            <IngredientContext.Provider value={[data, setData]}>
+                <BunBasketContext.Provider value={[bunBasket, setBunBasket]}>
+                    <MainBasketContext.Provider value={[mainBasket, setMainBasket]}>
 
-            {state.isLoading && !state.hasError &&
-                <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
-                    Загрузка...
-                </div>}
+                        {!state.isLoading && state.hasError &&
+                            <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
 
-            {!state.isLoading && !state.hasError &&
-                (<div className={AppStyle.mainContent}>
-                    <BurgerIngredients
-                        data={state.data}
-                        bunBasket={bunBasket}
-                        mainBasket={mainBasket}
-                    />
-                    <BurgerConstructor
-                        bunBasket={bunBasket}
-                        mainBasket={mainBasket}
-                        removeIngredient={removeIngredient}
-                    />
-                </div>)
-            }
+                        {state.isLoading && !state.hasError &&
+                            <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
+                                Загрузка...
+                            </div>}
+
+                        {!state.isLoading && !state.hasError &&
+                            (<div className={AppStyle.mainContent}>
+                                <BurgerIngredients/>
+                                <BurgerConstructor/>
+                            </div>)}
+                    </MainBasketContext.Provider>
+                </BunBasketContext.Provider>
+            </IngredientContext.Provider>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Button,
     ConstructorElement,
@@ -6,31 +6,100 @@ import {
     DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorStyles from './burger-constructor.module.css'
-import PropTypes from "prop-types";
 import {Scrollbars} from "react-custom-scrollbars";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
-import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
+import {MainBasketContext} from "../../utils/context/main-basket";
+import {BunBasketContext} from "../../utils/context/bun-basket";
 
-const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
+const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 
-    const [isOrderDetailsOpen, setIsOrderDetailsOpen] = React.useState(false);
-    const openOrderModal = () => {
-        setIsOrderDetailsOpen(true);
+function reducer(state, action) {
+    switch (action.type) {
+        case 'addToBasket':
+            return {
+                ...state,
+                totalPrice: state.totalPrice + action.payload.price
+            };
+        case 'addBunToBasket':
+            return {
+                ...state,
+                totalPrice: state.totalPrice + 2 * action.payload.price
+            };
+        case 'resetBasket':
+            return {
+                totalPrice: 0,
+            }
+        default:
+            return state;
     }
+}
+
+const BurgerConstructor = () => {
+    const [isOrderDetailsOpen, setIsOrderDetailsOpen] = React.useState(false);
+
     const closeOrderModal = () => {
         setIsOrderDetailsOpen(false);
     }
+    const [orderId, setOrderId] = React.useState(0);
+    const [isOrderProcessing, setIsOrderProcessing] = React.useState(false);
+    const [isOk, setIsOk] = React.useState(false);
+    const [totalPrice, totalPriceDispatch] = React.useReducer(reducer, {products: [], totalPrice: 0}, undefined);
 
-    function getTotal() {
-        let total = 0;
+    const processOrder = () => {
+        setIsOrderDetailsOpen(true);
+        setIsOrderProcessing(true);
+
+        fetch(ORDER_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                ingredients: [
+                    // get only _id of ingredients
+                    ...mainBasket.map(item => item._id),
+                    bunBasket._id
+                ]
+            })
+        })
+            .then(response => {
+                if (response.ok) return response.json();
+                return Promise.reject(`Ошибка ${response.status}`);
+            }).then(data => {
+                
+            if (data.success) {
+                setOrderId(data.order.number);
+                setIsOk(true);
+            } else setIsOk(false);
+
+        }).catch(err => {
+            console.log('Ошибка при загрузке данных', err);
+            // console.error(err);
+        }).finally(() => {
+                setIsOrderProcessing(false);
+            }
+        );
+    }
+
+    const [mainBasket, setMainBasket] = React.useContext(MainBasketContext);
+    const [bunBasket] = React.useContext(BunBasketContext);
+
+    useEffect(() => {
+        totalPriceDispatch({type: 'resetBasket'});
+
         mainBasket.forEach(item => {
-            total += item.price;
+            totalPriceDispatch({
+                type: 'addToBasket',
+                payload: item
+            });
         });
-        if (bunBasket !== 'undefined') {
-            total += (bunBasket.price) * 2;
-        }
-        return total;
+        bunBasket && totalPriceDispatch({
+            type: 'addBunToBasket',
+            payload: bunBasket
+        });
+    }, [mainBasket, bunBasket]);
+
+    const removeIngredient = (ingredient) => {
+        setMainBasket(mainBasket.filter(item => item !== ingredient));
     }
 
     return (
@@ -88,23 +157,26 @@ const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
 
                 <div className={BurgerConstructorStyles.totalAmountContainer}>
                     <div className={BurgerConstructorStyles.totalPrice}>
-                        <span className="text text_type_digits-medium">{getTotal()}</span>
+                        <span className="text text_type_digits-medium">{totalPrice.totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button name="" onClick={openOrderModal}>Оформить заказ</Button>
+                    <Button name="" onClick={processOrder}>Оформить заказ</Button>
                 </div>
 
             </div>
 
-            {isOrderDetailsOpen && <OrderDetails close={closeOrderModal}/>}
+            {isOrderDetailsOpen &&
+                <OrderDetails
+                    close={closeOrderModal}
+                    orderId={orderId}
+                    isLoading={isOrderProcessing}
+                    isOk={isOk}
+                />
+            }
         </>
     )
 }
 
-BurgerConstructor.propTypes = {
-    bunBasket: IngredientProptypes.isRequired,
-    mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired,
-    removeIngredient: PropTypes.func.isRequired
-}
+BurgerConstructor.propTypes = {}
 
 export default BurgerConstructor;

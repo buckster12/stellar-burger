@@ -1,18 +1,23 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Scrollbars} from 'react-custom-scrollbars';
-import Ingredient from "../ingredient/ingredient";
 import BurgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ingredientType from "../../utils/types";
-import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
 import Modal from "../modal/modal";
+import {IngredientContext} from "../../utils/context/ingredient";
+import {BunBasketContext} from "../../utils/context/bun-basket";
+import {MainBasketContext} from "../../utils/context/main-basket";
+import Ingredient from "../ingredient/ingredient";
 
-const BurgerIngredients = ({data, ...props}) => {
+const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = React.useState('bun')
+
+    const [data, setData] = React.useContext(IngredientContext);
+    const [mainBasket, setMainBasket] = React.useContext(MainBasketContext);
+    const [bunBasket] = React.useContext(BunBasketContext);
 
     // Modal window vars
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,11 +42,10 @@ const BurgerIngredients = ({data, ...props}) => {
     const countCurrentIngredient = (ingredient) => {
         let count = 0;
         // add 2 because of top and bottom buns
-        if (props.bunBasket !== 'undefined' && ingredient._id === props.bunBasket._id) {
+        if (bunBasket !== 'undefined' && ingredient._id === bunBasket._id) {
             count = count + 2;
         }
-
-        props.mainBasket.forEach(item => {
+        mainBasket.forEach(item => {
                 if (item._id === ingredient._id) {
                     count++;
                 }
@@ -102,10 +106,6 @@ const BurgerIngredients = ({data, ...props}) => {
     );
 }
 
-BurgerIngredients.propTypes = {
-    bunBasket: IngredientProptypes.isRequired,
-    data: PropTypes.arrayOf(IngredientProptypes).isRequired,
-    mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired
-}
+BurgerIngredients.propTypes = {}
 
 export default BurgerIngredients;
