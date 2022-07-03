@@ -9,10 +9,9 @@ import BurgerConstructorStyles from './burger-constructor.module.css'
 import {Scrollbars} from "react-custom-scrollbars";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
-import {MainBasketContext} from "../../utils/context/main-basket";
-import {BunBasketContext} from "../../utils/context/bun-basket";
+import {MainBasketContext} from "../context/main-basket";
+import {ORDER_URL} from "../../utils/constants";
 
-const ORDER_URL = 'https://norma.nomoreparties.space/api/orders';
 
 function reducer(state, action) {
     switch (action.type) {
@@ -20,11 +19,6 @@ function reducer(state, action) {
             return {
                 ...state,
                 totalPrice: state.totalPrice + action.payload.price
-            };
-        case 'addBunToBasket':
-            return {
-                ...state,
-                totalPrice: state.totalPrice + 2 * action.payload.price
             };
         case 'resetBasket':
             return {
@@ -56,8 +50,7 @@ const BurgerConstructor = () => {
             body: JSON.stringify({
                 ingredients: [
                     // get only _id of ingredients
-                    ...mainBasket.map(item => item._id),
-                    bunBasket._id
+                    ...mainBasket.map(item => item._id)
                 ]
             })
         })
@@ -65,7 +58,7 @@ const BurgerConstructor = () => {
                 if (response.ok) return response.json();
                 return Promise.reject(`Ошибка ${response.status}`);
             }).then(data => {
-                
+
             if (data.success) {
                 setOrderId(data.order.number);
                 setIsOk(true);
@@ -81,7 +74,6 @@ const BurgerConstructor = () => {
     }
 
     const [mainBasket, setMainBasket] = React.useContext(MainBasketContext);
-    const [bunBasket] = React.useContext(BunBasketContext);
 
     useEffect(() => {
         totalPriceDispatch({type: 'resetBasket'});
@@ -92,35 +84,36 @@ const BurgerConstructor = () => {
                 payload: item
             });
         });
-        bunBasket && totalPriceDispatch({
-            type: 'addBunToBasket',
-            payload: bunBasket
-        });
-    }, [mainBasket, bunBasket]);
+    }, [mainBasket]);
 
     const removeIngredient = (ingredient) => {
         setMainBasket(mainBasket.filter(item => item !== ingredient));
     }
+
+    const topBun = mainBasket[0];
+    const bottomBun = mainBasket[mainBasket.length - 1];
 
     return (
         <>
             <div className={classNames(BurgerConstructorStyles.div, "mb-10")}>
 
                 <ul className={BurgerConstructorStyles.ul}>
-                    {bunBasket && <li className="mb-3">
+                    {topBun && <li className="mb-3">
                         <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={`${bunBasket.name} (верх)`}
-                            price={bunBasket.price}
-                            thumbnail={bunBasket.image}
+                            text={`${topBun.name} (верх)`}
+                            price={topBun.price}
+                            thumbnail={topBun.image}
                         />
                     </li>}
 
                     {mainBasket && <div className={BurgerConstructorStyles.mainIngredients}>
                         <div className={BurgerConstructorStyles.divOverScrollbar}>
+
                             <Scrollbars>
-                                {mainBasket.map((ingredient, index) => {
+                                {mainBasket.filter(item => item.type === 'main').map((ingredient, index) => {
+
                                     return (
                                         <li key={index}
                                             className={classNames("pt-3", BurgerConstructorStyles.mainIngredientLi)}>
@@ -143,15 +136,15 @@ const BurgerConstructor = () => {
 
                     </div>}
 
-                    <li className={classNames("mt-3")}>
-                        {bunBasket && <ConstructorElement
+                    {bottomBun && <li className={classNames("mt-3")}>
+                        <ConstructorElement
                             type="bottom"
                             isLocked={true}
-                            text={`${bunBasket.name} (низ)`}
-                            price={bunBasket.price}
-                            thumbnail={bunBasket.image}
-                        />}
-                    </li>
+                            text={`${bottomBun.name} (низ)`}
+                            price={bottomBun.price}
+                            thumbnail={bottomBun.image}
+                        />
+                    </li>}
 
                 </ul>
 

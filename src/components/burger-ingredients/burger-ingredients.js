@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Scrollbars} from 'react-custom-scrollbars';
 import BurgerIngredientsStyle from './burger-ingredients.module.css';
@@ -7,17 +7,15 @@ import classNames from "classnames";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ingredientType from "../../utils/types";
 import Modal from "../modal/modal";
-import {IngredientContext} from "../../utils/context/ingredient";
-import {BunBasketContext} from "../../utils/context/bun-basket";
-import {MainBasketContext} from "../../utils/context/main-basket";
+import {IngredientContext} from "../context/ingredient";
+import {MainBasketContext} from "../context/main-basket";
 import Ingredient from "../ingredient/ingredient";
 
 const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = React.useState('bun')
 
-    const [data, setData] = React.useContext(IngredientContext);
-    const [mainBasket, setMainBasket] = React.useContext(MainBasketContext);
-    const [bunBasket] = React.useContext(BunBasketContext);
+    const [data] = React.useContext(IngredientContext);
+    const [mainBasket] = React.useContext(MainBasketContext);
 
     // Modal window vars
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,10 +39,6 @@ const BurgerIngredients = () => {
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient) => {
         let count = 0;
-        // add 2 because of top and bottom buns
-        if (bunBasket !== 'undefined' && ingredient._id === bunBasket._id) {
-            count = count + 2;
-        }
         mainBasket.forEach(item => {
                 if (item._id === ingredient._id) {
                     count++;
