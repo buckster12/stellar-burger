@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Button,
     ConstructorElement,
@@ -6,52 +6,114 @@ import {
     DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorStyles from './burger-constructor.module.css'
-import PropTypes from "prop-types";
 import {Scrollbars} from "react-custom-scrollbars";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
-import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
+import {MainBasketContext} from "../context/main-basket";
+import {ORDER_URL} from "../../utils/constants";
 
-const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
 
-    const [isOrderDetailsOpen, setIsOrderDetailsOpen] = React.useState(false);
-    const openOrderModal = () => {
-        setIsOrderDetailsOpen(true);
+function reducer(state, action) {
+    switch (action.type) {
+        case 'addToBasket':
+            return {
+                ...state,
+                totalPrice: state.totalPrice + action.payload.price
+            };
+        case 'resetBasket':
+            return {
+                totalPrice: 0,
+            }
+        default:
+            return state;
     }
+}
+
+const BurgerConstructor = () => {
+    const [isOrderDetailsOpen, setIsOrderDetailsOpen] = React.useState(false);
+
     const closeOrderModal = () => {
         setIsOrderDetailsOpen(false);
     }
+    const [orderId, setOrderId] = React.useState(0);
+    const [isOrderProcessing, setIsOrderProcessing] = React.useState(false);
+    const [isOk, setIsOk] = React.useState(false);
+    const [totalPrice, totalPriceDispatch] = React.useReducer(reducer, {products: [], totalPrice: 0}, undefined);
 
-    function getTotal() {
-        let total = 0;
-        mainBasket.forEach(item => {
-            total += item.price;
-        });
-        if (bunBasket !== 'undefined') {
-            total += (bunBasket.price) * 2;
-        }
-        return total;
+    const processOrder = () => {
+        setIsOrderDetailsOpen(true);
+        setIsOrderProcessing(true);
+
+        fetch(ORDER_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                ingredients: [
+                    // get only _id of ingredients
+                    ...mainBasket.map(item => item._id)
+                ]
+            })
+        })
+            .then(response => {
+                if (response.ok) return response.json();
+                return Promise.reject(`Ошибка ${response.status}`);
+            }).then(data => {
+
+            if (data.success) {
+                setOrderId(data.order.number);
+                setIsOk(true);
+            } else setIsOk(false);
+
+        }).catch(err => {
+            console.log('Ошибка при загрузке данных', err);
+            // console.error(err);
+        }).finally(() => {
+                setIsOrderProcessing(false);
+            }
+        );
     }
+
+    const [mainBasket, setMainBasket] = React.useContext(MainBasketContext);
+
+    useEffect(() => {
+        totalPriceDispatch({type: 'resetBasket'});
+
+        mainBasket.forEach(item => {
+            totalPriceDispatch({
+                type: 'addToBasket',
+                payload: item
+            });
+        });
+    }, [mainBasket]);
+
+    const removeIngredient = (ingredient) => {
+        setMainBasket(mainBasket.filter(item => item !== ingredient));
+    }
+
+    const topBun = mainBasket[0];
+    const bottomBun = mainBasket[mainBasket.length - 1];
 
     return (
         <>
             <div className={classNames(BurgerConstructorStyles.div, "mb-10")}>
 
                 <ul className={BurgerConstructorStyles.ul}>
-                    {bunBasket && <li className="mb-3">
+                    {topBun && <li className="mb-3">
                         <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={`${bunBasket.name} (верх)`}
-                            price={bunBasket.price}
-                            thumbnail={bunBasket.image}
+                            text={`${topBun.name} (верх)`}
+                            price={topBun.price}
+                            thumbnail={topBun.image}
                         />
                     </li>}
 
                     {mainBasket && <div className={BurgerConstructorStyles.mainIngredients}>
                         <div className={BurgerConstructorStyles.divOverScrollbar}>
+
                             <Scrollbars>
-                                {mainBasket.map((ingredient, index) => {
+                                {mainBasket.filter(item => item.type === 'main').map((ingredient, index) => {
+
                                     return (
                                         <li key={index}
                                             className={classNames("pt-3", BurgerConstructorStyles.mainIngredientLi)}>
@@ -74,37 +136,40 @@ const BurgerConstructor = ({bunBasket, mainBasket, removeIngredient}) => {
 
                     </div>}
 
-                    <li className={classNames("mt-3")}>
-                        {bunBasket && <ConstructorElement
+                    {bottomBun && <li className={classNames("mt-3")}>
+                        <ConstructorElement
                             type="bottom"
                             isLocked={true}
-                            text={`${bunBasket.name} (низ)`}
-                            price={bunBasket.price}
-                            thumbnail={bunBasket.image}
-                        />}
-                    </li>
+                            text={`${bottomBun.name} (низ)`}
+                            price={bottomBun.price}
+                            thumbnail={bottomBun.image}
+                        />
+                    </li>}
 
                 </ul>
 
                 <div className={BurgerConstructorStyles.totalAmountContainer}>
                     <div className={BurgerConstructorStyles.totalPrice}>
-                        <span className="text text_type_digits-medium">{getTotal()}</span>
+                        <span className="text text_type_digits-medium">{totalPrice.totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button name="" onClick={openOrderModal}>Оформить заказ</Button>
+                    <Button name="" onClick={processOrder}>Оформить заказ</Button>
                 </div>
 
             </div>
 
-            {isOrderDetailsOpen && <OrderDetails close={closeOrderModal}/>}
+            {isOrderDetailsOpen &&
+                <OrderDetails
+                    close={closeOrderModal}
+                    orderId={orderId}
+                    isLoading={isOrderProcessing}
+                    isOk={isOk}
+                />
+            }
         </>
     )
 }
 
-BurgerConstructor.propTypes = {
-    bunBasket: IngredientProptypes.isRequired,
-    mainBasket: PropTypes.arrayOf(IngredientProptypes).isRequired,
-    removeIngredient: PropTypes.func.isRequired
-}
+BurgerConstructor.propTypes = {}
 
 export default BurgerConstructor;
