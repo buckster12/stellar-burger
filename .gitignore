@@ -25,3 +25,4 @@ yarn-error.log*
 .idea
 git_token
 todo.txt
+package-lock.json
