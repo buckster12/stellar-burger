@@ -1,11 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {INGREDIENTS_URL} from "../../utils/constants";
+import checkResponse from "../../utils/check-response";
 
 export const getAllIngredients = createAsyncThunk(
     'ingredients/getAllIngredients',
     async () => {
         const res = await fetch(INGREDIENTS_URL);
-        const data = await res.json();
+        const data = await checkResponse(res).catch(err => {
+            throw err;
+        });
         return data.data;
     });
 

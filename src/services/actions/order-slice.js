@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ORDER_URL} from "../../utils/constants";
+import checkResponse from "../../utils/check-response";
 
 export const processOrder = createAsyncThunk(
     'order/processOrder',
@@ -11,7 +12,9 @@ export const processOrder = createAsyncThunk(
             },
             body: JSON.stringify(order),
         });
-        const data = await res.json();
+        const data = await checkResponse(res).catch(err => {
+            throw err;
+        });
         if (data.success !== true) {
             throw new Error("Не удалось оформить заказ");
         }

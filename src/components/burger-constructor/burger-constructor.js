@@ -13,6 +13,7 @@ import {addIngredient, resetBasket, selectTotalPrice} from "../../services/actio
 import {useDrop} from "react-dnd";
 import CartElement from "../cart-element/cart-element";
 import {closeOrderModal, processOrder} from "../../services/actions/order-slice";
+import Modal from "../modal/modal";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -100,7 +101,6 @@ const BurgerConstructor = () => {
                                 thumbnail={mainBasket.bun.image}
                             />
                         </li>}
-
                 </ul>
 
                 <div className={BurgerConstructorStyles.totalAmountContainer}>
@@ -108,18 +108,18 @@ const BurgerConstructor = () => {
                         <span className="text text_type_digits-medium">{totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button onClick={onClickProcessOrder}>Оформить заказ</Button>
+                    <Button disabled={!mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить заказ</Button>
                 </div>
-
             </div>
 
             {isModalOpen &&
-                <OrderDetails
-                    close={() => dispatch(closeOrderModal())}
-                    orderId={orderId}
-                    isLoading={isOrderProcessing}
-                    isOk={isOk}
-                />
+                <Modal onClose={() => dispatch(closeOrderModal())} title="">
+                    <OrderDetails
+                        orderId={orderId}
+                        isLoading={isOrderProcessing}
+                        isOk={isOk}
+                    />
+                </Modal>
             }
         </>
     )

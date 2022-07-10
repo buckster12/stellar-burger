@@ -2,12 +2,11 @@ import OrderDetailsStyles from './order-details.module.css';
 import PropTypes from "prop-types";
 import doneSvg from '../../images/done.png';
 import classNames from "classnames";
-import Modal from "../modal/modal";
 
-const OrderDetails = ({isLoading, isOk, orderId, close}) => {
+const OrderDetails = ({isLoading, isOk, orderId}) => {
 
     return (
-        <Modal onClose={close} title="">
+        <>
             {isLoading &&
                 <div className={OrderDetailsStyles.textCenter}>
                     <div className="text text_type_main-medium">
@@ -34,13 +33,11 @@ const OrderDetails = ({isLoading, isOk, orderId, close}) => {
                         Произошла ошибка при оформление заказа, попробуйте еще раз
                     </div>
                 </div>}
-
-        </Modal>
+        </>
     );
 }
 
 OrderDetails.propTypes = {
-    close: PropTypes.func.isRequired,
     orderId: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isOk: PropTypes.bool.isRequired
