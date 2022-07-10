@@ -4,15 +4,15 @@ import IngredientListStyles from "./ingredients-list.module.css";
 import classNames from 'classnames';
 
 
-const IngredientList = (props) => {
+const IngredientList = ({id, title, children}) => {
     const h1classes = classNames('text', 'text_type_main-medium', IngredientListStyles.h1);
     return (
-        <>
-            <h1 id={props.id} className={h1classes}>{props.title}</h1>
+        <div id={`section-${id}`}>
+            <h1 id={id} className={h1classes}>{title}</h1>
             <section className={IngredientListStyles.list}>
-                {props.children}
+                {children}
             </section>
-        </>
+        </div>
     )
 }
 

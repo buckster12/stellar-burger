@@ -3,15 +3,22 @@ import PropTypes from 'prop-types';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientStyle from './ingredient.module.css';
 import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
+import {useDrag} from "react-dnd";
 
 const Ingredient = ({ingredient, counter, onClick}) => {
+    const [, dragRef] = useDrag({
+        type: 'ingredient',
+        ingredient,
+        item: ingredient
+    });
+
     return (
         ingredient && <div className={IngredientStyle.ingredientContainer} onClick={onClick}>
             {counter > 0 && <div className={IngredientStyle.counter}>
                 <Counter count={counter}/>
             </div>}
 
-            <img className={IngredientStyle.img} src={ingredient.image} alt={ingredient.name}/>
+            <img ref={dragRef} className={IngredientStyle.img} src={ingredient.image} alt={ingredient.name}/>
             <div className={IngredientStyle.priceContainer}>
                 <span className="text text_type_digits-default pr-2">{ingredient.price}</span>
                 <CurrencyIcon type="primary"/>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Scrollbars} from 'react-custom-scrollbars';
 import BurgerIngredientsStyle from './burger-ingredients.module.css';
@@ -7,38 +7,29 @@ import classNames from "classnames";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ingredientType from "../../utils/types";
 import Modal from "../modal/modal";
-import {IngredientContext} from "../context/ingredient";
-import {MainBasketContext} from "../context/main-basket";
 import Ingredient from "../ingredient/ingredient";
+import {useDispatch, useSelector} from "react-redux";
+import {hideModal, showModal} from "../../services/actions/modal-slice";
 
 const BurgerIngredients = () => {
+    const dispatch = useDispatch();
     const [currentTab, setCurrentTab] = React.useState('bun')
-
-    const [data] = React.useContext(IngredientContext);
-    const [mainBasket] = React.useContext(MainBasketContext);
+    const {mainBasket, bunBasket, data} = useSelector(state => ({
+        mainBasket: state.basket.ingredients,
+        bunBasket: state.basket.bun,
+        data: state.ingredients.data
+    }));
 
     // Modal window vars
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState({});
-
-    const showModal = (ingredient) => {
-        setModalContent({
-            image_large: ingredient.image_large,
-            name: ingredient.name,
-            proteins: ingredient.proteins,
-            fat: ingredient.fat,
-            carbohydrates: ingredient.carbohydrates,
-            calories: ingredient.calories,
-        })
-        setIsModalOpen(true);
-    }
-    const hideModal = () => {
-        setIsModalOpen(false);
-    }
+    const modalContent = useSelector(state => state.modal.modalContent);
+    const isModalOpen = useSelector(state => state.modal.isModalOpen);
 
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient) => {
         let count = 0;
+        if (ingredient.type === 'bun' && bunBasket._id === ingredient._id) {
+            return 2;
+        }
         mainBasket.forEach(item => {
                 if (item._id === ingredient._id) {
                     count++;
@@ -46,6 +37,21 @@ const BurgerIngredients = () => {
             }
         );
         return count;
+    }
+
+    const handleScroll = (e) => {
+        const bunSection = document.getElementById('section-bun').scrollHeight;
+        const sauceSection = document.getElementById('section-sauce').scrollHeight;
+
+        if (e.target.scrollTop < bunSection) {
+            setCurrentTab('bun');
+        }
+        if (e.target.scrollTop >= bunSection) {
+            setCurrentTab('sauce');
+        }
+        if (e.target.scrollTop >= bunSection + sauceSection) {
+            setCurrentTab('main');
+        }
     }
 
     return (
@@ -64,7 +70,7 @@ const BurgerIngredients = () => {
             </div>
 
             <div className={BurgerIngredientsStyle.scrollContainer}>
-                <Scrollbars>
+                <Scrollbars onScroll={handleScroll}>
                     <div className={classNames(BurgerIngredientsStyle.ingredientBlock, "pr-2")}>
                         {ingredientType.map(function (type, index) {
                             return (
@@ -75,7 +81,7 @@ const BurgerIngredients = () => {
                                                 return (
                                                     <Ingredient
                                                         onClick={() => {
-                                                            showModal(mapIngredient)
+                                                            dispatch(showModal(mapIngredient))
                                                         }}
                                                         key={mapIngredient._id ?? index}
                                                         ingredient={mapIngredient}
@@ -92,7 +98,7 @@ const BurgerIngredients = () => {
             </div>
 
             {isModalOpen &&
-                <Modal onClose={hideModal} title="Детали ингредиента">
+                <Modal onClose={() => dispatch(hideModal())} title="Детали ингредиента">
                     <IngredientDetails chosenIngredient={modalContent}/>
                 </Modal>
             }
