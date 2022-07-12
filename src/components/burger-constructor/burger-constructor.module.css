@@ -45,3 +45,10 @@
 .totalPrice {
     align-self: center;
 }
+
+.hoverBorder {
+    /*border: 2px solid #000;*/
+    border-radius: 50px;
+    background-color: #1b1d1e;
+
+}

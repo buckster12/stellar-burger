@@ -4,38 +4,23 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import classNames from "classnames";
-import {IngredientContext} from "../context/ingredient";
-import {MainBasketContext} from "../context/main-basket";
-import {getAllIngredients} from "../../services/get-data";
-import selectRandomIngredients from "../../services/select-random-ingredients";
+import {useDispatch, useSelector} from "react-redux";
+import {getAllIngredients} from "../../services/actions/ingredients-slice";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 function App() {
-    const [mainBasket, setMainBasket] = React.useState([]);
-    const [data, setData] = React.useState([]);
-    const [state, setState] = React.useState({
-        isLoading: true,
-        hasError: false,
-    });
+    const dispatch = useDispatch();
+    const {isLoading, hasError} = useSelector(state => {
+        return {
+            isLoading: state.ingredients.isLoading,
+            hasError: state.ingredients.hasError,
+        }
+    })
 
     useEffect(() => {
-        getAllIngredients().then(data => {
-                console.log(data);
-                setData(data.data);
-                const randomIngredients = selectRandomIngredients(data.data);
-                setMainBasket(randomIngredients);
-                setState({
-                    ...state,
-                    isLoading: false,
-                });
-            }
-        ).catch(err => {
-            setState({
-                ...state,
-                hasError: true,
-            });
-            console.log('Ошибка при загрузке данных', err);
-        });
-    }, []);
+        dispatch(getAllIngredients());
+    }, [dispatch]);
 
 
     return (
@@ -44,24 +29,21 @@ function App() {
                 <AppHeader/>
             </div>
 
-            <IngredientContext.Provider value={[data, setData]}>
-                <MainBasketContext.Provider value={[mainBasket, setMainBasket]}>
+            {!isLoading && hasError &&
+                <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
 
-                    {!state.isLoading && state.hasError &&
-                        <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
+            {isLoading && !hasError &&
+                <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
+                    Загрузка...
+                </div>}
 
-                    {state.isLoading && !state.hasError &&
-                        <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
-                            Загрузка...
-                        </div>}
-
-                    {!state.isLoading && !state.hasError &&
-                        (<div className={AppStyle.mainContent}>
-                            <BurgerIngredients/>
-                            <BurgerConstructor/>
-                        </div>)}
-                </MainBasketContext.Provider>
-            </IngredientContext.Provider>
+            {!isLoading && !hasError &&
+                (<div className={AppStyle.mainContent}>
+                    <DndProvider backend={HTML5Backend}>
+                        <BurgerIngredients/>
+                        <BurgerConstructor/>
+                    </DndProvider>
+                </div>)}
         </div>
     );
 }
