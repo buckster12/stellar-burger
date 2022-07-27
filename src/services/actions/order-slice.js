@@ -33,6 +33,8 @@ const orderSlice = createSlice({
     reducers: {
         closeOrderModal: (state) => {
             state.isModalOpen = false;
+            state.orderId = 0; // сбрасываем ордер из памяти
+            state.isOk = false; // сбрасываем статус отправки заказа
         },
         setIsOk: (state, action) => {
             state.isOk = action.payload;

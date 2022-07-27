@@ -1,49 +1,39 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import AppStyle from './app.module.css';
 import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import classNames from "classnames";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllIngredients} from "../../services/actions/ingredients-slice";
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {DndProvider} from "react-dnd";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Login from "../../pages/login/login";
+import Page404 from "../../pages/page404/page404";
+import Constructor from "../../pages/constructor/constructor";
+import Register from "../../pages/register/register";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import Profile from "../../pages/profile/profile";
+import ResetPassword from "../../pages/reset-password/reset-password";
+import ProtectedRoute from "../protected-route/protected-route";
+import ModalSwitch from "../modal-switch/modal-switch";
 
 function App() {
-    const dispatch = useDispatch();
-    const {isLoading, hasError} = useSelector(state => {
-        return {
-            isLoading: state.ingredients.isLoading,
-            hasError: state.ingredients.hasError,
-        }
-    })
-
-    useEffect(() => {
-        dispatch(getAllIngredients());
-    }, [dispatch]);
-
-
     return (
         <div className={AppStyle.App}>
-            <div className="mt-5">
-                <AppHeader/>
-            </div>
-
-            {!isLoading && hasError &&
-                <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
-
-            {isLoading && !hasError &&
-                <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
-                    Загрузка...
-                </div>}
-
-            {!isLoading && !hasError &&
-                (<div className={AppStyle.mainContent}>
-                    <DndProvider backend={HTML5Backend}>
-                        <BurgerIngredients/>
-                        <BurgerConstructor/>
-                    </DndProvider>
-                </div>)}
+            <Router>
+                <div className="mt-5">
+                    <AppHeader/>
+                </div>
+                <div className={AppStyle.centerContainer}>
+                    <Switch>
+                        <ProtectedRoute path="/profile" component={Profile}/>
+                        <Route path="/register" exact={true} component={Register}/>
+                        <Route path="/login" exact={true} component={Login}/>
+                        <Route path="/forgot-password" exact={true} component={ForgotPassword}/>
+                        <Route path="/reset-password" exact={true} component={ResetPassword}/>
+                        <Route path="/" exact={true} component={Constructor}/>
+                        <ModalSwitch/>
+                        <Route path="*">
+                            <Page404/>
+                        </Route>
+                    </Switch>
+                </div>
+            </Router>
         </div>
     );
 }

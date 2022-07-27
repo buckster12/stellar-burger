@@ -9,6 +9,11 @@ import ingredientsReducer from "./services/actions/ingredients-slice";
 import basketReducer from './services/actions/basket-slice';
 import modalReducer from './services/actions/modal-slice';
 import orderReducer from "./services/actions/order-slice";
+import loginReducer from "./services/actions/login-slice";
+import registerReducer from "./services/actions/register-slice";
+import logoutReducer from "./services/actions/logout-slice";
+import profileReducer from "./services/actions/profile-info-slice";
+import resetPasswordReducer from "./services/actions/reset-password-slice";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -19,18 +24,25 @@ const store = configureStore({
         ingredients: ingredientsReducer,
         basket: basketReducer,
         modal: modalReducer,
-        order: orderReducer
+        order: orderReducer,
+        login: loginReducer,
+        register: registerReducer,
+        logout: logoutReducer,
+        profile: profileReducer,
+        resetPassword: resetPasswordReducer
     },
     // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
     devTools: true,
 });
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    </React.StrictMode>
+    // React-Router-Dom v5 not compatible with strict mode
+    // https://github.com/facebook/react/issues/24451#issuecomment-1112591413
+    // <React.StrictMode>
+    <Provider store={store}>
+        <App/>
+    </Provider>
+    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,0 +1,23 @@
+.profileContainer {
+    display: flex;
+    align-Items: flex-start;
+    /*column-Gap: 100px;*/
+    margin-Top: 5%;
+}
+
+.profileNav a {
+    color: rgb(133, 133, 173);
+}
+
+.profileNav {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 320px;
+    align-items: flex-start;
+    row-gap: 30px;
+    margin-left: 20px;
+}
+
+.profileNavActive span {
+    color: #fff;
+}

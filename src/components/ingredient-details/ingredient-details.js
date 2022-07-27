@@ -3,7 +3,6 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 const IngredientDetails = ({chosenIngredient}) => {
-
     return (
         <>
             <img src={chosenIngredient.image_large} alt={chosenIngredient.name}/>

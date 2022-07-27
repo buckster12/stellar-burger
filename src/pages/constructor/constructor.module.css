@@ -4,11 +4,6 @@
     flex-direction: column;
 }
 
-.centerContainer {
-    width: 1200px;
-    margin: auto;
-}
-
 .mainContent {
     display: flex;
     justify-content: center;

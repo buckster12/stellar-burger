@@ -14,9 +14,11 @@ import {useDrop} from "react-dnd";
 import CartElement from "../cart-element/cart-element";
 import {closeOrderModal, processOrder} from "../../services/actions/order-slice";
 import Modal from "../modal/modal";
+import {useHistory} from "react-router-dom";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const totalPrice = useSelector(selectTotalPrice)
 
     const {
@@ -24,13 +26,15 @@ const BurgerConstructor = () => {
         isOrderProcessing,
         orderId,
         isOk,
-        isModalOpen
+        isModalOpen,
+        auth
     } = useSelector(state => ({
         orderId: state.order.orderId,
         isOrderProcessing: state.order.isOrderProcessing,
         isOk: state.order.isOk,
         isModalOpen: state.order.isModalOpen,
         mainBasket: state.basket,
+        auth: state.login.isLoggedIn,
     }));
 
     const [{isHover}, dropRef] = useDrop({
@@ -45,6 +49,12 @@ const BurgerConstructor = () => {
     )
 
     const onClickProcessOrder = () => {
+        if (!auth) {
+            // save basket to local storage
+            // localStorage.setItem('basket', JSON.stringify(mainBasket));
+            history.push('/login');
+            return;
+        }
         const order = {
             ingredients: [
                 mainBasket.bun,
