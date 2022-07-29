@@ -2,7 +2,7 @@ import React from "react";
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import AppHeaderStyle from './app-header.module.css';
 import classNames from "classnames";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 function AppHeader() {
     return (
@@ -24,7 +24,9 @@ function AppHeader() {
                 </div>
 
                 <div className={AppHeaderStyle.logo}>
-                    <Logo/>
+                    <Link to={`/`}>
+                        <Logo/>
+                    </Link>
                 </div>
 
                 <div

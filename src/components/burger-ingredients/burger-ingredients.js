@@ -88,7 +88,7 @@ const BurgerIngredients = () => {
                                                         ingredient={mapIngredient}
                                                         counter={countCurrentIngredient(mapIngredient)}
                                                         onClick={() => {
-                                                            history.push('/');
+                                                            // history.push('/');
                                                             history.replace({
                                                                 pathname: '/ingredients/' + mapIngredient._id,
                                                                 state: {

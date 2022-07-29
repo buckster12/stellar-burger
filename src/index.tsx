@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import {configureStore} from '@reduxjs/toolkit';
-
+import {BrowserRouter} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import ingredientsReducer from "./services/actions/ingredients-slice";
@@ -31,7 +31,6 @@ const store = configureStore({
         profile: profileReducer,
         resetPassword: resetPasswordReducer
     },
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
     devTools: true,
 });
 
@@ -40,7 +39,9 @@ root.render(
     // https://github.com/facebook/react/issues/24451#issuecomment-1112591413
     // <React.StrictMode>
     <Provider store={store}>
-        <App/>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </Provider>
     // </React.StrictMode>
 );
