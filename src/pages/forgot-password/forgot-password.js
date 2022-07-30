@@ -43,44 +43,42 @@ const ForgotPassword = () => {
     }
 
     return (
-        <>
-            <form onSubmit={onClickFunction}>
-                <div className={classNames("pt-6 pb-6")}>
-                    <p className="text text_type_main-medium">Восстановление пароля</p>
-                </div>
+        <form onSubmit={onClickFunction}>
+            <div className={classNames("pt-6 pb-6")}>
+                <p className="text text_type_main-medium">Восстановление пароля</p>
+            </div>
 
-                {isLoading && (
-                    <div className={'text_type_main-default text_color_inactive'}>Загрузка...</div>
-                )}
+            {isLoading && (
+                <div className={'text_type_main-default text_color_inactive'}>Загрузка...</div>
+            )}
 
-                <div className={classNames("pb-6")}>
-                    <Input
-                        type={'email'}
-                        placeholder={'E-mail'}
-                        onChange={onChange}
-                        name={'email'}
-                        error={error}
-                        value={email}
-                        size={'default'}
-                        errorText={'Некорректный email'}
-                    />
-                </div>
+            <div className={classNames("pb-6")}>
+                <Input
+                    type={'email'}
+                    placeholder={'E-mail'}
+                    onChange={onChange}
+                    name={'email'}
+                    error={error}
+                    value={email}
+                    size={'default'}
+                    errorText={'Некорректный email'}
+                />
+            </div>
 
-                <Button
-                    type="primary"
-                    disabled={error}
-                    size="medium">
-                    Восстановить
-                </Button>
+            <Button
+                type="primary"
+                disabled={error}
+                size="medium">
+                Восстановить
+            </Button>
 
-                <div className={classNames("pt-6 pb-6")}>
-                    <p className="text text_type_main-small text_color_inactive">
-                        Вспомнили пароль?&nbsp;
-                        <Link to="/login">Войти</Link>
-                    </p>
-                </div>
-            </form>
-        </>
+            <div className={classNames("pt-6 pb-6")}>
+                <p className="text text_type_main-small text_color_inactive">
+                    Вспомнили пароль?&nbsp;
+                    <Link to="/login">Войти</Link>
+                </p>
+            </div>
+        </form>
     );
 }
 

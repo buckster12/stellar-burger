@@ -1,7 +1,7 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import classNames from "classnames";
-import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../services/actions/login-slice";
 import LoginStyle from "./login.module.css";
@@ -47,72 +47,70 @@ const Login = () => {
     }
 
     if (isLoggedIn) {
-        return <Redirect to={"/"} />
+        return <Redirect to={"/"}/>
     }
 
     return (
-        <>
-            <div className={LoginStyle.centeredForm}>
-                <form onSubmit={onClickLogin}>
-                    <div className={classNames("pt-6 pb-6")}>
-                        <p className="text text_type_main-medium">Вход</p>
-                    </div>
+        <div className={LoginStyle.centeredForm}>
+            <form onSubmit={onClickLogin}>
+                <div className={classNames("pt-6 pb-6")}>
+                    <p className="text text_type_main-medium">Вход</p>
+                </div>
 
-                    {isLoading && <p className={'text_type_main-small text'}>
-                        Загрузка...
-                    </p>}
+                {isLoading && <p className={'text_type_main-small text'}>
+                    Загрузка...
+                </p>}
 
-                    {location.state && location.state.passwordReset && location.state.passwordReset === true && (
-                        <p className={'text text_type_main-small mb-5 text_color_success'}>
-                            Пароль был успешно изменен.
-                        </p>
-                    )}
+                {location.state && location.state.passwordReset && location.state.passwordReset === true && (
+                    <p className={'text text_type_main-small mb-5 text_color_success'}>
+                        Пароль был успешно изменен.
+                    </p>
+                )}
 
-                    {error && (<p className={'text text_type_main-small mb-5 text_color_error'}>
-                        Ошибка входа. Проверьте правильность введенных данных.
-                    </p>)}
+                {error && (<p className={'text text_type_main-small mb-5 text_color_error'}>
+                    Ошибка входа. Проверьте правильность введенных данных.
+                </p>)}
 
-                    <div className={classNames("pb-6")}>
-                        <Input
-                            type={'email'}
-                            placeholder={'E-mail'}
-                            onChange={onChange}
-                            name={'email'}
-                            value={email}
-                            size={'default'}
-                        />
-                    </div>
+                <div className={classNames("pb-6")}>
+                    <Input
+                        type={'email'}
+                        placeholder={'E-mail'}
+                        onChange={onChange}
+                        name={'email'}
+                        value={email}
+                        size={'default'}
+                    />
+                </div>
 
-                    <div className={classNames("pb-6")}>
-                        <Input
-                            type={passwordVisible ? 'text' : 'password'}
-                            value={password}
-                            error={false}
-                            onChange={onChange}
-                            name={'password'}
-                            placeholder={'Пароль'}
-                            onIconClick={() => dispatch({type: "login/setPasswordVisible", payload: !passwordVisible})}
-                            icon={passwordVisible ? 'HideIcon' : 'ShowIcon'}
-                        />
-                    </div>
+                <div className={classNames("pb-6")}>
+                    <Input
+                        type={passwordVisible ? 'text' : 'password'}
+                        value={password}
+                        error={false}
+                        onChange={onChange}
+                        name={'password'}
+                        placeholder={'Пароль'}
+                        onIconClick={() => dispatch({type: "login/setPasswordVisible", payload: !passwordVisible})}
+                        icon={passwordVisible ? 'HideIcon' : 'ShowIcon'}
+                    />
+                </div>
 
-                    <Button type="primary" size="medium">Войти</Button>
+                <Button type="primary" size="medium">Войти</Button>
 
-                    <div className={classNames("pt-6 pb-6")}>
-                        <p className="text text_type_main-small text_color_inactive">
-                            Вы — новый пользователь?&nbsp;
-                            <Link to="/register">Зарегистрироваться</Link>
-                        </p>
-                    </div>
-                    <div className={classNames("pb-6")}>
-                        <p className="text text_type_main-small text_color_inactive">
-                            Забыли пароль?&nbsp;
-                            <Link to="/forgot-password">Восстановить пароль</Link>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </>
+                <div className={classNames("pt-6 pb-6")}>
+                    <p className="text text_type_main-small text_color_inactive">
+                        Вы — новый пользователь?&nbsp;
+                        <Link to="/register">Зарегистрироваться</Link>
+                    </p>
+                </div>
+                <div className={classNames("pb-6")}>
+                    <p className="text text_type_main-small text_color_inactive">
+                        Забыли пароль?&nbsp;
+                        <Link to="/forgot-password">Восстановить пароль</Link>
+                    </p>
+                </div>
+            </form>
+        </div>
     );
 }
 

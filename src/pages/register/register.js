@@ -54,65 +54,63 @@ const Register = () => {
     }
 
     return (
-        <>
-            <form onSubmit={onClickFunction}>
-                <div className={classNames("pt-6 pb-6")}>
-                    <p className="text text_type_main-medium">Регистрация</p>
-                </div>
+        <form onSubmit={onClickFunction}>
+            <div className={classNames("pt-6 pb-6")}>
+                <p className="text text_type_main-medium">Регистрация</p>
+            </div>
 
-                {error && (
-                    <p className="text text_type_main-default text_color_error">Что-то пошло не так</p>
-                )}
+            {error && (
+                <p className="text text_type_main-default text_color_error">Что-то пошло не так</p>
+            )}
 
-                {isLoading && (
-                    <p className="text text_type_main-default text_color_inactive">Загрузка...</p>
-                )}
+            {isLoading && (
+                <p className="text text_type_main-default text_color_inactive">Загрузка...</p>
+            )}
 
-                <div className={classNames("pb-6")}>
-                    <Input
-                        placeholder={'Имя'}
-                        onChange={onChange}
-                        name={'name'}
-                        size={'default'}
-                        value={name}
-                    />
-                </div>
+            <div className={classNames("pb-6")}>
+                <Input
+                    placeholder={'Имя'}
+                    onChange={onChange}
+                    name={'name'}
+                    size={'default'}
+                    value={name}
+                />
+            </div>
 
-                <div className={classNames("pb-6")}>
-                    <Input
-                        type={'email'}
-                        placeholder={'E-mail'}
-                        onChange={onChange}
-                        name={'email'}
-                        value={email}
-                        size={'default'}
-                    />
-                </div>
+            <div className={classNames("pb-6")}>
+                <Input
+                    type={'email'}
+                    placeholder={'E-mail'}
+                    onChange={onChange}
+                    name={'email'}
+                    value={email}
+                    size={'default'}
+                />
+            </div>
 
-                <div className={classNames("pb-6")}>
-                    <Input type={'password'}
-                           placeholder={'Пароль'}
-                           onChange={onChange}
-                           name={'password'}
-                           value={password}
-                           size={'default'}
-                    />
-                </div>
+            <div className={classNames("pb-6")}>
+                <Input type={'password'}
+                       placeholder={'Пароль'}
+                       onChange={onChange}
+                       name={'password'}
+                       value={password}
+                       size={'default'}
+                />
+            </div>
 
-                <Button
-                    type="primary"
-                    size="medium">
-                    Зарегистрироваться
-                </Button>
+            <Button
+                type="primary"
+                size="medium">
+                Зарегистрироваться
+            </Button>
 
-                <div className={classNames("pt-6 pb-6")}>
-                    <p className="text text_type_main-small text_color_inactive">
-                        Вспомнили пароль?&nbsp;
-                        <Link to="/login">Войти</Link>
-                    </p>
-                </div>
-            </form>
-        </>
+            <div className={classNames("pt-6 pb-6")}>
+                <p className="text text_type_main-small text_color_inactive">
+                    Вспомнили пароль?&nbsp;
+                    <Link to="/login">Войти</Link>
+                </p>
+            </div>
+        </form>
     );
 }
 
