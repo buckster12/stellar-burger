@@ -55,7 +55,7 @@ const ResetPassword = () => {
     }
 
     return (
-        <>
+        <div className={cssStyle.flexContainer}>
             <form onSubmit={onClickFunction}>
                 <div className={classNames("pt-6 pb-6")}>
                     <p className="text text_type_main-medium">Восстановление пароля</p>
@@ -102,8 +102,7 @@ const ResetPassword = () => {
                     <Link to="/login">Войти</Link>
                 </p>
             </div>
-
-        </>
+        </div>
     );
 }
 
