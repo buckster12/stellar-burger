@@ -1,8 +1,11 @@
 .profileContainer {
     display: flex;
-    align-Items: flex-start;
-    /*column-Gap: 100px;*/
+    /*align-Items: first;*/
     margin-Top: 5%;
+    /* put to the left */
+    /*justify-self: left !important;*/
+    /*text-align: left;*/
+    /*align-self: end;*/
 }
 
 .profileNav a {

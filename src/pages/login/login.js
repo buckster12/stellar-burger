@@ -47,7 +47,8 @@ const Login = () => {
     }
 
     if (isLoggedIn) {
-        return <Redirect to={"/"}/>
+        const redirectTo = location?.state?.from || "/";
+        return <Redirect to={redirectTo}/>
     }
 
     return (

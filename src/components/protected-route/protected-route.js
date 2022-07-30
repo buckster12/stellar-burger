@@ -1,7 +1,8 @@
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 const ProtectedRoute = ({component: Component, ...rest}) => {
+    const location = useLocation();
     const {auth} = useSelector(state => ({
         auth: state.login.isLoggedIn,
     }));
@@ -12,7 +13,7 @@ const ProtectedRoute = ({component: Component, ...rest}) => {
                 auth ? (
                     <Component {...props} />
                 ) : (
-                    <Redirect to="/login"/>
+                    <Redirect to={{pathname: "/login", state: {from: location}}}/>
                 )
             }
         />

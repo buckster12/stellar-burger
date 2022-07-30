@@ -24,7 +24,7 @@ const ProfileInfo = () => {
     }, [dispatch]);
 
     if (isLoading) {
-        return <div>Загрузка...</div>
+        return <div className={'text text_type_main-default text_color_primary'}>Загрузка...</div>
     }
 
     if (error) {
