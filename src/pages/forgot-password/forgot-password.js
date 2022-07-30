@@ -3,7 +3,7 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link, Redirect, useHistory} from "react-router-dom";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {resetPassword} from "../../services/actions/reset-password-slice";
+import {resetPassword, setEmail} from "../../services/actions/reset-password-slice";
 
 const ForgotPassword = () => {
     const auth = useSelector(state => state.login.isLoggedIn);
@@ -17,10 +17,7 @@ const ForgotPassword = () => {
     } = useSelector(state => state.resetPassword);
 
     const onChange = (e) => {
-        dispatch({
-            type: "resetPassword/setEmail",
-            payload: e.target.value
-        });
+        dispatch(setEmail(e.target.value));
     }
 
     const onClickFunction = async (e) => {

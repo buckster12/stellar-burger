@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../../services/actions/login-slice";
+import {login, setError, setField, setPasswordVisible} from "../../services/actions/login-slice";
 import LoginStyle from "./login.module.css";
 
 const Login = () => {
@@ -30,20 +30,17 @@ const Login = () => {
     const onClickLogin = async (e) => {
         e.preventDefault();
         if (!email || !password) {
-            dispatch({type: 'login/setError', payload: "Заполните все поля"});
+            dispatch(setError("Заполните все поля"));
             return;
         }
         dispatch(login({email, password}));
     }
 
     function onChange(e) {
-        dispatch({
-            type: "login/setField",
-            payload: {
-                value: e.target.value,
-                name: e.target.name,
-            }
-        });
+        dispatch(setField({
+            value: e.target.value,
+            name: e.target.name,
+        }));
     }
 
     if (isLoggedIn) {
@@ -91,7 +88,7 @@ const Login = () => {
                         onChange={onChange}
                         name={'password'}
                         placeholder={'Пароль'}
-                        onIconClick={() => dispatch({type: "login/setPasswordVisible", payload: !passwordVisible})}
+                        onIconClick={() => dispatch(setPasswordVisible(!passwordVisible))}
                         icon={passwordVisible ? 'HideIcon' : 'ShowIcon'}
                     />
                 </div>

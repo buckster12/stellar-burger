@@ -18,7 +18,7 @@ export const setNewPasswordRequest = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
     "resetPassword/resetPassword",
-    async (email, {rejectWithValue}) => {
+    async (email) => {
         const options = {
             method: "POST",
             headers: {
@@ -61,7 +61,7 @@ const resetPasswordSlice = createSlice({
         clearData: () => initialState
     },
     extraReducers: {
-        [resetPassword.pending]: (state, action) => {
+        [resetPassword.pending]: (state) => {
             state.error = false;
             state.isLoading = true;
         },
@@ -72,11 +72,11 @@ const resetPasswordSlice = createSlice({
                 state.errorMessage = action.payload.message;
             }
         },
-        [resetPassword.rejected]: (state, action) => {
+        [resetPassword.rejected]: (state) => {
             state.isLoading = false;
             state.error = true;
         },
-        [setNewPasswordRequest.pending]: (state, action) => {
+        [setNewPasswordRequest.pending]: (state) => {
             state.isLoading = true;
         },
         [setNewPasswordRequest.fulfilled]: (state, action) => {
@@ -100,7 +100,9 @@ const resetPasswordSlice = createSlice({
 export const {
     setNewPassword,
     setEmailToken,
-    clearData
+    clearData,
+    setEmail,
+    setField,
 } = resetPasswordSlice.actions;
 
 const resetPasswordReducer = resetPasswordSlice.reducer;
