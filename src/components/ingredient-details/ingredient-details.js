@@ -2,21 +2,12 @@ import IngredientDetailsStyles from './ingredient-details.module.css';
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {getAllIngredients} from "../../services/actions/ingredients-slice";
+import {useSelector} from "react-redux";
 
 const IngredientDetails = ({noBackground = false}) => {
     let {ingredientId} = useParams();
-    const dispatch = useDispatch();
     const ingredients = useSelector(state => state.ingredients.data);
     const chosenIngredient = ingredients.find(item => item._id === ingredientId);
-
-    useEffect(() => {
-        if (noBackground) {
-            dispatch(getAllIngredients());
-        }
-    }, [dispatch, noBackground]);
 
     if (!chosenIngredient) {
         return <span className="text_type_main-default text_color_inactive">Loading...</span>;

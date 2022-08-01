@@ -1,30 +1,20 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import AppStyle from './constructor.module.css';
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import classNames from "classnames";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllIngredients} from "../../services/actions/ingredients-slice";
+import {useSelector} from "react-redux";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 
 function App() {
-    const dispatch = useDispatch();
-    const {isLoading, hasError, ingredients} = useSelector(state => {
+    const {isLoading, hasError} = useSelector(state => {
         return {
             isLoading: state.ingredients.isLoading,
             hasError: state.ingredients.hasError,
             ingredients: state.ingredients.data
         }
     });
-
-    useEffect(() => {
-        // Do not load ingredients if they are already loaded (e.g. modal window)
-        if (ingredients.length === 0) {
-            dispatch(getAllIngredients());
-        }
-    }, [dispatch, ingredients]);
-
 
     return (
         <div className={AppStyle.App}>

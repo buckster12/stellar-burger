@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppStyle from './app.module.css';
 import AppHeader from "../app-header/app-header";
 import {Route, Switch, useHistory, useLocation} from "react-router-dom";
@@ -14,6 +14,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import {hideModal} from "../../services/actions/modal-slice";
 import {useDispatch} from "react-redux";
+import {getAllIngredients} from "../../services/actions/ingredients-slice";
 
 function App() {
     const location = useLocation();
@@ -25,6 +26,10 @@ function App() {
         dispatch(hideModal());
         history.replace(background);
     };
+
+    useEffect(() => {
+        dispatch(getAllIngredients());
+    }, [dispatch]);
 
     return (
         <div className={AppStyle.App}>
