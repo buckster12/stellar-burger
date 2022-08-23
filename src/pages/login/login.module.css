@@ -1,0 +1,23 @@
+/* centered container */
+.centered {
+    margin:  auto;
+    max-width: 480px;
+}
+
+/* centered container */
+.centeredForm {
+    margin: 0 auto;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+/* form */
+form {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}

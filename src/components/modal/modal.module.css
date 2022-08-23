@@ -1,6 +1,6 @@
 .modal {
     position: absolute;
-    width: 720px;
+    width: 640px;
     height: 539px;
 
     top: calc(50% - (539px / 2));
@@ -56,9 +56,7 @@
 .modalContent {
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    /*gap: 36px;*/
 }

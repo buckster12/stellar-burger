@@ -1,12 +1,23 @@
 import IngredientDetailsStyles from './ingredient-details.module.css';
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-const IngredientDetails = ({chosenIngredient}) => {
+const IngredientDetails = ({noBackground = false}) => {
+    let {ingredientId} = useParams();
+    const ingredients = useSelector(state => state.ingredients.data);
+    const chosenIngredient = ingredients.find(item => item._id === ingredientId);
+
+    if (!chosenIngredient) {
+        return <span className="text_type_main-default text_color_inactive">Loading...</span>;
+    }
 
     return (
-        <>
-            <img src={chosenIngredient.image_large} alt={chosenIngredient.name}/>
+        <div className={IngredientDetailsStyles.modalContentContainer}>
+            <div>
+                <img src={chosenIngredient.image_large} alt={chosenIngredient.name}/>
+            </div>
 
             <span className="text text_type_main-medium mt-10">{chosenIngredient.name}</span>
 
@@ -31,19 +42,12 @@ const IngredientDetails = ({chosenIngredient}) => {
                     <span className="text text_type_digits-default">{chosenIngredient.carbohydrates}</span>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
 IngredientDetails.propTypes = {
-    chosenIngredient: PropTypes.shape({
-        calories: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        image_large: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        proteins: PropTypes.number.isRequired
-    }).isRequired
+    noBackground: PropTypes.bool,
 }
 
 export default IngredientDetails;

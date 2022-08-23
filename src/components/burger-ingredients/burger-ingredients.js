@@ -9,10 +9,14 @@ import ingredientType from "../../utils/types";
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
 import {useDispatch, useSelector} from "react-redux";
-import {hideModal, showModal} from "../../services/actions/modal-slice";
+import {hideModal} from "../../services/actions/modal-slice";
+import {useHistory, useLocation} from "react-router-dom";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const history = useHistory();
+
     const [currentTab, setCurrentTab] = React.useState('bun')
     const {mainBasket, bunBasket, data} = useSelector(state => ({
         mainBasket: state.basket.ingredients,
@@ -80,12 +84,18 @@ const BurgerIngredients = () => {
                                         .map((mapIngredient, index) => {
                                                 return (
                                                     <Ingredient
-                                                        onClick={() => {
-                                                            dispatch(showModal(mapIngredient))
-                                                        }}
                                                         key={mapIngredient._id ?? index}
                                                         ingredient={mapIngredient}
                                                         counter={countCurrentIngredient(mapIngredient)}
+                                                        onClick={() => {
+                                                            // history.push('/');
+                                                            history.replace({
+                                                                pathname: '/ingredients/' + mapIngredient._id,
+                                                                state: {
+                                                                    background: location,
+                                                                }
+                                                            });
+                                                        }}
                                                     />
                                                 )
                                             }

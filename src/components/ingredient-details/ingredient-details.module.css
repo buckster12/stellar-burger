@@ -10,3 +10,12 @@
     flex-direction: column;
     align-items: center;
 }
+
+.modalContentContainer {
+    max-width: 640px;
+    justify-content: space-around;
+    /*margin: auto;*/
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+}
