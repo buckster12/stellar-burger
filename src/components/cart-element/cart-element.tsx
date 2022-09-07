@@ -5,9 +5,15 @@ import classNames from "classnames";
 import BurgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useRef} from "react";
+import {IIngredient} from "../../types/ingredient-types";
 
-const CartElement = ({index, ingredient}) => {
-    const dispatch = useDispatch();
+type TCartElementProps = {
+    index: number,
+    ingredient: IIngredient
+};
+
+const CartElement = ({index, ingredient}: TCartElementProps) => {
+    const dispatch = useDispatch<any>();
     const [{isDragging}, dragRef] = useDrag({
         type: 'cart-element',
         item: {id: ingredient._id, index},
@@ -22,7 +28,7 @@ const CartElement = ({index, ingredient}) => {
             isHover: monitor.isOver(),
         }),
         // This method is called when we hover over an element while dragging
-        hover(item, monitor) { // item is the dragged element
+        hover(item: any, monitor) { // item is the dragged element
             if (!elementRef.current) {
                 return;
             }
@@ -35,12 +41,14 @@ const CartElement = ({index, ingredient}) => {
             }
 
             // Determine rectangle on screen
+            // @ts-ignore
             const hoverBoundingRect = elementRef.current?.getBoundingClientRect()
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             // Determine mouse position
             const clientOffset = monitor.getClientOffset();
             // Get pixels to the top
+            // @ts-ignore
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
             // Only perform the move when the mouse has crossed half of the items' height
             // When dragging downwards, only move when the cursor is below 50%
@@ -64,7 +72,7 @@ const CartElement = ({index, ingredient}) => {
         }
     });
 
-    const elementRef = useRef(null);
+    const elementRef = useRef<HTMLLIElement>(null);
     dropRef(dragRef(elementRef));
 
     return (

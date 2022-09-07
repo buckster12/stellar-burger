@@ -5,32 +5,34 @@ import BurgerIngredientsStyle from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import ingredientType from "../../utils/types";
+import ingredientType, {IIngredientType} from "../../utils/types";
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
 import {useDispatch, useSelector} from "react-redux";
 import {hideModal} from "../../services/actions/modal-slice";
 import {useHistory, useLocation} from "react-router-dom";
+import {IMainState} from "../../types/redux";
+import {IIngredient} from "../../types/ingredient-types";
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
     const location = useLocation();
     const history = useHistory();
 
-    const [currentTab, setCurrentTab] = React.useState('bun')
-    const {mainBasket, bunBasket, data} = useSelector(state => ({
+    const [currentTab, setCurrentTab] = React.useState<string>('bun')
+    const {mainBasket, bunBasket, data} = useSelector((state: IMainState) => ({
         mainBasket: state.basket.ingredients,
         bunBasket: state.basket.bun,
         data: state.ingredients.data
     }));
 
     // Modal window vars
-    const modalContent = useSelector(state => state.modal.modalContent);
-    const isModalOpen = useSelector(state => state.modal.isModalOpen);
+    // const modalContent: IIngredient | null = useSelector((state: IMainState) => state.modal.modalContent);
+    const isModalOpen: boolean = useSelector((state: IMainState) => state.modal.isModalOpen);
 
     // function which count current ingredient in basket
-    const countCurrentIngredient = (ingredient) => {
-        let count = 0;
+    const countCurrentIngredient = (ingredient: IIngredient): number => {
+        let count: number = 0;
         if (ingredient.type === 'bun' && bunBasket._id === ingredient._id) {
             return 2;
         }
@@ -43,17 +45,18 @@ const BurgerIngredients = () => {
         return count;
     }
 
-    const handleScroll = (e) => {
-        const bunSection = document.getElementById('section-bun').scrollHeight;
-        const sauceSection = document.getElementById('section-sauce').scrollHeight;
+    const handleScroll: React.UIEventHandler<any> = (e: React.UIEvent): void => {
+        const bunSection: number = document.getElementById('section-bun')?.scrollHeight || 0;
+        const sauceSection: number = document.getElementById('section-sauce')?.scrollHeight || 0;
+        const target: HTMLElement = e.target as HTMLElement;
 
-        if (e.target.scrollTop < bunSection) {
+        if (target.scrollTop < bunSection) {
             setCurrentTab('bun');
         }
-        if (e.target.scrollTop >= bunSection) {
+        if (target.scrollTop >= bunSection) {
             setCurrentTab('sauce');
         }
-        if (e.target.scrollTop >= bunSection + sauceSection) {
+        if (target.scrollTop >= bunSection + sauceSection) {
             setCurrentTab('main');
         }
     }
@@ -62,9 +65,10 @@ const BurgerIngredients = () => {
         <div className="mb-10">
             <h1 className={classNames('text text_type_main-large', BurgerIngredientsStyle.h1)}>Соберите бургер</h1>
             <div className={classNames(BurgerIngredientsStyle.tabs, "pb-5")}>
-                {ingredientType.map(function (el, index) {
+                {ingredientType.map(function (el: IIngredientType, index: number) {
                     return (
                         <a href={'#' + el.id} key={index}>
+                            {/* @ts-ignore */}
                             <Tab value={el.id} active={currentTab === el.id} onClick={setCurrentTab}>
                                 {el.title}
                             </Tab>
@@ -76,18 +80,18 @@ const BurgerIngredients = () => {
             <div className={BurgerIngredientsStyle.scrollContainer}>
                 <Scrollbars onScroll={handleScroll}>
                     <div className={classNames(BurgerIngredientsStyle.ingredientBlock, "pr-2")}>
-                        {ingredientType.map(function (type, index) {
+                        {ingredientType.map(function (type: IIngredientType, index: number) {
                             return (
                                 <IngredientList key={index} id={type.id} title={type.title}>
                                     {data
-                                        .filter((x) => x.type === type.id)
-                                        .map((mapIngredient, index) => {
+                                        .filter((x: IIngredient) => x.type === type.id)
+                                        .map((mapIngredient: IIngredient, index: number) => {
                                                 return (
                                                     <Ingredient
                                                         key={mapIngredient._id ?? index}
                                                         ingredient={mapIngredient}
                                                         counter={countCurrentIngredient(mapIngredient)}
-                                                        onClick={() => {
+                                                        onClick={(): void => {
                                                             // history.push('/');
                                                             history.replace({
                                                                 pathname: '/ingredients/' + mapIngredient._id,
@@ -109,13 +113,12 @@ const BurgerIngredients = () => {
 
             {isModalOpen &&
                 <Modal onClose={() => dispatch(hideModal())} title="Детали ингредиента">
-                    <IngredientDetails chosenIngredient={modalContent}/>
+                    <IngredientDetails/>
+                    {/*<IngredientDetails chosenIngredient={modalContent}/>*/}
                 </Modal>
             }
         </div>
     );
 }
-
-BurgerIngredients.propTypes = {}
 
 export default BurgerIngredients;

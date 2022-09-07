@@ -18,9 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "noImplicitReturns": true,
+    "jsx": "react-jsx",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false
   },
-//  "include": [
-//    "src"
-//  ]
+  "include": [
+    "src",
+    "custom-typings"
+  ]
 }

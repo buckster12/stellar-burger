@@ -1,11 +1,12 @@
 import {fetchWithRefresh, getCookie} from "../auth";
 import {PROFILE_URL} from "../../utils/constants";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {TUser, IProfileState, TProfileForm} from "../../types/redux";
 
-export const updateProfile = createAsyncThunk(
+export const updateProfile = createAsyncThunk<any, TProfileForm>(
     'profile/update',
     async (user) => {
-        return await fetchWithRefresh(PROFILE_URL, {
+        return await fetchWithRefresh<TUser>(PROFILE_URL, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -16,10 +17,14 @@ export const updateProfile = createAsyncThunk(
     }
 );
 
-export const loadProfile = createAsyncThunk(
+type TLoadProfileResponse = {
+    user: TUser;
+}
+
+export const loadProfile = createAsyncThunk<TLoadProfileResponse>(
     'profile/loadProfile',
     async () => {
-        return await fetchWithRefresh(
+        return await fetchWithRefresh<TLoadProfileResponse>(
             PROFILE_URL,
             {
                 method: 'GET',
@@ -30,26 +35,28 @@ export const loadProfile = createAsyncThunk(
             });
     });
 
+const initialState: IProfileState = {
+    isLoading: false,
+    error: false,
+    form: {
+        name: "",
+        email: "",
+        password: "",
+    },
+    disabled: {
+        name_disabled: true,
+        email_disabled: true,
+        password_disabled: true,
+    },
+    user: {
+        name: "",
+        email: "",
+    }
+}
+
 const profileSlice = createSlice({
         name: 'profile',
-        initialState: {
-            isLoading: false,
-            error: false,
-            form: {
-                name: "",
-                email: "",
-                password: "",
-            },
-            disabled: {
-                name_disabled: true,
-                email_disabled: true,
-                password_disabled: true,
-            },
-            user: {
-                name: "",
-                email: "",
-            }
-        },
+        initialState,
         reducers: {
             setName: (state, action) => {
                 state.form.name = action.payload;
@@ -77,12 +84,12 @@ const profileSlice = createSlice({
                 state.disabled.name_disabled = true;
             }
         },
-        extraReducers: {
-            [loadProfile.pending]: (state) => {
+        extraReducers: (builder) => {
+            builder.addCase(loadProfile.pending, (state: IProfileState) => {
                 state.isLoading = true;
                 state.error = false;
-            },
-            [loadProfile.fulfilled]: (state, action) => {
+            });
+            builder.addCase(loadProfile.fulfilled, (state: IProfileState, action) => {
                 state.isLoading = false;
                 state.error = false;
                 state.user = action.payload.user;
@@ -92,16 +99,16 @@ const profileSlice = createSlice({
                 state.disabled.email_disabled = true;
                 state.disabled.password_disabled = true;
                 state.disabled.name_disabled = true;
-            },
-            [loadProfile.rejected]: (state, action) => {
+            });
+            builder.addCase(loadProfile.rejected, (state: IProfileState) => {
                 state.isLoading = false;
-                state.error = action.payload;
-            },
-            [updateProfile.pending]: (state) => {
+                state.error = true;
+            });
+            builder.addCase(updateProfile.pending, (state: IProfileState) => {
                 state.isLoading = true;
                 state.error = false;
-            },
-            [updateProfile.fulfilled]: (state, action) => {
+            });
+            builder.addCase(updateProfile.fulfilled, (state: IProfileState, action) => {
                 state.isLoading = false;
                 state.error = false;
                 state.user = action.payload.user;
@@ -111,11 +118,11 @@ const profileSlice = createSlice({
                 state.disabled.email_disabled = true;
                 state.disabled.password_disabled = true;
                 state.disabled.name_disabled = true;
-            },
-            [updateProfile.rejected]: (state, action) => {
+            });
+            builder.addCase(updateProfile.rejected, (state) => {
                 state.isLoading = false;
-                state.error = action.payload;
-            }
+                state.error = true;
+            });
         }
     }
 );

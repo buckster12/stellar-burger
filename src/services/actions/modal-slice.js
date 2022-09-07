@@ -20,7 +20,6 @@ const modalSlice = createSlice({
 });
 
 export const {
-    showModal,
     hideModal,
 } = modalSlice.actions;
 

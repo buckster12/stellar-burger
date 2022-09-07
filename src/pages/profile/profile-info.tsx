@@ -1,5 +1,5 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect} from "react";
+import {SyntheticEvent, useEffect} from "react";
 import {
     loadProfile, revertChangesInForm,
     setEmail,
@@ -8,16 +8,17 @@ import {
     setNameDisabled, setPassword, setPasswordDisabled, updateProfile
 } from "../../services/actions/profile-info-slice";
 import {useDispatch, useSelector} from "react-redux";
+import {IMainState} from "../../types/redux";
 
 const ProfileInfo = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const {
         isLoading,
         error,
         form,
         disabled
-    } = useSelector(state => state.profile);
+    } = useSelector((state: IMainState) => state.profile);
 
     useEffect(() => {
         dispatch(loadProfile());
@@ -31,7 +32,7 @@ const ProfileInfo = () => {
         return <div>{error}</div>
     }
 
-    function cancelEditing(e) {
+    function cancelEditing(e: SyntheticEvent) {
         e.preventDefault();
         dispatch(revertChangesInForm());
     }
@@ -70,7 +71,9 @@ const ProfileInfo = () => {
 
                 {!disabled.password_disabled || !disabled.email_disabled || !disabled.name_disabled ?
                     (<div className={"pl-10"}>
+                        {/* @ts-ignore */}
                         <Button size={"small"} type={"primary"}>Сохранить</Button>
+                        {/* @ts-ignore */}
                         <Button size={"small"} type='secondary' onClick={cancelEditing}>Отменить</Button>
                     </div>) : null}
 

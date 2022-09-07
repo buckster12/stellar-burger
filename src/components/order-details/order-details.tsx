@@ -1,10 +1,14 @@
 import OrderDetailsStyles from './order-details.module.css';
-import PropTypes from "prop-types";
 import doneSvg from '../../images/done.png';
 import classNames from "classnames";
 
-const OrderDetails = ({isLoading, isOk, orderId}) => {
+type TOrderDetails = {
+    isLoading: boolean,
+    isOk: boolean,
+    orderId: number | null
+}
 
+const OrderDetails = ({isLoading, isOk, orderId}: TOrderDetails) => {
     return (
         <>
             {isLoading &&
@@ -35,12 +39,6 @@ const OrderDetails = ({isLoading, isOk, orderId}) => {
                 </div>}
         </>
     );
-}
-
-OrderDetails.propTypes = {
-    orderId: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isOk: PropTypes.bool.isRequired
 }
 
 export default OrderDetails;

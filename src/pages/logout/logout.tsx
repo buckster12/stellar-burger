@@ -5,12 +5,22 @@ import {logout} from "../../services/actions/logout-slice";
 import Cookies from "js-cookie";
 import {setIsLoggedIn} from "../../services/actions/login-slice";
 
+type TLogoutResponse = {
+    error?: {
+        message: string
+    },
+    payload: {
+        success: boolean
+    }
+}
+
 const Logout = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
     useEffect(() => {
         const refreshToken = localStorage.getItem('refreshToken');
+        // @ts-ignore
         dispatch(logout(refreshToken))
-            .then((data) => {
+            .then((data: TLogoutResponse) => {
                 if (data.error) {
                     alert(data.error.message);
                     return;

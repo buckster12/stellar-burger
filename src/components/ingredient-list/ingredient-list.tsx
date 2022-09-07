@@ -1,11 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import IngredientListStyles from "./ingredients-list.module.css";
 import classNames from 'classnames';
 
+type TIngredientListProps = {
+    id: string;
+    title: string;
+    children: React.ReactNode;
+}
 
-const IngredientList = ({id, title, children}) => {
-    const h1classes = classNames('text', 'text_type_main-medium', IngredientListStyles.h1);
+const IngredientList = ({id, title, children}: TIngredientListProps) => {
+    const h1classes: string = classNames('text', 'text_type_main-medium', IngredientListStyles.h1);
     return (
         <div id={`section-${id}`}>
             <h1 id={id} className={h1classes}>{title}</h1>
@@ -14,12 +18,6 @@ const IngredientList = ({id, title, children}) => {
             </section>
         </div>
     )
-}
-
-IngredientList.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node
 }
 
 export default IngredientList;

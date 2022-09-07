@@ -1,15 +1,22 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {IMainState} from "../../types/redux";
+import React from "react";
 
-const ProtectedRoute = ({component: Component, ...rest}) => {
+type TProtectedRouteProps = {
+    Component: React.ComponentType<any>,
+    path: string,
+}
+
+const ProtectedRoute = ({Component, path}: TProtectedRouteProps) => {
     const location = useLocation();
-    const {auth} = useSelector(state => ({
+    const {auth} = useSelector((state: IMainState) => ({
         auth: state.login.isLoggedIn,
     }));
     return (
         <Route
-            {...rest}
-            render={props =>
+            path={path}
+            render={(props) =>
                 auth ? (
                     <Component {...props} />
                 ) : (

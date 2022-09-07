@@ -1,15 +1,16 @@
 import classNames from "classnames";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
-import React from "react";
+import React, {ChangeEvent, SyntheticEvent} from "react";
 import {saveTokens} from "../../services/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {setRegisterForm, register} from "../../services/actions/register-slice";
 import {setIsLoggedIn} from "../../services/actions/login-slice";
+import {IMainState} from "../../types/redux";
 
 const Register = () => {
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const {
         auth,
@@ -18,7 +19,7 @@ const Register = () => {
         password,
         error,
         isLoading,
-    } = useSelector(state => ({
+    } = useSelector((state: IMainState) => ({
         auth: state.login.isLoggedIn,
         name: state.register.name,
         email: state.register.email,
@@ -27,14 +28,15 @@ const Register = () => {
         isLoading: state.register.isLoading,
     }));
 
-    const onChange = (e) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const name = e.target.name;
         dispatch(setRegisterForm({name, value}));
     }
 
-    async function onClickFunction(e) {
+    async function onClickFunction(e: SyntheticEvent) {
         e.preventDefault();
+        // @ts-ignore
         const data = await dispatch(register({email, password, name}));
         if (data.error) {
             dispatch(setRegisterForm({name: 'error', value: data.error}));
@@ -98,6 +100,7 @@ const Register = () => {
                 />
             </div>
 
+            {/* @ts-ignore */}
             <Button
                 type="primary"
                 size="medium">

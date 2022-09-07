@@ -1,4 +1,11 @@
-const ingredientType = [
+export interface IIngredientType {
+    id: string;
+    title: string;
+}
+
+type IIngredientTypesArray = IIngredientType[];
+
+const ingredientType: IIngredientTypesArray = [
     {
         "id": "bun",
         "title": "Булки"

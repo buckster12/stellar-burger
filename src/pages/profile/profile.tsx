@@ -7,7 +7,7 @@ import Logout from "../logout/logout";
 
 const Profile = () => {
     return (
-        <div style={{display: "flex", width: "100%", justifyContent: "left"}}>
+        <div className={ProfileStyle.profileDivOverContainer}>
             <div className={ProfileStyle.profileContainer}>
                 <div
                     className={classNames("text text_type_main-default text_color_inactive mr-20 mt-5", ProfileStyle.profileNav)}>
