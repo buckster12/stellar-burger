@@ -55,6 +55,8 @@
     ]
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
+    "@types/react-custom-scrollbars": "^4.0.10",
     "@types/react-router-dom": "^5.3.3"
   }
 }

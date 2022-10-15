@@ -1,11 +1,12 @@
+.profileDivOverContainer {
+    display: flex;
+    width: 100%;
+    justify-content: left;
+}
+
 .profileContainer {
     display: flex;
-    /*align-Items: first;*/
     margin-Top: 5%;
-    /* put to the left */
-    /*justify-self: left !important;*/
-    /*text-align: left;*/
-    /*align-self: end;*/
 }
 
 .profileNav a {

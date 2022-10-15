@@ -15,9 +15,12 @@ import CartElement from "../cart-element/cart-element";
 import {closeOrderModal, processOrder} from "../../services/actions/order-slice";
 import Modal from "../modal/modal";
 import {useHistory} from "react-router-dom";
+import {IMainState} from "../../types/redux";
+import {IOrder} from "../../types/order";
+import {IIngredient} from "../../types/ingredient-types";
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
     const history = useHistory();
     const totalPrice = useSelector(selectTotalPrice)
 
@@ -28,7 +31,7 @@ const BurgerConstructor = () => {
         isOk,
         isModalOpen,
         auth
-    } = useSelector(state => ({
+    } = useSelector((state: IMainState) => ({
         orderId: state.order.orderId,
         isOrderProcessing: state.order.isOrderProcessing,
         isOk: state.order.isOk,
@@ -39,7 +42,7 @@ const BurgerConstructor = () => {
 
     const [{isHover}, dropRef] = useDrop({
             accept: 'ingredient',
-            drop: (item) => {
+            drop: (item: IIngredient) => {
                 dispatch(addIngredient(item));
             },
             collect: monitor => ({
@@ -48,25 +51,26 @@ const BurgerConstructor = () => {
         }
     )
 
-    const onClickProcessOrder = () => {
+    const onClickProcessOrder = (): void => {
         if (!auth) {
             // save basket to local storage
             // localStorage.setItem('basket', JSON.stringify(mainBasket));
             history.push('/login');
             return;
         }
-        const order = {
+        const order: IOrder = {
             ingredients: [
                 mainBasket.bun,
                 ...mainBasket.ingredients,
                 mainBasket.bun
             ]
         };
+        // @ts-ignore
         dispatch(processOrder(order));
     }
 
     useEffect(() => {
-        if (orderId > 0) {
+        if (orderId && orderId > 0) {
             dispatch(resetBasket());
         }
     }, [dispatch, orderId]);
@@ -118,6 +122,7 @@ const BurgerConstructor = () => {
                         <span className="text text_type_digits-medium">{totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
+                    {/* @ts-ignore */}
                     <Button disabled={!mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить заказ</Button>
                 </div>
             </div>
@@ -134,7 +139,5 @@ const BurgerConstructor = () => {
         </>
     )
 }
-
-BurgerConstructor.propTypes = {}
 
 export default BurgerConstructor;

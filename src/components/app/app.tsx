@@ -15,19 +15,21 @@ import Modal from "../modal/modal";
 import {hideModal} from "../../services/actions/modal-slice";
 import {useDispatch} from "react-redux";
 import {getAllIngredients} from "../../services/actions/ingredients-slice";
+import {ILocation, ILocationBackground} from "../../types/app";
 
 function App() {
-    const location = useLocation();
-    const background = location.state && location.state.background;
-    const dispatch = useDispatch();
+    const location = useLocation<ILocationBackground>();
+    const background: ILocation = location.state && location.state.background;
+    const dispatch = useDispatch<any>();
     const history = useHistory();
 
-    const handleModalClose = () => {
+    const handleModalClose = (): void => {
         dispatch(hideModal());
         history.replace(background);
     };
 
     useEffect(() => {
+        // @ts-ignore
         dispatch(getAllIngredients());
     }, [dispatch]);
 
@@ -38,14 +40,14 @@ function App() {
             </div>
             <div className={AppStyle.centerContainer}>
                 <Switch location={background || location}>
-                    <ProtectedRoute path="/profile" component={Profile}/>
+                    <ProtectedRoute path="/profile" Component={Profile}/>
                     <Route path="/register" exact={true} component={Register}/>
                     <Route path="/login" exact={true} component={Login}/>
                     <Route path="/forgot-password" exact={true} component={ForgotPassword}/>
                     <Route path="/reset-password" exact={true} component={ResetPassword}/>
                     <Route exact path="/" component={Constructor}/>
                     <Route path="/ingredients/:ingredientId">
-                        <IngredientDetails noBackground={true}/>
+                        <IngredientDetails/>
                     </Route>
                     <Route path="*">
                         <Page404/>
@@ -54,7 +56,7 @@ function App() {
                 {background &&
                     <Route path="/ingredients/:ingredientId">
                         <Modal onClose={handleModalClose} title="">
-                            <IngredientDetails noBackground={false}/>
+                            <IngredientDetails/>
                         </Modal>
                     </Route>}
             </div>

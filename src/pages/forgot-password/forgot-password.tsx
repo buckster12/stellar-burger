@@ -1,26 +1,27 @@
 import classNames from "classnames";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
-import React from "react";
+import React, {ChangeEvent, FormEvent} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {resetPassword, setEmail} from "../../services/actions/reset-password-slice";
+import {IMainState} from "../../types/redux";
 
 const ForgotPassword = () => {
-    const auth = useSelector(state => state.login.isLoggedIn);
+    const auth = useSelector((state: IMainState) => state.login.isLoggedIn);
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const {
         email,
         error,
         isLoading
-    } = useSelector(state => state.resetPassword);
+    } = useSelector((state: IMainState) => state.resetPassword);
 
-    const onChange = (e) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setEmail(e.target.value));
     }
 
-    const onClickFunction = async (e) => {
+    const onClickFunction = async (e: FormEvent) => {
         e.preventDefault();
         if (!error) {
             const data = await dispatch(resetPassword(email));
@@ -62,6 +63,7 @@ const ForgotPassword = () => {
                 />
             </div>
 
+            {/* @ts-ignore */}
             <Button
                 type="primary"
                 disabled={error}

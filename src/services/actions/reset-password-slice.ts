@@ -2,7 +2,17 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {emailPattern, RESET_PASSWORD_SET_URL, RESET_PASSWORD_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 
-export const setNewPasswordRequest = createAsyncThunk(
+type TNewPasswordResponse = {
+    success: boolean;
+    message: string;
+}
+
+type TNewPasswordRequest = {
+    token: string;
+    password: string;
+};
+
+export const setNewPasswordRequest = createAsyncThunk<TNewPasswordResponse, TNewPasswordRequest>(
     'reset-password/setNewPasswordRequest',
     async (data) => {
         const response = await fetch(RESET_PASSWORD_SET_URL, {
@@ -16,7 +26,12 @@ export const setNewPasswordRequest = createAsyncThunk(
     }
 );
 
-export const resetPassword = createAsyncThunk(
+type TResetPasswordResponse = {
+    success: boolean;
+    message: string;
+}
+
+export const resetPassword = createAsyncThunk<TResetPasswordResponse, string>(
     "resetPassword/resetPassword",
     async (email) => {
         const options = {
@@ -55,31 +70,28 @@ const resetPasswordSlice = createSlice({
         setEmailToken: (state, action) => {
             state.emailToken = action.payload;
         },
-        setField: (state, action) => {
-            state[action.payload.field] = action.payload.value;
-        },
         clearData: () => initialState
     },
-    extraReducers: {
-        [resetPassword.pending]: (state) => {
+    extraReducers: (builder) => {
+        builder.addCase(resetPassword.pending, (state) => {
             state.error = false;
             state.isLoading = true;
-        },
-        [resetPassword.fulfilled]: (state, action) => {
+        });
+        builder.addCase(resetPassword.fulfilled, (state, action) => {
             state.isLoading = false;
             if (action.payload.success) {
             } else {
                 state.errorMessage = action.payload.message;
             }
-        },
-        [resetPassword.rejected]: (state) => {
+        });
+        builder.addCase(resetPassword.rejected, (state) => {
             state.isLoading = false;
             state.error = true;
-        },
-        [setNewPasswordRequest.pending]: (state) => {
+        });
+        builder.addCase(setNewPasswordRequest.pending, (state) => {
             state.isLoading = true;
-        },
-        [setNewPasswordRequest.fulfilled]: (state, action) => {
+        });
+        builder.addCase(setNewPasswordRequest.fulfilled, (state, action) => {
             state.isLoading = false;
             console.log(action.payload);
 
@@ -88,12 +100,12 @@ const resetPasswordSlice = createSlice({
             } else {
                 state.errorMessage = action.payload.message;
             }
-        },
-        [setNewPasswordRequest.rejected]: (state, action) => {
+        });
+        builder.addCase(setNewPasswordRequest.rejected, (state, action) => {
             state.isLoading = false;
             state.error = true;
             state.errorMessage = action.error.message || 'network error';
-        }
+        });
     }
 });
 
@@ -102,7 +114,6 @@ export const {
     setEmailToken,
     clearData,
     setEmail,
-    setField,
 } = resetPasswordSlice.actions;
 
 const resetPasswordReducer = resetPasswordSlice.reducer;

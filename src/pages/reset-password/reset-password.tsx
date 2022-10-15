@@ -1,5 +1,5 @@
 import {Link, useHistory, useLocation} from "react-router-dom";
-import React from "react";
+import React, {FormEvent} from "react";
 import Page404 from "../page404/page404";
 import classNames from "classnames";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,18 +11,17 @@ import {
     setNewPassword,
     setNewPasswordRequest
 } from "../../services/actions/reset-password-slice";
+import {ILocationState} from "../../types/types";
+import {IMainState} from "../../types/redux";
 
 const ResetPassword = () => {
     const history = useHistory();
-    const location = useLocation();
-    const dispatch = useDispatch();
-    const {auth} = useSelector(state => state.login.isLoggedIn);
-    const {
-        newPassword,
-        emailToken,
-        isLoading,
-        errorMessage
-    } = useSelector(state => state.resetPassword);
+    const location = useLocation<ILocationState>();
+    const dispatch = useDispatch<any>();
+    //@ts-ignore
+    const {auth} = useSelector((state: IMainState) => state.login.isLoggedIn);
+    //@ts-ignore
+    const {newPassword, emailToken, isLoading, errorMessage} = useSelector((state: IMainState) => state.resetPassword);
 
     // if user is logged in, redirect to constructor page
     if (auth) {
@@ -36,7 +35,7 @@ const ResetPassword = () => {
         );
     }
 
-    async function onClickFunction(e) {
+    async function onClickFunction(e: FormEvent) {
         e.preventDefault();
         const data = await dispatch(setNewPasswordRequest({
             token: emailToken,
@@ -93,6 +92,7 @@ const ResetPassword = () => {
                         size={'default'}
                     />
                 </div>
+                {/* @ts-ignore */}
                 <Button type="primary" size="medium">Сохранить</Button>
             </form>
 

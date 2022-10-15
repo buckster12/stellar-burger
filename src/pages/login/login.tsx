@@ -1,14 +1,16 @@
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, {ChangeEvent, FormEvent} from "react";
 import classNames from "classnames";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {login, setError, setField, setPasswordVisible} from "../../services/actions/login-slice";
 import LoginStyle from "./login.module.css";
+import {IMainState} from "../../types/redux";
+import {ILocationState} from "../../types/types";
 
 const Login = () => {
-    const dispatch = useDispatch();
-    const location = useLocation();
+    const dispatch = useDispatch<any>();
+    const location = useLocation<ILocationState>();
 
     const {
         isLoggedIn,
@@ -17,7 +19,7 @@ const Login = () => {
         password,
         passwordVisible,
         error
-    } = useSelector(state => ({
+    } = useSelector((state: IMainState) => ({
         isLoading: state.login.isLoading,
         email: state.login.email,
         password: state.login.password,
@@ -27,16 +29,17 @@ const Login = () => {
     }));
 
 
-    const onClickLogin = async (e) => {
+    const onClickLogin = async (e: FormEvent) => {
         e.preventDefault();
         if (!email || !password) {
             dispatch(setError("Заполните все поля"));
             return;
         }
+        // @ts-ignore
         dispatch(login({email, password}));
     }
 
-    function onChange(e) {
+    function onChange(e: ChangeEvent<HTMLInputElement>) {
         dispatch(setField({
             value: e.target.value,
             name: e.target.name,
@@ -59,7 +62,7 @@ const Login = () => {
                     Загрузка...
                 </p>}
 
-                {location.state && location.state.passwordReset && location.state.passwordReset === true && (
+                {location.state && location.state.passwordReset && (
                     <p className={'text text_type_main-small mb-5 text_color_success'}>
                         Пароль был успешно изменен.
                     </p>
@@ -93,6 +96,7 @@ const Login = () => {
                     />
                 </div>
 
+                {/* @ts-ignore */}
                 <Button type="primary" size="medium">Войти</Button>
 
                 <div className={classNames("pt-6 pb-6")}>

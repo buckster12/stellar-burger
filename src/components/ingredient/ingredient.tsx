@@ -1,14 +1,19 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientStyle from './ingredient.module.css';
-import IngredientProptypes from "../../utils/proptypes/ingredient-proptypes";
 import {useDrag} from "react-dnd";
+import {IIngredient} from "../../types/ingredient-types";
 
-const Ingredient = ({ingredient, counter, onClick}) => {
+type TIngredientProps = {
+    ingredient: IIngredient;
+    onClick: () => void;
+    counter: number
+}
+
+const Ingredient = ({ingredient, counter, onClick}: TIngredientProps) => {
     const [, dragRef] = useDrag({
         type: 'ingredient',
-        ingredient,
+        // ingredient,
         item: ingredient
     });
 
@@ -28,12 +33,6 @@ const Ingredient = ({ingredient, counter, onClick}) => {
             </p>
         </div>
     )
-}
-
-Ingredient.propTypes = {
-    ingredient: IngredientProptypes.isRequired,
-    counter: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired,
 }
 
 export default Ingredient;

@@ -6,9 +6,10 @@ import classNames from "classnames";
 import {useSelector} from "react-redux";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
+import {IMainState} from "../../types/redux";
 
 function App() {
-    const {isLoading, hasError} = useSelector(state => {
+    const {isLoading, hasError} = useSelector((state: IMainState) => {
         return {
             isLoading: state.ingredients.isLoading,
             hasError: state.ingredients.hasError,

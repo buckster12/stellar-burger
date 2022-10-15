@@ -1,13 +1,15 @@
 import IngredientDetailsStyles from './ingredient-details.module.css';
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {IIngredient, IIngredientsArray} from "../../types/ingredient-types";
+import {IMainState} from "../../types/redux";
+import React from "react";
 
-const IngredientDetails = ({noBackground = false}) => {
-    let {ingredientId} = useParams();
-    const ingredients = useSelector(state => state.ingredients.data);
-    const chosenIngredient = ingredients.find(item => item._id === ingredientId);
+const IngredientDetails = () => {
+    let ingredientId: string = useParams<{ ingredientId: string }>().ingredientId;
+    const ingredients: IIngredientsArray = useSelector((state: IMainState) => state.ingredients.data);
+    const chosenIngredient: IIngredient | undefined = ingredients.find((item: IIngredient) => item._id === ingredientId);
 
     if (!chosenIngredient) {
         return <span className="text_type_main-default text_color_inactive">Loading...</span>;
@@ -45,9 +47,5 @@ const IngredientDetails = ({noBackground = false}) => {
         </div>
     );
 };
-
-IngredientDetails.propTypes = {
-    noBackground: PropTypes.bool,
-}
 
 export default IngredientDetails;
