@@ -20,7 +20,10 @@ function AppHeader() {
                 <div
                     className={classNames("text text_type_main-small text_color_inactive m-5", AppHeaderStyle.topButton)}>
                     <ListIcon type="secondary"/>
-                    <span className="pl-1 pt-1">Лента заказов</span>
+                    <NavLink to="/feed" exact={true}
+                             activeClassName="text_color_primary">
+                        <span className="pl-1 pt-1">Лента заказов</span>
+                    </NavLink>
                 </div>
 
                 <div className={AppHeaderStyle.logo}>
