@@ -16,6 +16,7 @@ import {hideModal} from "../../services/actions/modal-slice";
 import {useDispatch} from "react-redux";
 import {getAllIngredients} from "../../services/actions/ingredients-slice";
 import {ILocation, ILocationBackground} from "../../types/app";
+import Feed from "../feed/feed";
 
 function App() {
     const location = useLocation<ILocationBackground>();
@@ -49,6 +50,7 @@ function App() {
                     <Route path="/ingredients/:ingredientId">
                         <IngredientDetails/>
                     </Route>
+                    <Route path="/feed" exact={true} component={Feed}/>
                     <Route path="*">
                         <Page404/>
                     </Route>
