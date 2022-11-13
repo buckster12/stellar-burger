@@ -12,4 +12,6 @@ export const PROFILE_URL = `${BASE_URL}/auth/user`;
 export const RESET_PASSWORD_URL = `${BASE_URL}/password-reset`;
 export const RESET_PASSWORD_SET_URL = `${BASE_URL}/password-reset/reset`;
 
+export const WS_ALL_ORDERS_URL = 'wss://norma.nomoreparties.space/orders/all';
+
 export const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
