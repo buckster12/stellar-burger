@@ -1,5 +1,6 @@
 import {IIngredientsState} from "./ingredient-types";
 import {IBasket, IOrderState} from "./order";
+import {FeedState} from "../services/actions/feed-ws-slice";
 
 export interface IModalState {
     modalContent: string;
@@ -65,4 +66,15 @@ export interface IMainState {
     modal: IModalState;
     profile: IProfileState;
     register: IRegisterState;
+    feed: FeedState;
 }
+
+export type TOrder = {
+    _id: string;
+    ingredients: Array<string>;
+    status: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+};

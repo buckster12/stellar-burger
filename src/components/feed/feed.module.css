@@ -1,0 +1,24 @@
+.flexCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexBetween {
+    justify-content: space-between;
+}
+
+.rightSide {
+    display: flex;
+    width: 600px;
+}
+
+.h1 {
+    text-align: left;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}

@@ -14,6 +14,8 @@ import registerReducer from "./services/actions/register-slice";
 import logoutReducer from "./services/actions/logout-slice";
 import profileReducer from "./services/actions/profile-info-slice";
 import resetPasswordReducer from "./services/actions/reset-password-slice";
+import feedWsReducer, {wsActions} from "./services/actions/feed-ws-slice";
+import {socketMiddleware} from "./services/socketMiddleware";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -29,8 +31,13 @@ const store = configureStore({
         register: registerReducer,
         logout: logoutReducer,
         profile: profileReducer,
-        resetPassword: resetPasswordReducer
+        resetPassword: resetPasswordReducer,
+        feed: feedWsReducer
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }).concat([socketMiddleware(wsActions)]),
     devTools: true,
 });
 
