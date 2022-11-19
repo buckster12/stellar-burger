@@ -2,7 +2,7 @@ import feedListOrderStyles from "./feed-list-order.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useHistory} from "react-router-dom";
 import {IIngredient} from "../../types/ingredient-types";
-import {intlFormatDistance} from 'date-fns';
+import {preparedDate} from "../../utils/prepared-date";
 
 type TOrderProps = {
     name: string,
@@ -14,24 +14,6 @@ type TOrderProps = {
 const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
     const history = useHistory();
     const location = history.location.pathname;
-
-    // function prepares readable date
-    const preparedDate = (): string => {
-        const dateObject = new Date(date);
-        const humanWord = intlFormatDistance(
-            dateObject,
-            new Date(),
-            {
-                unit: 'day',
-                locale: "ru"
-            }
-        );
-
-        // add hours, minutes and timezone to date
-        return humanWord.charAt(0).toUpperCase() + humanWord.slice(1) +
-            ', ' + dateObject.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'}) +
-            ' i-' + dateObject.toLocaleTimeString('ru-RU', {timeZoneName: 'short'}).split(' ')[1];
-    }
 
     const onFeedOrderClick = (feedId: number): void => {
         history.push({
@@ -93,7 +75,7 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
             <div className={feedListOrderStyles.topElements}>
                 <p className="text text_type_digits-default">#{orderNumber}</p>
                 <p className="text text_type_main-default text_color_inactive">
-                    {preparedDate()}
+                    {preparedDate(date)}
                 </p>
             </div>
             <p className="text text_type_main-medium mb-6">{name}</p>
