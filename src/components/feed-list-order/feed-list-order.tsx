@@ -1,6 +1,5 @@
 import feedListOrderStyles from "./feed-list-order.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useHistory} from "react-router-dom";
 import {IIngredient} from "../../types/ingredient-types";
 import {preparedDate} from "../../utils/prepared-date";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
@@ -13,16 +12,6 @@ type TOrderProps = {
 }
 
 const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
-    const history = useHistory();
-    const location = history.location.pathname;
-
-    const onFeedOrderClick = (feedId: number): void => {
-        history.push({
-            pathname: '/feed/' + feedId,
-            state: {background: location}
-        });
-    }
-
     // get all given ingredients and draw only first 5 of them,
     // then draw the number of rest ingredients in one element
     const ingredientsLine = ingredients.map((item, index) => {
@@ -32,6 +21,7 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
             return (
                 <BorderedIngredientPreview
                     item={item}
+                    key={index}
                     marginLeft={marginLeft}
                     zIndex={10 - index}
                 />
@@ -42,6 +32,7 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
                     item={item}
                     additionalText={`+${ingredients.length - 5}`}
                     marginLeft={-20}
+                    key={index}
                     zIndex={10 - index}
                     imgOpacity={0.3}
                 />
@@ -51,7 +42,7 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
     });
 
     return (
-        <div className={feedListOrderStyles.orderContainer} onClick={() => onFeedOrderClick(orderNumber)}>
+        <div className={feedListOrderStyles.orderContainer}>
             <div className={feedListOrderStyles.topElements}>
                 <p className="text text_type_digits-default">#{orderNumber}</p>
                 <p className="text text_type_main-default text_color_inactive">

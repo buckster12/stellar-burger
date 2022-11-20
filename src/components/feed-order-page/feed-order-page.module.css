@@ -16,6 +16,14 @@
     margin: 10px 0;
 }
 
+.topElements,
+.bottomElements {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .ingredientImage {
     margin-right: 10px;
 }

@@ -6,12 +6,13 @@ import {IMainState, TOrder} from "../../types/redux";
 import {Scrollbars} from "react-custom-scrollbars";
 import classNames from "classnames";
 import AppStyle from "../../pages/constructor/constructor.module.css";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../feed-list-order/feed-list-order";
 import feedStyles from "./feed.module.css";
 
 const Feed = () => {
     const dispatch = useDispatch<any>();
+    const location = useLocation();
     const {allIngredients} = useSelector((state: IMainState) => ({
         allIngredients: state.ingredients.data,
     }));
@@ -47,7 +48,7 @@ const Feed = () => {
                                     key={order._id}
                                     to={{
                                         pathname: `/feed/${order.number}`,
-                                        // state: {background: location},
+                                        state: {background: location},
                                     }}
                                     style={{textDecoration: "none", color: "#fff"}}
                                 >

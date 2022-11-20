@@ -42,7 +42,12 @@ function App() {
             </div>
             <div className={AppStyle.centerContainer}>
                 <Switch location={background || location}>
-                    <ProtectedRoute path="/profile" Component={Profile}/>
+                    <ProtectedRoute path="/profile">
+                        <Profile/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/orders/:id">
+                        <FeedOrderPage/>
+                    </ProtectedRoute>
                     <Route path="/register" exact={true} component={Register}/>
                     <Route path="/login" exact={true} component={Login}/>
                     <Route path="/forgot-password" exact={true} component={ForgotPassword}/>
@@ -57,12 +62,20 @@ function App() {
                         <Page404/>
                     </Route>
                 </Switch>
-                {background &&
-                    <Route path="/ingredients/:ingredientId">
-                        <Modal onClose={handleModalClose} title="">
-                            <IngredientDetails/>
-                        </Modal>
-                    </Route>}
+                {background && (
+                    <>
+                        <Route path="/ingredients/:ingredientId">
+                            <Modal onClose={handleModalClose} title="">
+                                <IngredientDetails/>
+                            </Modal>
+                        </Route>
+                        <Route path='/feed/:id'>
+                            <Modal onClose={handleModalClose} title="Детали заказа">
+                                <FeedOrderPage modal={true}/>
+                            </Modal>
+                        </Route>
+                    </>
+                )}
             </div>
         </div>
     );

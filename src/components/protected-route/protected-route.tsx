@@ -4,21 +4,23 @@ import {IMainState} from "../../types/redux";
 import React from "react";
 
 type TProtectedRouteProps = {
-    Component: React.ComponentType<any>,
     path: string,
+    exact?: boolean,
+    children: React.ReactNode,
 }
 
-const ProtectedRoute = ({Component, path}: TProtectedRouteProps) => {
+const ProtectedRoute = ({path, children, exact = false}: TProtectedRouteProps) => {
     const location = useLocation();
     const {auth} = useSelector((state: IMainState) => ({
         auth: state.login.isLoggedIn,
     }));
     return (
         <Route
+            exact={exact}
             path={path}
-            render={(props) =>
+            render={() =>
                 auth ? (
-                    <Component {...props} />
+                    children
                 ) : (
                     <Redirect to={{pathname: "/login", state: {from: location}}}/>
                 )
