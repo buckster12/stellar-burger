@@ -3,6 +3,7 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useHistory} from "react-router-dom";
 import {IIngredient} from "../../types/ingredient-types";
 import {preparedDate} from "../../utils/prepared-date";
+import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
 
 type TOrderProps = {
     name: string,
@@ -26,45 +27,27 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
     // then draw the number of rest ingredients in one element
     const ingredientsLine = ingredients.map((item, index) => {
         if (index < 5) {
+            const marginLeft = index === 0 ? 0 : -20;
             return (
-                <div
-                    style={{zIndex: 10 - index, marginLeft: 50 * index}}
-                    className={feedListOrderStyles.ingredientPreview} key={item._id}>
-                    <img
-                        src={item.image}
-                        alt={item.name}
-                        style={{marginLeft: -85, marginTop: -25}}
-                        className={feedListOrderStyles.ingredientPreviewImg}
-                    />
-                </div>
+                <BorderedIngredientPreview
+                    item={item}
+                    style={{
+                        zIndex: 10 - index,
+                        marginLeft: `${marginLeft}`
+                    }}
+                />
             )
         } else if (index === 5) {
             return (
-                <div
+                <BorderedIngredientPreview
+                    item={item}
+                    additionalText={`+${ingredients.length - 5}`}
                     style={{
                         zIndex: 10 - index,
-                        marginLeft: (50 * index),
-                        border: '1px solid #fff',
-                        display: "grid",
-                        textAlign: "center"
+                        marginLeft: "-20",
                     }}
-                    className={feedListOrderStyles.ingredientPreview}
-                    key={item._id}>
-                    <img
-                        src={item.image}
-                        alt={item.name}
-                        style={{marginLeft: -85, marginTop: -25, opacity: 0.5, gridColumn: 1, gridRow: 1}}
-                        className={feedListOrderStyles.ingredientPreviewImg}
-                    />
-                    <span
-                        className={"text text_type_digits-default"}
-                        style={{
-                            gridColumn: 1,
-                            gridRow: 1,
-                            marginLeft: "-85px",
-                            marginTop: "25px"
-                        }}>+{ingredients.length - 5}</span>
-                </div>
+                    imgOpacity={0.3}
+                />
             )
         }
         return null;
@@ -78,7 +61,7 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
                     {preparedDate(date)}
                 </p>
             </div>
-            <p className="text text_type_main-medium mb-6">{name}</p>
+            <p className="text text_type_main-medium mb-6 mt-6">{name}</p>
             <div className={feedListOrderStyles.bottomElements}>
                 <div className={feedListOrderStyles.ingredientCirclesList}>{ingredientsLine}</div>
                 <div className={feedListOrderStyles.burgerConstructorTotal}>
