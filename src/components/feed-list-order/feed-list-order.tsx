@@ -26,15 +26,14 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
     // get all given ingredients and draw only first 5 of them,
     // then draw the number of rest ingredients in one element
     const ingredientsLine = ingredients.map((item, index) => {
+        let marginLeft;
         if (index < 5) {
-            const marginLeft = index === 0 ? 0 : -20;
+            marginLeft = index === 0 ? 0 : -20;
             return (
                 <BorderedIngredientPreview
                     item={item}
-                    style={{
-                        zIndex: 10 - index,
-                        marginLeft: `${marginLeft}`
-                    }}
+                    marginLeft={marginLeft}
+                    zIndex={10 - index}
                 />
             )
         } else if (index === 5) {
@@ -42,10 +41,8 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
                 <BorderedIngredientPreview
                     item={item}
                     additionalText={`+${ingredients.length - 5}`}
-                    style={{
-                        zIndex: 10 - index,
-                        marginLeft: "-20",
-                    }}
+                    marginLeft={-20}
+                    zIndex={10 - index}
                     imgOpacity={0.3}
                 />
             )

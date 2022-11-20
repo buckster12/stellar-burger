@@ -5,21 +5,27 @@ import classNames from "classnames";
 
 type TBorderedIngredientPreviewProps = {
     item: IIngredient,
-    style?: React.CSSProperties,
     className?: string,
     additionalText?: string,
     imgOpacity?: number,
+    marginLeft?: number,
+    zIndex?: number,
 };
 
-const BorderedIngredientPreview = ({
-                                       item,
-                                       className,
-                                       style,
-                                       additionalText,
-                                       imgOpacity = 1,
-                                   }: TBorderedIngredientPreviewProps) => {
+const BorderedIngredientPreview = (
+    {
+        item,
+        className,
+        additionalText,
+        imgOpacity = 1,
+        marginLeft = 0,
+        zIndex = 0,
+    }: TBorderedIngredientPreviewProps) => {
     return (
-        <div className={classNames(styles.previewContainer, className)} style={{...style}}>
+        <div className={classNames(styles.previewContainer, className)} style={{
+            marginLeft: marginLeft,
+            zIndex: zIndex,
+        }}>
             <img src={item.image} style={{opacity: `${imgOpacity}`}} alt=""/>
             {additionalText &&
                 <span className={classNames(styles.additionalText, "text text_type_digits-default")}>

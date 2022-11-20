@@ -17,6 +17,7 @@ import {useDispatch} from "react-redux";
 import {getAllIngredients} from "../../services/actions/ingredients-slice";
 import {ILocation, ILocationBackground} from "../../types/app";
 import Feed from "../feed/feed";
+import FeedOrderPage from "../feed-order-page/feed-order-page";
 
 function App() {
     const location = useLocation<ILocationBackground>();
@@ -51,6 +52,7 @@ function App() {
                         <IngredientDetails/>
                     </Route>
                     <Route path="/feed" exact={true} component={Feed}/>
+                    <Route path="/feed/:id" exact={true} component={FeedOrderPage}/>
                     <Route path="*">
                         <Page404/>
                     </Route>
