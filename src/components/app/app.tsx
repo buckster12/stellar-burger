@@ -70,7 +70,9 @@ function App() {
                             </Modal>
                         </Route>
                         <Route path='/feed/:id'>
-                            <Modal onClose={handleModalClose} title="Детали заказа">
+                            <Modal onClose={handleModalClose} title={
+                                '#'+history.location.pathname.split('/')[2]
+                            }>
                                 <FeedOrderPage modal={true}/>
                             </Modal>
                         </Route>

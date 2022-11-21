@@ -48,6 +48,9 @@ const FeedOrderPage = ({modal = false}: TFeedOrderPageProps) => {
 
     return (
         <div className={FeedOrderPageStyles.orderWrapper}>
+            {!modal &&
+                <p className={classNames(FeedOrderPageStyles.alignSelfCenter, "text text_type_digits-default mt-10")}>#{order.number}</p>
+            }
             <p className="text text_type_main-medium mt-10 mb-3">{order.name}</p>
             <p className={`text_color_success text text_type_main-default`}>
                 {order.status === 'done' ? 'Выполнен' : 'В процессе'}
