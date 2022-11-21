@@ -1,17 +1,24 @@
 import {createSlice} from "@reduxjs/toolkit";
+import React from "react";
+
+type TModalState = {
+    isModalOpen: boolean,
+    modalContent: React.ReactNode | {}
+}
+const initialState: TModalState = {
+    isModalOpen: false,
+    modalContent: {}
+};
 
 const modalSlice = createSlice({
     name: 'modal',
-    initialState: {
-        isModalOpen: false,
-        modalContent: {}
-    },
+    initialState,
     reducers: {
-        showModal: (state, action) => {
+        showModal: (state: TModalState, action) => {
             state.modalContent = action.payload;
             state.isModalOpen = true;
         },
-        hideModal: (state) => {
+        hideModal: (state: TModalState) => {
             state.isModalOpen = false;
             state.modalContent = {};
         }

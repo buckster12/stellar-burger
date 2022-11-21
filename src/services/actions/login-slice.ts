@@ -13,7 +13,7 @@ export const login = createAsyncThunk('auth/login',
             },
             body: JSON.stringify(user),
         });
-        const data = await checkResponse(res).catch(err => {
+        const data = await checkResponse<any>(res).catch(err => {
             throw err;
         });
         if (data.success !== true) {
@@ -23,42 +23,60 @@ export const login = createAsyncThunk('auth/login',
     }
 );
 
+type TLoginState = {
+    email: string;
+    password: string;
+    passwordVisible: boolean;
+    error: boolean;
+    isLoading: boolean;
+    isLoggedIn: boolean;
+}
+const initialState: TLoginState = {
+    email: "",
+    password: "",
+    passwordVisible: false,
+    error: false,
+    isLoading: false,
+    isLoggedIn: (Cookies.get('accessToken') || "").length > 0,
+};
+
 const loginSlice = createSlice({
     name: 'login',
-    initialState: {
-        email: "",
-        password: "",
-        passwordVisible: false,
-        error: false,
-        isLoading: false,
-        isLoggedIn: (Cookies.get('accessToken') || "").length > 0,
-    },
+    initialState,
     reducers: {
-        setIsLoggedIn: (state, action) => {
+        setIsLoggedIn: (state: TLoginState, action) => {
             state.isLoggedIn = action.payload;
         },
-        setField: (state, action) => {
-            state[action.payload.name] = action.payload.value;
+        setField: (state: TLoginState, action: { payload: { name: string, value: string } }) => {
+            const {name, value} = action.payload;
+            switch (name) {
+                case 'email':
+                    state.email = value;
+                    break;
+                case 'password':
+                    state.password = value;
+                    break;
+            }
         },
-        setError: (state, action) => {
+        setError: (state: TLoginState, action) => {
             state.error = action.payload;
         },
-        setLoading: (state, action) => {
+        setLoading: (state: TLoginState, action) => {
             state.isLoading = action.payload;
         },
-        setPasswordVisible: (state, action) => {
+        setPasswordVisible: (state: TLoginState, action) => {
             state.passwordVisible = action.payload;
         },
-        setLoggedIn: (state, action) => {
+        setLoggedIn: (state: TLoginState, action) => {
             state.isLoggedIn = action.payload;
         }
     },
-    extraReducers: {
-        [login.pending]: (state) => {
+    extraReducers: (builder) => {
+        builder.addCase(login.pending, (state: TLoginState) => {
             state.isLoading = true;
             state.error = false;
-        },
-        [login.fulfilled]: (state, action) => {
+        });
+        builder.addCase(login.fulfilled, (state: TLoginState, action) => {
             state.isLoading = false;
             if (action.payload && action.payload.success === true) {
                 state.isLoggedIn = true;
@@ -69,12 +87,12 @@ const loginSlice = createSlice({
             } else {
                 state.error = true;
             }
-        },
-        [login.rejected]: (state) => {
+        });
+        builder.addCase(login.rejected, (state: TLoginState) => {
             state.isLoading = false;
             state.error = true;
-        },
-    },
+        });
+    }
 });
 
 export const {
