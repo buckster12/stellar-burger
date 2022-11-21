@@ -1,14 +1,23 @@
 import {createSelector, createSlice} from "@reduxjs/toolkit";
 import {v4 as uuidv4} from 'uuid';
+import {IIngredient} from "../../types/ingredient-types";
+import {IMainState} from "../../types/redux";
+
+
+type TBasketState = {
+    bun: IIngredient | {};
+    ingredients: IIngredient[];
+}
+const initialState: TBasketState = {
+    bun: {},
+    ingredients: [],
+};
 
 const basketSlice = createSlice({
     name: 'basket',
-    initialState: {
-        bun: {},
-        ingredients: [],
-    },
+    initialState,
     reducers: {
-        addIngredient: (state, action) => {
+        addIngredient: (state: TBasketState, action) => {
             const ingredient = {
                 ...action.payload,
                 uuid: uuidv4(),
@@ -19,7 +28,7 @@ const basketSlice = createSlice({
                 state.ingredients.push(ingredient);
             }
         },
-        removeIngredient: (state, action) => {
+        removeIngredient: (state: TBasketState, action) => {
             const ingredientUuid = action.payload;
             state.ingredients = state.ingredients.filter(ingredient => ingredient.uuid !== ingredientUuid);
         },
@@ -27,7 +36,7 @@ const basketSlice = createSlice({
             state.ingredients = [];
             state.bun = {};
         },
-        swapElements: (state, action) => {
+        swapElements: (state: TBasketState, action) => {
             const {dragIndex, hoverIndex} = action.payload;
             const dragElement = state.ingredients[dragIndex];
             const hoverElement = state.ingredients[hoverIndex];
@@ -37,7 +46,7 @@ const basketSlice = createSlice({
     }
 });
 
-export const selectTotalPrice = createSelector((state) => {
+export const selectTotalPrice = createSelector((state: IMainState) => {
         let totalPrice = 0;
         state.basket.ingredients.forEach(item => {
                 totalPrice += item.price;

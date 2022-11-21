@@ -3,7 +3,7 @@ import {ORDER_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 import {getCookie} from "../auth";
 
-export const processOrder = createAsyncThunk(
+export const processOrder = createAsyncThunk<any, TOrderState>(
     'order/processOrder',
     async (order) => {
         const res = await fetch(ORDER_URL, {
@@ -15,7 +15,7 @@ export const processOrder = createAsyncThunk(
             body: JSON.stringify(order),
         });
         console.log(' order: ', order);
-        const data = await checkResponse(res).catch(err => {
+        const data = await checkResponse<{ success: boolean }>(res).catch(err => {
             throw err;
         });
         if (data.success !== true) {
@@ -25,38 +25,47 @@ export const processOrder = createAsyncThunk(
     }
 );
 
+type TOrderState = {
+    orderId: number,
+    isOrderProcessing: boolean,
+    isOk: boolean,
+    isModalOpen: boolean,
+};
+
+const initialState: TOrderState = {
+    orderId: 0,
+    isOrderProcessing: false,
+    isOk: false,
+    isModalOpen: false,
+};
+
 const orderSlice = createSlice({
     name: 'order',
-    initialState: {
-        orderId: 0,
-        isOrderProcessing: false,
-        isOk: false,
-        isModalOpen: false,
-    },
+    initialState,
     reducers: {
-        closeOrderModal: (state) => {
+        closeOrderModal: (state: TOrderState) => {
             state.isModalOpen = false;
             state.orderId = 0; // сбрасываем ордер из памяти
             state.isOk = false; // сбрасываем статус отправки заказа
         },
-        setIsOk: (state, action) => {
+        setIsOk: (state: TOrderState, action) => {
             state.isOk = action.payload;
         },
     },
-    extraReducers: {
-        [processOrder.pending]: (state) => {
+    extraReducers: (builder) => {
+        builder.addCase(processOrder.pending, (state: TOrderState) => {
             state.isOrderProcessing = true;
             state.isModalOpen = true;
-        },
-        [processOrder.fulfilled]: (state, action) => {
+        });
+        builder.addCase(processOrder.fulfilled, (state: TOrderState, action: { payload: { order: { number: number } } }) => {
             state.isOrderProcessing = false;
             state.orderId = action.payload.order.number;
             state.isOk = true;
-        },
-        [processOrder.rejected]: (state) => {
+        });
+        builder.addCase(processOrder.rejected, (state: TOrderState) => {
             state.isOrderProcessing = false;
             state.isOk = false;
-        },
+        });
     }
 });
 
