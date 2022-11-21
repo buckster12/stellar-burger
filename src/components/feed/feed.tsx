@@ -79,26 +79,23 @@ const Feed = () => {
                                 <span className="text text_type_main-small text_color_primary">Готовы:</span><br/>
                                 <div
                                     className={classNames(feedStyles.flexRow, "text text_type_main-small text_color_success")}>
-                                    {
-                                        // divide all orders into arrays of 10 elements to display them in columns
-                                        allOrders.reduce((acc: any, item: any, index: number) => {
-                                                const chunkIndex = Math.floor(index / 10);
-                                                if (!acc[chunkIndex]) {
-                                                    acc[chunkIndex] = [];
-                                                }
-                                                acc[chunkIndex].push(item);
-                                                return acc;
+                                    {allOrders && allOrders.reduce((acc: any, item: any, index: number) => {
+                                            const chunkIndex = Math.floor(index / 10);
+                                            if (!acc[chunkIndex]) {
+                                                acc[chunkIndex] = [];
                                             }
-                                            , []).map((item: TOrder[], index: number) => (
-                                            <div key={index} style={{display: "flex", flexDirection: "column"}}>
-                                                {item.map((item: TOrder, index: number) => (
-                                                    <div key={index} className={classNames("mr-2")}>
-                                                        {item.number}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ))
-                                    }
+                                            acc[chunkIndex].push(item);
+                                            return acc;
+                                        }
+                                        , []).map((item: TOrder[], index: number) => (
+                                        <div key={index} style={{display: "flex", flexDirection: "column"}}>
+                                            {item.map((item: TOrder, index: number) => (
+                                                <div key={index} className={classNames("mr-2")}>
+                                                    {item.number}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                             <div>
