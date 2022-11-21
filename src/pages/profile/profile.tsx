@@ -4,6 +4,7 @@ import ProfileInfo from "./profile-info";
 import classNames from "classnames";
 import ProfileStyle from "./profile.module.css";
 import Logout from "../logout/logout";
+import React from "react";
 
 const Profile = () => {
     return (
