@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ORDER_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
+import {getCookie} from "../auth";
 
 export const processOrder = createAsyncThunk(
     'order/processOrder',
@@ -9,9 +10,11 @@ export const processOrder = createAsyncThunk(
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie('accessToken')}`,
             },
             body: JSON.stringify(order),
         });
+        console.log(' order: ', order);
         const data = await checkResponse(res).catch(err => {
             throw err;
         });
