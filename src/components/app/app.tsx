@@ -76,6 +76,13 @@ function App() {
                                 <FeedOrderPage modal={true}/>
                             </Modal>
                         </Route>
+                        <ProtectedRoute path='/profile/orders/:id'>
+                            <Modal onClose={handleModalClose} title={
+                                '#'+history.location.pathname.split('/')[3]
+                            }>
+                                <FeedOrderPage modal={true}/>
+                            </Modal>
+                        </ProtectedRoute>
                     </>
                 )}
             </div>
