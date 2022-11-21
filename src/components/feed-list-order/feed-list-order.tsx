@@ -55,7 +55,7 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
                 <div className={feedListOrderStyles.burgerConstructorTotal}>
                     <span className="text text_type_digits-default">
                     {ingredients.reduce((totalPrice, item) => {
-                        return totalPrice + (item.type === 'bun' ? item.price * 2 : item.price);
+                        return totalPrice + item.price;
                     }, 0)}
                     </span>
                     <CurrencyIcon type="primary"/>

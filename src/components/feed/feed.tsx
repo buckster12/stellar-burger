@@ -9,6 +9,7 @@ import AppStyle from "../../pages/constructor/constructor.module.css";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../feed-list-order/feed-list-order";
 import feedStyles from "./feed.module.css";
+import {IIngredient} from "../../types/ingredient-types";
 
 const Feed = () => {
     const dispatch = useDispatch<any>();
@@ -54,7 +55,10 @@ const Feed = () => {
                                 >
                                     <FeedListOrder
                                         date={order.createdAt}
-                                        ingredients={allIngredients.filter((item) => order.ingredients.includes(item._id))}
+                                        ingredients={
+                                            order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
+                                                .filter((item) => item !== undefined) as IIngredient[]
+                                        }
                                         name={order.name}
                                         orderNumber={order.number}
                                     />

@@ -92,8 +92,7 @@ const FeedOrderPage = ({modal = false}: TFeedOrderPageProps) => {
                         if (!currentIngredient) {
                             return acc;
                         }
-                        const addPrice = currentIngredient.type === 'bun' ? currentIngredient.price * 2 : currentIngredient.price;
-                        return acc + addPrice;
+                        return acc + currentIngredient.price;
                     }, 0)}
                     </span>
                 </div>
