@@ -9,9 +9,10 @@ type TOrderProps = {
     date: string,
     orderNumber: number,
     ingredients: IIngredient[],
+    orderStatus: string,
 }
 
-const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
+const FeedListOrder = ({date, name, ingredients, orderNumber, orderStatus}: TOrderProps) => {
     // get all given ingredients and draw only first 5 of them,
     // then draw the number of rest ingredients in one element
     const ingredientsLine = ingredients.map((item, index) => {
@@ -49,7 +50,10 @@ const FeedListOrder = ({date, name, ingredients, orderNumber}: TOrderProps) => {
                     {preparedDate(date)}
                 </p>
             </div>
-            <p className="text text_type_main-medium mb-6 mt-6">{name}</p>
+            <p className="text text_type_main-medium mb-1 mt-6">{name}</p>
+            <p className={`text_color_success text text_type_main-default mb-5`}>
+                {orderStatus === 'done' ? 'Выполнен' : 'В процессе'}
+            </p>
             <div className={feedListOrderStyles.bottomElements}>
                 <div className={feedListOrderStyles.ingredientCirclesList}>{ingredientsLine}</div>
                 <div className={feedListOrderStyles.burgerConstructorTotal}>

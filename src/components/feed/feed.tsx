@@ -55,6 +55,7 @@ const Feed = () => {
                                 >
                                     <FeedListOrder
                                         date={order.createdAt}
+                                        orderStatus={order.status}
                                         ingredients={
                                             order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
                                                 .filter((item) => item !== undefined) as IIngredient[]
