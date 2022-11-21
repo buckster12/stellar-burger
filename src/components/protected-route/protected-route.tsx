@@ -4,7 +4,7 @@ import {IMainState} from "../../types/redux";
 import React from "react";
 
 type TProtectedRouteProps = {
-    path: string,
+    path: string | Array<string>,
     exact?: boolean,
     children: React.ReactNode,
 }
