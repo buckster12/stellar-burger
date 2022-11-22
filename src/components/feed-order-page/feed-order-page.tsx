@@ -25,8 +25,7 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
             // load orders from ws
             dispatch(wsInit(WS_ALL_ORDERS_URL));
             return () => dispatch(wsClose());
-        } else return () => {
-        };
+        } else return undefined;
     }, [modal, dispatch]);
 
     // get order id from url
