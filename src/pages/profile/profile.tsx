@@ -23,7 +23,7 @@ const Profile = () => {
                     </NavLink>
                 </div>
                 <Switch>
-                    <Route path="/profile/orders" exact={true} component={Orders}/>
+                    <Route path="/profile/orders" exact={false} component={Orders}/>
                     <Route path="/profile" exact={true} component={ProfileInfo}/>
                     <Route path="/profile/logout" exact={true} component={Logout}/>
                 </Switch>

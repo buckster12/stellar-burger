@@ -13,25 +13,23 @@ import {getCookie} from "../../services/auth";
 
 const Orders = () => {
     const dispatch = useDispatch<any>();
-    const allIngredients = useSelector((state: IMainState) => state.ingredients.data);
-
-    const {
-        allOrders,
-        allOrdersStatus
-    } = useSelector((state: IMainState) => ({
-            allOrders: state.feed.orders,
-            allOrdersStatus: state.feed.status,
-        })
-    );
-
     const location = useLocation();
 
     useEffect(() => {
         dispatch(wsInit(WS_USER_ORDERS_URL + `?token=${getCookie('accessToken')}`));
-        return () => {
-            dispatch(wsClose());
-        }
+        return () => dispatch(wsClose());
     }, [dispatch]);
+
+    const {
+        allOrders,
+        allOrdersStatus,
+        allIngredients
+    } = useSelector((state: IMainState) => ({
+            allOrders: state.feed.orders,
+            allOrdersStatus: state.feed.status,
+            allIngredients: state.ingredients.data
+        })
+    );
 
     return (
         <div style={{width: "auto"}}>

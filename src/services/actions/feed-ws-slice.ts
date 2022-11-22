@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TOrder} from "../../types/redux";
 
 export interface FeedState {
@@ -24,9 +24,13 @@ export const feedWsSlice = createSlice({
     name: 'feedWs',
     initialState,
     reducers: {
-        wsInit: (state: FeedState, payload) => {
+        wsInit: (state: FeedState, {payload}: PayloadAction<string>) => {
             state.wsConnected = false;
             state.status = "loading";
+            state.orders = [];
+            state.total = 0;
+            state.totalToday = 0;
+            console.log("wsInit", payload);
         },
         wsOpen: (state: FeedState) => {
             state.wsConnected = true;
