@@ -8,7 +8,7 @@ import {IMainState, TOrder} from "../../types/redux";
 import {Scrollbars} from "react-custom-scrollbars";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
 import classNames from "classnames";
-import {useEffect} from "react";
+import {FC, useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL} from "../../utils/constants";
 
@@ -17,7 +17,7 @@ type TFeedOrderPageProps = {
     modal?: boolean,
 }
 
-const FeedOrderPage = ({modal = false}: TFeedOrderPageProps) => {
+const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
     const dispatch = useDispatch<any>();
 
     useEffect(() => {

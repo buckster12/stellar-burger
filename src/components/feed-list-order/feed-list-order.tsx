@@ -3,6 +3,7 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngredient} from "../../types/ingredient-types";
 import {preparedDate} from "../../utils/prepared-date";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
+import {FC} from "react";
 
 type TOrderProps = {
     name: string,
@@ -12,7 +13,7 @@ type TOrderProps = {
     orderStatus: string,
 }
 
-const FeedListOrder = ({date, name, ingredients, orderNumber, orderStatus}: TOrderProps) => {
+const FeedListOrder: FC<TOrderProps> = ({date, name, ingredients, orderNumber, orderStatus}) => {
     // get all given ingredients and draw only first 5 of them,
     // then draw the number of rest ingredients in one element
     const ingredientsLine = ingredients.map((item, index) => {

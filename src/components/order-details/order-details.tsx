@@ -1,6 +1,7 @@
 import OrderDetailsStyles from './order-details.module.css';
 import doneSvg from '../../images/done.png';
 import classNames from "classnames";
+import {FC} from "react";
 
 type TOrderDetails = {
     isLoading: boolean,
@@ -8,7 +9,7 @@ type TOrderDetails = {
     orderId: number | null
 }
 
-const OrderDetails = ({isLoading, isOk, orderId}: TOrderDetails) => {
+const OrderDetails: FC<TOrderDetails> = ({isLoading, isOk, orderId}) => {
     return (
         <>
             {isLoading &&

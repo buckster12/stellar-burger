@@ -1,6 +1,6 @@
 import {IIngredient} from "../../../types/ingredient-types";
 import styles from "./bordered-ingredient-preview.module.css";
-import React from "react";
+import React, {FC} from "react";
 import classNames from "classnames";
 
 type TBorderedIngredientPreviewProps = {
@@ -12,7 +12,7 @@ type TBorderedIngredientPreviewProps = {
     zIndex?: number,
 };
 
-const BorderedIngredientPreview = (
+const BorderedIngredientPreview: FC<TBorderedIngredientPreviewProps> = (
     {
         item,
         className,
@@ -20,7 +20,7 @@ const BorderedIngredientPreview = (
         imgOpacity = 1,
         marginLeft = 0,
         zIndex = 0,
-    }: TBorderedIngredientPreviewProps) => {
+    }) => {
     return (
         <div className={classNames(styles.previewContainer, className)} style={{
             marginLeft: marginLeft,

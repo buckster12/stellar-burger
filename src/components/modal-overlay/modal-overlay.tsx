@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import OverlayStyle from "./modal-overlay.module.css";
 
 type TModalOverlay = {
@@ -6,7 +6,7 @@ type TModalOverlay = {
     children: React.ReactNode
 }
 
-const ModalOverlay = ({close, children}: TModalOverlay) => {
+const ModalOverlay: FC<TModalOverlay> = ({close, children}) => {
     return (
         <div className={OverlayStyle.overlay} onClick={close}>
             {children}

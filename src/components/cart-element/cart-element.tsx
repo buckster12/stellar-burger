@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import classNames from "classnames";
 import BurgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useRef} from "react";
+import React, {FC, useRef} from "react";
 import {IIngredient} from "../../types/ingredient-types";
 
 type TCartElementProps = {
@@ -12,7 +12,7 @@ type TCartElementProps = {
     ingredient: IIngredient
 };
 
-const CartElement = ({index, ingredient}: TCartElementProps) => {
+const CartElement: FC<TCartElementProps> = ({index, ingredient}) => {
     const dispatch = useDispatch<any>();
     const [{isDragging}, dragRef] = useDrag({
         type: 'cart-element',

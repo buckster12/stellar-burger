@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientStyle from './ingredient.module.css';
 import {useDrag} from "react-dnd";
@@ -10,7 +10,7 @@ type TIngredientProps = {
     counter: number
 }
 
-const Ingredient = ({ingredient, counter, onClick}: TIngredientProps) => {
+const Ingredient: FC<TIngredientProps> = ({ingredient, counter, onClick}) => {
     const [, dragRef] = useDrag({
         type: 'ingredient',
         // ingredient,
