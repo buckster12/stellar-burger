@@ -30,7 +30,6 @@ export const feedWsSlice = createSlice({
             state.orders = [];
             state.total = 0;
             state.totalToday = 0;
-            console.log("wsInit", payload);
         },
         wsOpen: (state: FeedState) => {
             state.wsConnected = true;
