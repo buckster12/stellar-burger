@@ -54,7 +54,7 @@ const Login = () => {
     return (
         <div className={LoginStyle.centeredForm}>
             <form onSubmit={onClickLogin}>
-                <div className={classNames("pt-6 pb-6")}>
+                <div className="pt-6 pb-6">
                     <p className="text text_type_main-medium">Вход</p>
                 </div>
 
@@ -72,7 +72,7 @@ const Login = () => {
                     Ошибка входа. Проверьте правильность введенных данных.
                 </p>)}
 
-                <div className={classNames("pb-6")}>
+                <div className={classNames("pb-6", LoginStyle.input)}>
                     <Input
                         type={'email'}
                         placeholder={'E-mail'}
@@ -83,7 +83,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className={classNames("pb-6")}>
+                <div className={classNames("pb-6", LoginStyle.input)}>
                     <Input
                         type={passwordVisible ? 'text' : 'password'}
                         value={password}
