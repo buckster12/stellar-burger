@@ -43,7 +43,7 @@ const Feed = () => {
 
                 <div style={{display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
                     <div>
-                        <Scrollbars autoHeight={true} width={600} autoHeightMin={500}>
+                        <Scrollbars autoHeight={true} width={600} autoHeightMin={window.innerHeight - 50}>
                             {allOrders && allOrders.map((order: TOrder) => (
                                 <NavLink
                                     key={order._id}
@@ -75,11 +75,11 @@ const Feed = () => {
                     </div>
 
                     <div className={classNames(feedStyles.rightSide, "ml-10", feedStyles.flexCol)}>
-                        <div className={classNames(feedStyles.flexRow, feedStyles.flexBetween)}>
-                            <div>
-                                <span className="text text_type_main-small text_color_primary">Готовы:</span><br/>
+                        <div className={classNames(feedStyles.flexRow, "mb-15")}>
+                            <div className={"mr-9"}>
+                                <div className="text text_type_main-medium text_color_primary mb-6">Готовы:</div>
                                 <div
-                                    className={classNames(feedStyles.flexRow, "text text_type_main-small text_color_success")}>
+                                    className={classNames(feedStyles.flexRow, "text text_type_digits-default text_color_success")}>
                                     {allOrders && allOrders.reduce((acc: any, item: any, index: number) => {
                                             const chunkIndex = Math.floor(index / 10);
                                             if (!acc[chunkIndex]) {
@@ -100,10 +100,11 @@ const Feed = () => {
                                 </div>
                             </div>
                             <div>
-                                <span className="text text_type_main-small text_color_primary">В работе:</span><br/>
+                                <div className="text text_type_main-medium text_color_primary mb-6">В работе:</div>
                                 <div>
                                     {allOrders && allOrders.filter((item) => item.status === "pending").map((order: TOrder) => (
-                                        <div key={order._id}>
+                                        <div className={"text text_type_digits-default text_color_primary"}
+                                             key={order._id}>
                                             {order.number}
                                         </div>
                                     ))}
@@ -111,13 +112,13 @@ const Feed = () => {
                             </div>
                         </div>
 
-                        <div className={feedStyles.flexCol}>
-                            <span className={"text text_type_main-small"}>Выполнено за все время:</span>
+                        <div className={classNames(feedStyles.flexCol, "mb-15")}>
+                            <span className={"text text_type_main-medium"}>Выполнено за все время:</span>
                             <span className={"text text_type_digits-large"}>{total}</span>
                         </div>
 
-                        <div className={feedStyles.flexCol}>
-                            <span className={"text text_type_main-small"}>Выполнено за сегодня:</span>
+                        <div className={classNames(feedStyles.flexCol)}>
+                            <span className={"text text_type_main-medium"}>Выполнено за сегодня:</span>
                             <span className={"text text_type_digits-large"}>{totalToday}</span>
                         </div>
 

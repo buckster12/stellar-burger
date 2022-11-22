@@ -15,6 +15,7 @@
 .rightSide {
     display: flex;
     width: 600px;
+    text-align: left;
 }
 
 .h1 {
