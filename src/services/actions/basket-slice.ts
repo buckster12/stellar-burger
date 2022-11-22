@@ -5,11 +5,11 @@ import {IMainState} from "../../types/redux";
 
 
 type TBasketState = {
-    bun: IIngredient | {};
+    bun: IIngredient | null;
     ingredients: IIngredient[];
 }
 const initialState: TBasketState = {
-    bun: {},
+    bun: null,
     ingredients: [],
 };
 
@@ -34,7 +34,7 @@ const basketSlice = createSlice({
         },
         resetBasket: (state) => {
             state.ingredients = [];
-            state.bun = {};
+            state.bun = null;
         },
         swapElements: (state: TBasketState, action) => {
             const {dragIndex, hoverIndex} = action.payload;
@@ -52,7 +52,7 @@ export const selectTotalPrice = createSelector((state: IMainState) => {
                 totalPrice += item.price;
             }
         );
-        if (state.basket.bun._id) {
+        if (state.basket.bun && state.basket.bun._id) {
             totalPrice += state.basket.bun.price * 2;
         }
         return totalPrice;

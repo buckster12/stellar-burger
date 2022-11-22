@@ -83,7 +83,7 @@ const BurgerConstructor = () => {
                 <ul ref={dropRef}
                     className={classNames(BurgerConstructorStyles.ul, (isHover ? BurgerConstructorStyles.hoverBorder : ""))}>
 
-                    {Object.keys(mainBasket.bun).length > 0
+                    {mainBasket.bun && Object.keys(mainBasket.bun).length > 0
                         && <li className="mb-3">
                             <ConstructorElement
                                 type="top"
@@ -105,7 +105,7 @@ const BurgerConstructor = () => {
 
                     </div>}
 
-                    {Object.keys(mainBasket.bun).length > 0
+                    {mainBasket.bun && Object.keys(mainBasket.bun).length > 0
                         && <li className={classNames("mt-3")}>
                             <ConstructorElement
                                 type="bottom"
@@ -123,7 +123,7 @@ const BurgerConstructor = () => {
                         <CurrencyIcon type="primary"/>
                     </div>
                     {/* @ts-ignore */}
-                    <Button disabled={!mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить заказ</Button>
+                    <Button disabled={!mainBasket.bun || !mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить заказ</Button>
                 </div>
             </div>
 

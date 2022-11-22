@@ -33,7 +33,7 @@ const BurgerIngredients = () => {
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient: IIngredient): number => {
         let count: number = 0;
-        if (ingredient.type === 'bun' && bunBasket._id === ingredient._id) {
+        if (ingredient.type === 'bun' && bunBasket && bunBasket._id === ingredient._id) {
             return 2;
         }
         mainBasket.forEach(item => {

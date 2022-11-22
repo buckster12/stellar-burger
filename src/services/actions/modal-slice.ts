@@ -3,11 +3,11 @@ import React from "react";
 
 type TModalState = {
     isModalOpen: boolean,
-    modalContent: React.ReactNode | {}
+    modalContent: React.ReactNode | null
 }
 const initialState: TModalState = {
     isModalOpen: false,
-    modalContent: {}
+    modalContent: null
 };
 
 const modalSlice = createSlice({
@@ -20,7 +20,7 @@ const modalSlice = createSlice({
         },
         hideModal: (state: TModalState) => {
             state.isModalOpen = false;
-            state.modalContent = {};
+            state.modalContent = null;
         }
     },
     extraReducers: {}
