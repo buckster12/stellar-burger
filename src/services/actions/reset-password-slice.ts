@@ -93,8 +93,6 @@ const resetPasswordSlice = createSlice({
         });
         builder.addCase(setNewPasswordRequest.fulfilled, (state, action) => {
             state.isLoading = false;
-            console.log(action.payload);
-
             if (action.payload.success) {
                 state.successPasswordChanged = true;
             } else {

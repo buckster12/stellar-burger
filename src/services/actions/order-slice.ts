@@ -14,7 +14,6 @@ export const processOrder = createAsyncThunk<any, TOrderState>(
             },
             body: JSON.stringify(order),
         });
-        console.log(' order: ', order);
         const data = await checkResponse<{ success: boolean }>(res).catch(err => {
             throw err;
         });

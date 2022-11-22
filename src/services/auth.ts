@@ -53,7 +53,6 @@ export async function fetchWithRefresh<T>(url: string, options: RequestInit): Pr
 
         return await checkResponse<T>(res);
     } catch (err: any) {
-        console.log('error in auth.js:54: ', err);
         if (err.message === 'jwt expired' || err.message === 'jwt malformed') {
             const {refreshToken, accessToken}: IRefreshToken = await refreshTokenRequest();
             saveTokens(refreshToken, accessToken);
