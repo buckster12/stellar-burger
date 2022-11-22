@@ -42,11 +42,11 @@ function App() {
             </div>
             <div className={AppStyle.centerContainer}>
                 <Switch location={background || location}>
-                    <ProtectedRoute exact={true} path={["/profile", "/profile/orders", "/profile/logout", "/profile/orders/:id"]}>
-                        <Profile/>
-                    </ProtectedRoute>
                     <ProtectedRoute path={"/profile/orders/:id"} exact={true}>
                         <FeedOrderPage/>
+                    </ProtectedRoute>
+                    <ProtectedRoute exact={false} path={["/profile"]}>
+                        <Profile/>
                     </ProtectedRoute>
                     <Route path="/register" exact={true} component={Register}/>
                     <Route path="/login" exact={true} component={Login}/>
