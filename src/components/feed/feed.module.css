@@ -12,6 +12,17 @@
     justify-content: space-between;
 }
 
+.bothSides {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.leftSide {
+    min-width: 608px;
+}
+
 .rightSide {
     display: flex;
     width: 600px;

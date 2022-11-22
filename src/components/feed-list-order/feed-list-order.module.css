@@ -2,8 +2,9 @@
     background-color: #1c1c21;
     flex-direction: column;
     height: auto;
-    width: 570px;
+    width: 584px;
     padding: 24px;
+    margin-right: 20px;
     border-radius: 20px;
     margin-bottom: 20px;
     cursor: pointer;

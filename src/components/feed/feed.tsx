@@ -41,9 +41,9 @@ const Feed = () => {
             <div className="mb-10">
                 <h1 className={classNames('text text_type_main-large', feedStyles.h1)}>Лента заказов</h1>
 
-                <div style={{display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
-                    <div>
-                        <Scrollbars autoHeight={true} width={600} autoHeightMin={window.innerHeight - 50}>
+                <div className={feedStyles.bothSides}>
+                    <div className={feedStyles.leftSide}>
+                        <Scrollbars autoHeight={true} autoHeightMin={window.innerHeight - 100}>
                             {allOrders && allOrders.map((order: TOrder) => (
                                 <NavLink
                                     key={order._id}
