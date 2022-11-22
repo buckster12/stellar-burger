@@ -16,3 +16,5 @@ export const WS_ALL_ORDERS_URL = `${WSS_BASE_URL}/orders/all`;
 export const WS_USER_ORDERS_URL = `${WSS_BASE_URL}/orders`;
 
 export const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+export const WS_NORMAL_CLOSE_CODE = 1000;
