@@ -1,6 +1,7 @@
 import {IIngredientsState} from "./ingredient-types";
 import {IBasket, IOrderState} from "./order";
 import {FeedState} from "../services/actions/feed-ws-slice";
+import store from "../services/store";
 
 export interface IModalState {
     modalContent: string;
@@ -12,6 +13,9 @@ interface IResetPasswordState {
     email: string,
     error: boolean,
     isLoading: boolean,
+    newPassword: string,
+    emailToken: string,
+    errorMessage: string,
 }
 
 interface ILoginState {
@@ -78,3 +82,5 @@ export type TOrder = {
     updatedAt: string;
     number: number;
 };
+
+export type AppDispatch = typeof store.dispatch;
