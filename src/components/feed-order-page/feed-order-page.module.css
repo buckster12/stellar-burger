@@ -27,10 +27,13 @@
     margin-right: 10px;
 }
 
-.flexRight {
-    margin-left: auto;
-}
-
 .alignSelfCenter {
     align-self: center;
+}
+
+.ingredientPrice {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }

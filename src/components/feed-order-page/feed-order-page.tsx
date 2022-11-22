@@ -65,7 +65,7 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
                             return null;
                         }
                         return currentIngredient && (
-                            <div className={classNames(FeedOrderPageStyles.ingredientElement, 'pr-5')} key={index}>
+                            <div className={classNames(FeedOrderPageStyles.ingredientElement, 'pr-6')} key={index}>
                                 <BorderedIngredientPreview
                                     item={currentIngredient}
                                     className={FeedOrderPageStyles.ingredientImage}
@@ -74,9 +74,11 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
                                     {currentIngredient.name}
                                 </div>
                                 <div
-                                    className={classNames(FeedOrderPageStyles.flexRight, "text text_type_digits-default")}>
-                                    {order.ingredients.filter((id: string) => id === ingredientId).length}
-                                    x {currentIngredient.price}
+                                    className={classNames(FeedOrderPageStyles.ingredientPrice)}>
+                                    <span className={"text text_type_digits-default"}>
+                                        {order.ingredients.filter((id: string) => id === ingredientId).length}
+                                        x {currentIngredient.price}
+                                    </span>
                                     <CurrencyIcon type="primary"/>
                                 </div>
                             </div>
@@ -88,8 +90,8 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
                 <p className="text text_type_main-default text_color_inactive">
                     {preparedDate(order.createdAt)}
                 </p>
-                <div className={`text text_type_digits-default`} style={{marginLeft: "auto", paddingRight: "10px"}}>
-                    <span>
+                <div className={FeedOrderPageStyles.ingredientPrice}>
+                    <span className={`text text_type_digits-default`}>
                     {order.ingredients.reduce((acc, ingredientId) => {
                         const currentIngredient = allIngredients.find((ingredient) => ingredient._id === ingredientId);
                         if (!currentIngredient) {
@@ -98,8 +100,8 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
                         return acc + currentIngredient.price;
                     }, 0)}
                     </span>
+                    <CurrencyIcon type="primary"/>
                 </div>
-                <CurrencyIcon type="primary"/>
             </div>
         </div>
     )
