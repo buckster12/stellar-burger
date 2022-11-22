@@ -18,7 +18,9 @@ export const saveTokens = (refreshToken: string, accessToken: string): void => {
     }
     const inTwentyMinutes: Date = new Date(new Date().getTime() + 20 * 60 * 1000);
     Cookies.set('accessToken', accessToken, {
-        expires: inTwentyMinutes
+        expires: inTwentyMinutes,
+        sameSite: 'None',
+        secure: true
     });
     localStorage.setItem('refreshToken', refreshToken);
 }
