@@ -51,7 +51,7 @@ const Orders = () => {
                             date={order.createdAt}
                             ingredients={
                                 order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
-                                    .filter((item) => item !== undefined) as IIngredient[]
+                                    .filter(Boolean) as IIngredient[]
                             }
                             name={order.name}
                             orderNumber={order.number}

@@ -3,7 +3,7 @@ export interface ILocation {
     search: string;
     hash: string;
     state: {
-        [key: string]: any;
+        [key: string]: string;
     };
 }
 

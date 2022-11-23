@@ -1,12 +1,17 @@
 import {fetchWithRefresh, getCookie} from "../auth";
 import {PROFILE_URL} from "../../utils/constants";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {TUser, IProfileState, TProfileForm} from "../../types/redux";
+import {IProfileState, TProfileForm, TUser} from "../../types/redux";
 
-export const updateProfile = createAsyncThunk<TUser, TProfileForm>(
+type TUpdateProfileResponse = {
+    success: boolean;
+    user: TUser;
+}
+
+export const updateProfile = createAsyncThunk<TUpdateProfileResponse, TProfileForm>(
     'profile/update',
-    async (user) => {
-        return await fetchWithRefresh<TUser>(PROFILE_URL, {
+    async (user: TProfileForm) => {
+        return await fetchWithRefresh<TUpdateProfileResponse>(PROFILE_URL, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,10 +113,11 @@ const profileSlice = createSlice({
                 state.isLoading = true;
                 state.error = false;
             });
-            builder.addCase(updateProfile.fulfilled, (state: IProfileState, {payload}: PayloadAction<any>) => {
+            builder.addCase(updateProfile.fulfilled, (state: IProfileState, action: PayloadAction<TUpdateProfileResponse>) => {
+                console.log(action.payload);
                 state.isLoading = false;
                 state.error = false;
-                state.user = payload.user;
+                state.user = action.payload.user;
                 state.form.name = state.user.name;
                 state.form.email = state.user.email;
                 //disable all disabled fields

@@ -4,7 +4,7 @@ import {TOrder} from "../../types/redux";
 export interface FeedState {
     status: "idle" | "loading" | "failed" | "connected";
     wsConnected: boolean;
-    error: any;
+    error: Event | null;
     orders: Array<TOrder>;
     total: number;
     totalToday: number;

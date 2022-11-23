@@ -3,11 +3,16 @@ import {INGREDIENTS_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 import {IIngredient} from "../../types/ingredient-types";
 
-export const getAllIngredients = createAsyncThunk(
+export type TIngredientsResponse = {
+    success: boolean;
+    data: IIngredient[];
+}
+
+export const getAllIngredients = createAsyncThunk<Array<IIngredient>>(
     'ingredients/getAllIngredients',
     async () => {
         const res = await fetch(INGREDIENTS_URL);
-        const data = await checkResponse<any>(res).catch(err => {
+        const data = await checkResponse<TIngredientsResponse>(res).catch(err => {
             throw err;
         });
         return data.data;

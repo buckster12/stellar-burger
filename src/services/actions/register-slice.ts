@@ -6,6 +6,9 @@ import {TProfileForm} from "../../types/redux";
 export type TRegisterResponse = {
     success: boolean;
     message: string;
+    accessToken: string;
+    refreshToken: string;
+    error: string;
 }
 
 export const register = createAsyncThunk<TRegisterResponse, TProfileForm>('auth/register',
@@ -21,7 +24,7 @@ export const register = createAsyncThunk<TRegisterResponse, TProfileForm>('auth/
             .catch(err => {
                 throw err;
             });
-        if (data.success !== true) {
+        if (!data.success) {
             throw new Error(data.message);
         }
         return data;

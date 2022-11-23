@@ -1,4 +1,3 @@
-import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL} from "../../utils/constants";
@@ -11,9 +10,10 @@ import FeedListOrder from "../feed-list-order/feed-list-order";
 import feedStyles from "./feed.module.css";
 import {IIngredient} from "../../types/ingredient-types";
 import {RootState} from "../../services/store";
+import {useDispatch, useSelector} from "../../utils/hooks";
 
 const Feed = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const location = useLocation();
     const {allIngredients} = useSelector((state: RootState) => ({
         allIngredients: state.ingredients.data,
@@ -34,7 +34,9 @@ const Feed = () => {
 
     useEffect(() => {
         dispatch(wsInit(WS_ALL_ORDERS_URL));
-        return () => dispatch(wsClose());
+        return () => {
+            dispatch(wsClose());
+        }
     }, [dispatch]);
 
     return (
@@ -59,7 +61,7 @@ const Feed = () => {
                                         orderStatus={order.status}
                                         ingredients={
                                             order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
-                                                .filter((item) => item !== undefined) as IIngredient[]
+                                                .filter(Boolean) as IIngredient[]
                                         }
                                         name={order.name}
                                         orderNumber={order.number}
@@ -81,7 +83,7 @@ const Feed = () => {
                                 <div className="text text_type_main-medium text_color_primary mb-6">Готовы:</div>
                                 <div
                                     className={classNames(feedStyles.flexRow, "text text_type_digits-default text_color_success")}>
-                                    {allOrders && allOrders.reduce((acc: any, item: any, index: number) => {
+                                    {allOrders && allOrders.reduce((acc: Array<Array<TOrder>>, item: TOrder, index: number) => {
                                             const chunkIndex = Math.floor(index / 10);
                                             if (!acc[chunkIndex]) {
                                                 acc[chunkIndex] = [];

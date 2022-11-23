@@ -26,7 +26,7 @@ export const processOrder = createAsyncThunk<TThunkResponse, IOrder>(
         const data = await checkResponse<TThunkResponse>(res).catch(err => {
             throw err;
         });
-        if (data.success !== true) {
+        if (!data.success) {
             throw new Error("Не удалось оформить заказ");
         }
         return data;
