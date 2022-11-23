@@ -4,7 +4,7 @@ import {TOrder} from "../../types/redux";
 export interface FeedState {
     status: "idle" | "loading" | "failed" | "connected";
     wsConnected: boolean;
-    error: Event | null;
+    error: string | undefined;
     orders: Array<TOrder>;
     total: number;
     totalToday: number;
@@ -13,7 +13,7 @@ export interface FeedState {
 const initialState: FeedState = {
     wsConnected: false,
     status: "idle",
-    error: null,
+    error: undefined,
     orders: [],
     total: 0,
     totalToday: 0,
@@ -24,6 +24,7 @@ type TWSResponse = {
     orders: Array<TOrder>;
     total: number;
     totalToday: number;
+    message?: string;
 };
 
 // noinspection JSUnusedLocalSymbols
@@ -49,9 +50,15 @@ export const feedWsSlice = createSlice({
         wsError: (state: FeedState, action: PayloadAction<Event>) => {
             state.wsConnected = false;
             state.status = "failed";
-            state.error = action.payload;
+            state.error = action.payload.type;
         },
         setOrders: (state: FeedState, {payload}: PayloadAction<TWSResponse>) => {
+            if(!payload.success) {
+                state.error = payload.message;
+                state.status = "failed";
+                state.orders = [];
+                return;
+            }
             state.orders = payload.orders;
             state.total = payload.total;
             state.totalToday = payload.totalToday;

@@ -34,3 +34,13 @@
     margin-top: 40px;
     margin-bottom: 20px;
 }
+
+.orderNavLink {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.readyOrderNumber {
+    display: flex;
+    flex-direction: column;
+}

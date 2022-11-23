@@ -25,3 +25,18 @@
 .profileNavActive span {
     color: #fff;
 }
+
+.profileForm {
+    display: flex;
+    row-gap: 14px;
+    flex-direction: column;
+}
+
+.ordersContainer {
+    width: auto;
+}
+
+.orderNavLink {
+    text-decoration: none;
+    color: #ffffff;
+}

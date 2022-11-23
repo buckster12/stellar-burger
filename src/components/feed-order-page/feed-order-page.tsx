@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import FeedOrderPageStyles from "./feed-order-page.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {preparedDate} from "../../utils/prepared-date";
@@ -9,9 +9,10 @@ import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/borde
 import classNames from "classnames";
 import {FC, useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
-import {WS_ALL_ORDERS_URL} from "../../utils/constants";
+import {WS_ALL_ORDERS_URL, WS_USER_ORDERS_URL} from "../../utils/constants";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";
+import {getCookie} from "../../services/auth";
 
 type TFeedOrderPageProps = {
     children?: never,
@@ -20,23 +21,36 @@ type TFeedOrderPageProps = {
 
 const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
     const dispatch = useDispatch();
+    const location = useLocation();
+
+    // console.log(location);
 
     useEffect(() => {
         if (!modal) {
-            // load orders from ws
-            dispatch(wsInit(WS_ALL_ORDERS_URL));
+            const accessToken = getCookie('accessToken');
+            const url = location.pathname.includes("/profile/orders") ? WS_USER_ORDERS_URL + '?token=' + accessToken : WS_ALL_ORDERS_URL;
+
+            dispatch(wsInit(url));
             return () => {
                 dispatch(wsClose());
             }
         } else return undefined;
-    }, [modal, dispatch]);
+    }, [modal, dispatch, location.pathname]);
 
     // get order id from url
     const {id} = useParams<{ id: string }>();
-    const order = useSelector(
-        (state: RootState) => state.feed.orders.find((order: TOrder) => order.number.toString() === id)
-    );
+    // find order by id in store by order.number (not id) which is integer not string
+    const order = useSelector((store: RootState) => store.feed.orders.find((order: TOrder) => order.number === +id));
     const allIngredients = useSelector((state: RootState) => state.ingredients.data);
+    const {error} = useSelector((state: RootState) => state.feed);
+
+    if (error) {
+        return (
+            <div className={classNames(FeedOrderPageStyles.container, "text text_type_main-small")}>
+                {error}
+            </div>
+        )
+    }
 
     if (!order) {
         return (
@@ -72,7 +86,8 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
                                     item={currentIngredient}
                                     className={FeedOrderPageStyles.ingredientImage}
                                 />
-                                <div className="text text_type_main-default" style={{textAlign: 'left'}}>
+                                <div
+                                    className={classNames(FeedOrderPageStyles.textAlignLeft, "text text_type_main-default")}>
                                     {currentIngredient.name}
                                 </div>
                                 <div

@@ -9,6 +9,7 @@ import {
 } from "../../services/actions/profile-info-slice";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";
+import styles from './profile.module.css';
 
 const ProfileInfo = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const ProfileInfo = () => {
     return !isLoading && !error &&
 
         <form onSubmit={() => dispatch(updateProfile(form))}>
-            <div style={{display: "flex", rowGap: "14px", flexDirection: "column"}}>
+            <div className={styles.profileForm}>
 
                 <Input placeholder="Имя"
                        icon="EditIcon"

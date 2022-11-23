@@ -11,6 +11,7 @@ import {Scrollbars} from "react-custom-scrollbars";
 import {getCookie} from "../../services/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";
+import styles from "./profile.module.css";
 
 const Orders = () => {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Orders = () => {
     );
 
     return (
-        <div style={{width: "auto"}}>
+        <div className={styles.ordersContainer}>
             <Scrollbars autoHeight={true} width={"100%"} autoHeightMin={500}>
                 {allOrders && allOrders.map((order: TOrder) => (
                     <NavLink
@@ -44,7 +45,7 @@ const Orders = () => {
                             pathname: `/profile/orders/${order.number}`,
                             state: {background: location},
                         }}
-                        style={{textDecoration: "none", color: "#fff"}}
+                        className={styles.orderNavLink}
                     >
                         <FeedListOrder
                             orderStatus={order.status}
