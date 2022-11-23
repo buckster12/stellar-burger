@@ -2,14 +2,13 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import React, {ChangeEvent, FormEvent} from "react";
 import classNames from "classnames";
 import {Link, Redirect, useLocation} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {login, setError, setField, setPasswordVisible} from "../../services/actions/login-slice";
 import LoginStyle from "./login.module.css";
-import {IMainState} from "../../types/redux";
 import {ILocationState} from "../../types/types";
+import {useDispatch, useSelector} from "../../utils/hooks";
 
 const Login = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const location = useLocation<ILocationState>();
 
     const {
@@ -19,7 +18,7 @@ const Login = () => {
         password,
         passwordVisible,
         error
-    } = useSelector((state: IMainState) => ({
+    } = useSelector((state) => ({
         isLoading: state.login.isLoading,
         email: state.login.email,
         password: state.login.password,
@@ -35,7 +34,6 @@ const Login = () => {
             dispatch(setError("Заполните все поля"));
             return;
         }
-        // @ts-ignore
         dispatch(login({email, password}));
     }
 

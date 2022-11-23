@@ -1,16 +1,17 @@
 import {useParams} from "react-router-dom";
 import FeedOrderPageStyles from "./feed-order-page.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
 import {preparedDate} from "../../utils/prepared-date";
 import OrderDetailsStyles from "../order-details/order-details.module.css";
-import {IMainState, TOrder} from "../../types/redux";
+import {TOrder} from "../../types/redux";
 import {Scrollbars} from "react-custom-scrollbars";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
 import classNames from "classnames";
 import {FC, useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL} from "../../utils/constants";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 type TFeedOrderPageProps = {
     children?: never,
@@ -18,22 +19,24 @@ type TFeedOrderPageProps = {
 }
 
 const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!modal) {
             // load orders from ws
             dispatch(wsInit(WS_ALL_ORDERS_URL));
-            return () => dispatch(wsClose());
+            return () => {
+                dispatch(wsClose());
+            }
         } else return undefined;
     }, [modal, dispatch]);
 
     // get order id from url
     const {id} = useParams<{ id: string }>();
     const order = useSelector(
-        (state: IMainState) => state.feed.orders.find((order: TOrder) => order.number.toString() === id)
+        (state: RootState) => state.feed.orders.find((order: TOrder) => order.number.toString() === id)
     );
-    const allIngredients = useSelector((state: IMainState) => state.ingredients.data);
+    const allIngredients = useSelector((state: RootState) => state.ingredients.data);
 
     if (!order) {
         return (

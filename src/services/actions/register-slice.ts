@@ -3,7 +3,12 @@ import {REGISTER_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 import {TProfileForm} from "../../types/redux";
 
-export const register = createAsyncThunk<any, TProfileForm>('auth/register',
+export type TRegisterResponse = {
+    success: boolean;
+    message: string;
+}
+
+export const register = createAsyncThunk<TRegisterResponse, TProfileForm>('auth/register',
     async (user) => {
         const res = await fetch(REGISTER_URL, {
             method: 'POST',
@@ -12,7 +17,7 @@ export const register = createAsyncThunk<any, TProfileForm>('auth/register',
             },
             body: JSON.stringify(user),
         });
-        const data = await checkResponse<{ success: boolean, message: string }>(res)
+        const data = await checkResponse<TRegisterResponse>(res)
             .catch(err => {
                 throw err;
             });

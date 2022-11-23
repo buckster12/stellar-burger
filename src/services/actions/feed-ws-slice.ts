@@ -19,6 +19,13 @@ const initialState: FeedState = {
     totalToday: 0,
 };
 
+type TWSResponse = {
+    success: boolean;
+    orders: Array<TOrder>;
+    total: number;
+    totalToday: number;
+};
+
 // noinspection JSUnusedLocalSymbols
 export const feedWsSlice = createSlice({
     name: 'feedWs',
@@ -39,12 +46,12 @@ export const feedWsSlice = createSlice({
             state.wsConnected = false;
             state.status = "idle";
         },
-        wsError: (state: FeedState, action) => {
+        wsError: (state: FeedState, action: PayloadAction<Event>) => {
             state.wsConnected = false;
             state.status = "failed";
             state.error = action.payload;
         },
-        setOrders: (state: FeedState, {payload}) => {
+        setOrders: (state: FeedState, {payload}: PayloadAction<TWSResponse>) => {
             state.orders = payload.orders;
             state.total = payload.total;
             state.totalToday = payload.totalToday;

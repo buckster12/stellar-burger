@@ -8,27 +8,26 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import ingredientType, {IIngredientType} from "../../utils/types";
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
-import {useDispatch, useSelector} from "react-redux";
 import {hideModal} from "../../services/actions/modal-slice";
 import {useHistory, useLocation} from "react-router-dom";
-import {IMainState} from "../../types/redux";
 import {IIngredient} from "../../types/ingredient-types";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
 
     const [currentTab, setCurrentTab] = React.useState<string>('bun')
-    const {mainBasket, bunBasket, data} = useSelector((state: IMainState) => ({
+    const {mainBasket, bunBasket, data} = useSelector((state: RootState) => ({
         mainBasket: state.basket.ingredients,
         bunBasket: state.basket.bun,
         data: state.ingredients.data
     }));
 
     // Modal window vars
-    // const modalContent: IIngredient | null = useSelector((state: IMainState) => state.modal.modalContent);
-    const isModalOpen: boolean = useSelector((state: IMainState) => state.modal.isModalOpen);
+    const isModalOpen: boolean = useSelector((state: RootState) => state.modal.isModalOpen);
 
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient: IIngredient): number => {

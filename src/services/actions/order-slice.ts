@@ -1,11 +1,20 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ORDER_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 import {getCookie} from "../auth";
+import {IOrder} from "../../types/order";
 
-export const processOrder = createAsyncThunk<any, TOrderState>(
+type TThunkResponse = {
+    success: boolean;
+    order: {
+        number: number;
+    };
+    message: string;
+};
+
+export const processOrder = createAsyncThunk<TThunkResponse, IOrder>(
     'order/processOrder',
-    async (order) => {
+    async (order: IOrder) => {
         const res = await fetch(ORDER_URL, {
             method: 'POST',
             headers: {
@@ -14,7 +23,7 @@ export const processOrder = createAsyncThunk<any, TOrderState>(
             },
             body: JSON.stringify(order),
         });
-        const data = await checkResponse<{ success: boolean }>(res).catch(err => {
+        const data = await checkResponse<TThunkResponse>(res).catch(err => {
             throw err;
         });
         if (data.success !== true) {
@@ -56,7 +65,7 @@ const orderSlice = createSlice({
             state.isOrderProcessing = true;
             state.isModalOpen = true;
         });
-        builder.addCase(processOrder.fulfilled, (state: TOrderState, action: { payload: { order: { number: number } } }) => {
+        builder.addCase(processOrder.fulfilled, (state: TOrderState, action: PayloadAction<TThunkResponse>) => {
             state.isOrderProcessing = false;
             state.orderId = action.payload.order.number;
             state.isOk = true;

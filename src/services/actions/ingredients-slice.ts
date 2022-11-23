@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {INGREDIENTS_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 import {IIngredient} from "../../types/ingredient-types";
@@ -32,7 +32,7 @@ const ingredientsSlice = createSlice({
             state.isLoading = true;
             state.hasError = false;
         });
-        builder.addCase(getAllIngredients.fulfilled, (state: TIngredientSliceState, action) => {
+        builder.addCase(getAllIngredients.fulfilled, (state: TIngredientSliceState, action: PayloadAction<Array<IIngredient>>) => {
             state.isLoading = false;
             state.hasError = false;
             state.data = action.payload;

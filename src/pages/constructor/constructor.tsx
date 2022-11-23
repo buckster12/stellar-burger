@@ -3,13 +3,13 @@ import AppStyle from './constructor.module.css';
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import classNames from "classnames";
-import {useSelector} from "react-redux";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
-import {IMainState} from "../../types/redux";
+import {useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 function App() {
-    const {isLoading, hasError} = useSelector((state: IMainState) => {
+    const {isLoading, hasError} = useSelector((state: RootState) => {
         return {
             isLoading: state.ingredients.isLoading,
             hasError: state.ingredients.hasError,

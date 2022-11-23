@@ -7,18 +7,18 @@ import {
     setName,
     setNameDisabled, setPassword, setPasswordDisabled, updateProfile
 } from "../../services/actions/profile-info-slice";
-import {useDispatch, useSelector} from "react-redux";
-import {IMainState} from "../../types/redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 const ProfileInfo = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
 
     const {
         isLoading,
         error,
         form,
         disabled
-    } = useSelector((state: IMainState) => state.profile);
+    } = useSelector((state: RootState) => state.profile);
 
     useEffect(() => {
         dispatch(loadProfile());

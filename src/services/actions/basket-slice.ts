@@ -1,8 +1,7 @@
-import {createSelector, createSlice} from "@reduxjs/toolkit";
+import {createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {v4 as uuidv4} from 'uuid';
 import {IIngredient} from "../../types/ingredient-types";
-import {IMainState} from "../../types/redux";
-
+import {RootState} from "../store";
 
 type TBasketState = {
     bun: IIngredient | null;
@@ -17,7 +16,7 @@ const basketSlice = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-        addIngredient: (state: TBasketState, action) => {
+        addIngredient: (state: TBasketState, action: PayloadAction<IIngredient>) => {
             const ingredient = {
                 ...action.payload,
                 uuid: uuidv4(),
@@ -28,15 +27,15 @@ const basketSlice = createSlice({
                 state.ingredients.push(ingredient);
             }
         },
-        removeIngredient: (state: TBasketState, action) => {
+        removeIngredient: (state: TBasketState, action: PayloadAction<string>) => {
             const ingredientUuid = action.payload;
             state.ingredients = state.ingredients.filter(ingredient => ingredient.uuid !== ingredientUuid);
         },
-        resetBasket: (state) => {
+        resetBasket: (state: TBasketState) => {
             state.ingredients = [];
             state.bun = null;
         },
-        swapElements: (state: TBasketState, action) => {
+        swapElements: (state: TBasketState, action: PayloadAction<{ dragIndex: number, hoverIndex: number }>) => {
             const {dragIndex, hoverIndex} = action.payload;
             const dragElement = state.ingredients[dragIndex];
             const hoverElement = state.ingredients[hoverIndex];
@@ -46,7 +45,7 @@ const basketSlice = createSlice({
     }
 });
 
-export const selectTotalPrice = createSelector((state: IMainState) => {
+export const selectTotalPrice = createSelector((state: RootState) => {
         let totalPrice = 0;
         state.basket.ingredients.forEach(item => {
                 totalPrice += item.price;

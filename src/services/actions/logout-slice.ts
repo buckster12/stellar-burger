@@ -2,18 +2,30 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {LOGOUT_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 
-export const logout = createAsyncThunk('auth/logout',
-    async (refreshToken) => {
-        const res = await fetch(LOGOUT_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({token: refreshToken}),
-        });
-        return await checkResponse(res).catch(err => {
-            throw err;
-        });
+export type TLogoutResponse = {
+    error?: {
+        message: string
+    },
+    success: boolean,
+    payload: {
+        success: boolean
+    }
+}
+
+export const logout = createAsyncThunk<TLogoutResponse, string>('auth/logout',
+    async (refreshToken: string, thunkAPI) => {
+        try {
+            const res = await fetch(LOGOUT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({token: refreshToken}),
+            });
+            return await checkResponse<TLogoutResponse>(res);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err);
+        }
     }
 );
 

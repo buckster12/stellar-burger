@@ -6,7 +6,7 @@ import {saveTokens} from "../../services/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {setRegisterForm, register} from "../../services/actions/register-slice";
 import {setIsLoggedIn} from "../../services/actions/login-slice";
-import {IMainState} from "../../types/redux";
+import {RootState} from "../../services/store";
 
 const Register = () => {
     const history = useHistory();
@@ -19,7 +19,7 @@ const Register = () => {
         password,
         error,
         isLoading,
-    } = useSelector((state: IMainState) => ({
+    } = useSelector((state: RootState) => ({
         auth: state.login.isLoggedIn,
         name: state.register.name,
         email: state.register.email,
@@ -36,7 +36,6 @@ const Register = () => {
 
     async function onClickFunction(e: SyntheticEvent) {
         e.preventDefault();
-        // @ts-ignore
         const data = await dispatch(register({email, password, name}));
         if (data.error) {
             dispatch(setRegisterForm({name: 'error', value: data.error}));

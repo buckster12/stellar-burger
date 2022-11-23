@@ -1,11 +1,11 @@
 import {useDrag, useDrop} from "react-dnd";
 import {swapElements, removeIngredient} from "../../services/actions/basket-slice";
-import {useDispatch} from "react-redux";
 import classNames from "classnames";
 import BurgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FC, useRef} from "react";
 import {IIngredient} from "../../types/ingredient-types";
+import {useDispatch} from "../../utils/hooks";
 
 type TCartElementProps = {
     index: number,
@@ -13,7 +13,7 @@ type TCartElementProps = {
 };
 
 const CartElement: FC<TCartElementProps> = ({index, ingredient}) => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const [{isDragging}, dragRef] = useDrag({
         type: 'cart-element',
         item: {id: ingredient._id, index},
@@ -41,8 +41,7 @@ const CartElement: FC<TCartElementProps> = ({index, ingredient}) => {
             }
 
             // Determine rectangle on screen
-            // @ts-ignore
-            const hoverBoundingRect = elementRef.current?.getBoundingClientRect()
+            const hoverBoundingRect = elementRef.current?.getBoundingClientRect();
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             // Determine mouse position

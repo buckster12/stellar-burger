@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL} from "../../utils/constants";
-import {IMainState, TOrder} from "../../types/redux";
+import {TOrder} from "../../types/redux";
 import {Scrollbars} from "react-custom-scrollbars";
 import classNames from "classnames";
 import AppStyle from "../../pages/constructor/constructor.module.css";
@@ -10,11 +10,12 @@ import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../feed-list-order/feed-list-order";
 import feedStyles from "./feed.module.css";
 import {IIngredient} from "../../types/ingredient-types";
+import {RootState} from "../../services/store";
 
 const Feed = () => {
     const dispatch = useDispatch<any>();
     const location = useLocation();
-    const {allIngredients} = useSelector((state: IMainState) => ({
+    const {allIngredients} = useSelector((state: RootState) => ({
         allIngredients: state.ingredients.data,
     }));
 
@@ -23,7 +24,7 @@ const Feed = () => {
         totalToday,
         total,
         allOrdersStatus
-    } = useSelector((state: IMainState) => ({
+    } = useSelector((state: RootState) => ({
             allOrders: state.feed.orders,
             allOrdersStatus: state.feed.status,
             totalToday: state.feed.totalToday,

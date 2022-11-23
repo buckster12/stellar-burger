@@ -13,16 +13,16 @@ import ProtectedRoute from "../protected-route/protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import {hideModal} from "../../services/actions/modal-slice";
-import {useDispatch} from "react-redux";
 import {getAllIngredients} from "../../services/actions/ingredients-slice";
 import {ILocation, ILocationBackground} from "../../types/app";
 import Feed from "../feed/feed";
 import FeedOrderPage from "../feed-order-page/feed-order-page";
+import {useDispatch} from "../../utils/hooks";
 
 function App() {
     const location = useLocation<ILocationBackground>();
     const background: ILocation = location.state && location.state.background;
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const history = useHistory();
 
     const handleModalClose = (): void => {
@@ -31,7 +31,6 @@ function App() {
     };
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getAllIngredients());
     }, [dispatch]);
 

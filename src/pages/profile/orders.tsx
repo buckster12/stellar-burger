@@ -1,8 +1,7 @@
 import React, {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_USER_ORDERS_URL} from "../../utils/constants";
-import {IMainState, TOrder} from "../../types/redux";
+import {TOrder} from "../../types/redux";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../../components/feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
@@ -10,21 +9,25 @@ import classNames from "classnames";
 import AppStyle from "../constructor/constructor.module.css";
 import {Scrollbars} from "react-custom-scrollbars";
 import {getCookie} from "../../services/auth";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 const Orders = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const location = useLocation();
 
     useEffect(() => {
         dispatch(wsInit(WS_USER_ORDERS_URL + `?token=${getCookie('accessToken')}`));
-        return () => dispatch(wsClose());
+        return () => {
+            dispatch(wsClose());
+        }
     }, [dispatch]);
 
     const {
         allOrders,
         allOrdersStatus,
         allIngredients
-    } = useSelector((state: IMainState) => ({
+    } = useSelector((state: RootState) => ({
             allOrders: state.feed.orders,
             allOrdersStatus: state.feed.status,
             allIngredients: state.ingredients.data

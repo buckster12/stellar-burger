@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import {saveTokens} from "../auth";
 
 export const login = createAsyncThunk('auth/login',
-    async (user) => {
+    async (user: { email: string, password: string }) => {
         const res = await fetch(LOGIN_URL, {
             method: 'POST',
             headers: {

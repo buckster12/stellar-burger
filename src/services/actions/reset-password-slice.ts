@@ -22,7 +22,7 @@ export const setNewPasswordRequest = createAsyncThunk<TNewPasswordResponse, TNew
             },
             body: JSON.stringify(data),
         });
-        return checkResponse(response);
+        return checkResponse<TNewPasswordResponse>(response);
     }
 );
 
@@ -42,7 +42,7 @@ export const resetPassword = createAsyncThunk<TResetPasswordResponse, string>(
             body: JSON.stringify({email}),
         };
         const response = await fetch(RESET_PASSWORD_URL, options);
-        return checkResponse(response);
+        return checkResponse<TResetPasswordResponse>(response);
     }
 )
 
