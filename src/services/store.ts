@@ -8,8 +8,9 @@ import registerReducer from "./actions/register-slice";
 import logoutReducer from "./actions/logout-slice";
 import profileReducer from "./actions/profile-info-slice";
 import resetPasswordReducer from "./actions/reset-password-slice";
-import feedWsReducer, {wsActions} from "./actions/feed-ws-slice";
+import feedWsReducer, {feedWsActions} from "./actions/feed-ws-slice";
 import {socketMiddleware} from "./socketMiddleware";
+import ordersWsReducer, {ordersWsActions} from "./actions/orders-ws-slice";
 
 const store = configureStore({
     reducer: {
@@ -22,12 +23,16 @@ const store = configureStore({
         logout: logoutReducer,
         profile: profileReducer,
         resetPassword: resetPasswordReducer,
-        feed: feedWsReducer
+        feedWs: feedWsReducer,
+        ordersWs: ordersWsReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }).concat([socketMiddleware(wsActions)]),
+        }).concat(
+            socketMiddleware(feedWsActions),
+            socketMiddleware(ordersWsActions),
+        ),
     devTools: true,
 });
 

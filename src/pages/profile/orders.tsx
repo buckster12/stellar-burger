@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_USER_ORDERS_URL} from "../../utils/constants";
 import {TOrder} from "../../types/redux";
 import {NavLink, useLocation} from "react-router-dom";
@@ -12,6 +11,7 @@ import {getCookie} from "../../services/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";
 import styles from "./profile.module.css";
+import {wsClose, wsInit} from "../../services/actions/orders-ws-slice";
 
 const Orders = () => {
     const dispatch = useDispatch();
@@ -29,8 +29,8 @@ const Orders = () => {
         allOrdersStatus,
         allIngredients
     } = useSelector((state: RootState) => ({
-            allOrders: state.feed.orders,
-            allOrdersStatus: state.feed.status,
+            allOrders: state.ordersWs.orders,
+            allOrdersStatus: state.ordersWs.status,
             allIngredients: state.ingredients.data
         })
     );

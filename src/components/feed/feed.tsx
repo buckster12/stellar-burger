@@ -25,10 +25,10 @@ const Feed = () => {
         total,
         allOrdersStatus
     } = useSelector((state: RootState) => ({
-            allOrders: state.feed.orders,
-            allOrdersStatus: state.feed.status,
-            totalToday: state.feed.totalToday,
-            total: state.feed.total
+            allOrders: state.feedWs.orders,
+            allOrdersStatus: state.feedWs.status,
+            totalToday: state.feedWs.totalToday,
+            total: state.feedWs.total
         })
     );
 

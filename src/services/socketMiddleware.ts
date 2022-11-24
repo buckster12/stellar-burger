@@ -1,5 +1,6 @@
 import {Middleware} from 'redux';
-import {setOrders, TWsActions, wsClose, wsError, wsOpen} from "./actions/feed-ws-slice";
+import {WS_NORMAL_CLOSE_CODE} from "../utils/constants";
+import {TWsActions} from "../types/types";
 
 export const socketMiddleware = (wsActions: TWsActions): Middleware => {
     return ((store) => {
@@ -14,23 +15,24 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
             }
 
             if (socket) {
+                if (type === wsActions.wsClose.type && socket.readyState === WebSocket.OPEN) {
+                    socket.close(WS_NORMAL_CLOSE_CODE);
+                    next(action);
+                }
                 socket.onopen = () => {
-                    dispatch(wsOpen());
+                    dispatch(wsActions.wsOpen());
                 };
-
                 socket.onerror = (event) => {
-                    dispatch(wsError(event));
+                    dispatch(wsActions.wsError(event));
                     socket = null;
                     next(action);
                 };
-
                 socket.onmessage = (event: MessageEvent) => {
                     const data = JSON.parse(event.data);
-                    dispatch(setOrders(data));
+                    dispatch(wsActions.setOrders(data));
                 };
-
                 socket.onclose = () => {
-                    dispatch(wsClose());
+                    dispatch(wsActions.wsClose());
                     socket = null;
                 };
             }

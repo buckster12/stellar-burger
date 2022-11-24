@@ -114,7 +114,6 @@ const profileSlice = createSlice({
                 state.error = false;
             });
             builder.addCase(updateProfile.fulfilled, (state: IProfileState, action: PayloadAction<TUpdateProfileResponse>) => {
-                console.log(action.payload);
                 state.isLoading = false;
                 state.error = false;
                 state.user = action.payload.user;

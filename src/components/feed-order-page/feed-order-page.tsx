@@ -8,41 +8,45 @@ import {Scrollbars} from "react-custom-scrollbars";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
 import classNames from "classnames";
 import {FC, useEffect} from "react";
-import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
+import {feedWsActions} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL, WS_USER_ORDERS_URL} from "../../utils/constants";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";
 import {getCookie} from "../../services/auth";
+import {ordersWsActions} from "../../services/actions/orders-ws-slice";
 
 type TFeedOrderPageProps = {
     children?: never,
     modal?: boolean,
+    parent: "orders" | "feed"
 }
 
-const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false}) => {
+const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
     const dispatch = useDispatch();
     const location = useLocation();
-
-    // console.log(location);
 
     useEffect(() => {
         if (!modal) {
             const accessToken = getCookie('accessToken');
             const url = location.pathname.includes("/profile/orders") ? WS_USER_ORDERS_URL + '?token=' + accessToken : WS_ALL_ORDERS_URL;
-
-            dispatch(wsInit(url));
+            dispatch(parent === "orders" ? ordersWsActions.wsInit(url) : feedWsActions.wsInit(url));
             return () => {
-                dispatch(wsClose());
+                dispatch(parent === 'orders' ? ordersWsActions.wsClose() : feedWsActions.wsClose());
             }
         } else return undefined;
-    }, [modal, dispatch, location.pathname]);
+    }, [modal, dispatch, location.pathname, parent]);
 
     // get order id from url
     const {id} = useParams<{ id: string }>();
     // find order by id in store by order.number (not id) which is integer not string
-    const order = useSelector((store: RootState) => store.feed.orders.find((order: TOrder) => order.number === +id));
+
+    const order = useSelector(
+        (store: RootState) => (parent === 'feed') ?
+            store.feedWs.orders.find((order: TOrder) => order.number === +id) :
+            store.ordersWs.orders.find((order: TOrder) => order.number === +id)
+    );
     const allIngredients = useSelector((state: RootState) => state.ingredients.data);
-    const {error} = useSelector((state: RootState) => state.feed);
+    const {error} = useSelector((state: RootState) => parent === 'orders' ? state.ordersWs : state.feedWs);
 
     if (error) {
         return (

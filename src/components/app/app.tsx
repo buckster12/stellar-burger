@@ -42,7 +42,7 @@ function App() {
             <div className={AppStyle.centerContainer}>
                 <Switch location={background || location}>
                     <ProtectedRoute path={"/profile/orders/:id"} exact={true}>
-                        <FeedOrderPage/>
+                        <FeedOrderPage parent={"orders"} />
                     </ProtectedRoute>
                     <ProtectedRoute exact={false} path={["/profile"]}>
                         <Profile/>
@@ -56,7 +56,9 @@ function App() {
                         <IngredientDetails/>
                     </Route>
                     <Route path="/feed" exact={true} component={Feed}/>
-                    <Route path="/feed/:id" exact={true} component={FeedOrderPage}/>
+                    <Route path="/feed/:id" exact={true}>
+                        <FeedOrderPage parent={"feed"} />
+                    </Route>
                     <Route path="*">
                         <Page404/>
                     </Route>
@@ -72,14 +74,14 @@ function App() {
                             <Modal onClose={handleModalClose} title={
                                 '#' + history.location.pathname.split('/')[2]
                             }>
-                                <FeedOrderPage modal={true}/>
+                                <FeedOrderPage modal={true} parent={"feed"} />
                             </Modal>
                         </Route>
                         <ProtectedRoute path='/profile/orders/:id'>
                             <Modal onClose={handleModalClose} title={
                                 '#' + history.location.pathname.split('/')[3]
                             }>
-                                <FeedOrderPage modal={true}/>
+                                <FeedOrderPage modal={true} parent={"orders"} />
                             </Modal>
                         </ProtectedRoute>
                     </>

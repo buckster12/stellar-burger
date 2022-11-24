@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TOrder} from "../../types/redux";
-import {TWsActions} from "../../types/types";
+import {TWsActions, TWSResponse} from "../../types/types";
 
-interface IFeedWsState {
+interface IOrdersWsState {
     status: "idle" | "loading" | "failed" | "connected";
     wsConnected: boolean;
     error: string | undefined;
@@ -11,7 +11,7 @@ interface IFeedWsState {
     totalToday: number;
 }
 
-const initialState: IFeedWsState = {
+const initialState: IOrdersWsState = {
     wsConnected: false,
     status: "idle",
     error: undefined,
@@ -20,42 +20,32 @@ const initialState: IFeedWsState = {
     totalToday: 0,
 };
 
-type TWSResponse = {
-    success: boolean;
-    orders: Array<TOrder>;
-    total: number;
-    totalToday: number;
-    message?: string;
-};
-
 // noinspection JSUnusedLocalSymbols
-export const feedWsSlice = createSlice({
-    name: 'feedWs',
+export const ordersWsSlice = createSlice({
+    name: 'ordersWs',
     initialState,
     reducers: {
-        wsInit: (state: IFeedWsState, {payload}: PayloadAction<string>) => {
+        wsInit: (state: IOrdersWsState, {payload}: PayloadAction<string>) => {
             state.wsConnected = false;
             state.status = "loading";
             state.orders = [];
-            state.error = undefined;
             state.total = 0;
             state.totalToday = 0;
         },
-        wsOpen: (state: IFeedWsState) => {
+        wsOpen: (state: IOrdersWsState) => {
             state.wsConnected = true;
             state.status = "connected";
         },
-        wsClose: (state: IFeedWsState) => {
+        wsClose: (state: IOrdersWsState) => {
             state.wsConnected = false;
             state.status = "idle";
-            state.error = undefined;
         },
-        wsError: (state: IFeedWsState, action: PayloadAction<Event>) => {
+        wsError: (state: IOrdersWsState, action: PayloadAction<Event>) => {
             state.wsConnected = false;
             state.status = "failed";
             state.error = action.payload.type;
         },
-        setOrders: (state: IFeedWsState, {payload}: PayloadAction<TWSResponse>) => {
+        setOrders: (state: IOrdersWsState, {payload}: PayloadAction<TWSResponse>) => {
             if (!payload.success) {
                 state.error = payload.message;
                 state.status = "failed";
@@ -71,9 +61,9 @@ export const feedWsSlice = createSlice({
 
 export const {
     wsInit, wsClose, setOrders, wsError, wsOpen
-} = feedWsSlice.actions;
+} = ordersWsSlice.actions;
 
-export const feedWsActions: TWsActions = {
+export const ordersWsActions: TWsActions = {
     wsInit,
     wsClose,
     setOrders,
@@ -81,5 +71,5 @@ export const feedWsActions: TWsActions = {
     wsOpen
 };
 
-const feedWsReducer = feedWsSlice.reducer;
-export default feedWsReducer;
+const ordersWsReducer = ordersWsSlice.reducer;
+export default ordersWsReducer;
