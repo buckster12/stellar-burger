@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ORDER_URL} from "../../utils/constants";
 import checkResponse from "../../utils/check-response";
 import {getCookie} from "../auth";
-import {IOrder} from "../../types/order";
 
 type TThunkResponse = {
     success: boolean;
@@ -12,16 +11,16 @@ type TThunkResponse = {
     message: string;
 };
 
-export const processOrder = createAsyncThunk<TThunkResponse, IOrder>(
+export const processOrder = createAsyncThunk<TThunkResponse, Array<string>>(
     'order/processOrder',
-    async (order: IOrder) => {
+    async (order: Array<string>) => {
         const res = await fetch(ORDER_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getCookie('accessToken')}`,
             },
-            body: JSON.stringify(order),
+            body: JSON.stringify({ingredients: order}),
         });
         const data = await checkResponse<TThunkResponse>(res).catch(err => {
             throw err;

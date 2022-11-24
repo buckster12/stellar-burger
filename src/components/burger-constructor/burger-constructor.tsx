@@ -14,7 +14,6 @@ import CartElement from "../cart-element/cart-element";
 import {closeOrderModal, processOrder} from "../../services/actions/order-slice";
 import Modal from "../modal/modal";
 import {useHistory} from "react-router-dom";
-import {IOrder} from "../../types/order";
 import {IIngredient} from "../../types/ingredient-types";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";
@@ -62,13 +61,11 @@ const BurgerConstructor = () => {
             alert('Добавьте булку');
             return;
         }
-        const order: IOrder = {
-            ingredients: [
-                mainBasket.bun,
-                ...mainBasket.ingredients,
-                mainBasket.bun
-            ]
-        };
+        const order = [
+            mainBasket.bun._id,
+            ...mainBasket.ingredients.map((ingredient) => ingredient._id),
+            mainBasket.bun._id
+        ];
         dispatch(processOrder(order));
     }
 
