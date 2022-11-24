@@ -31,6 +31,7 @@ export const ordersWsSlice = createSlice({
             state.orders = [];
             state.total = 0;
             state.totalToday = 0;
+            state.error = undefined;
         },
         wsOpen: (state: IOrdersWsState) => {
             state.wsConnected = true;
@@ -39,6 +40,7 @@ export const ordersWsSlice = createSlice({
         wsClose: (state: IOrdersWsState) => {
             state.wsConnected = false;
             state.status = "idle";
+            state.error = undefined;
         },
         wsError: (state: IOrdersWsState, action: PayloadAction<Event>) => {
             state.wsConnected = false;
