@@ -3,9 +3,9 @@ export interface IIngredientType {
     title: string;
 }
 
-type IIngredientTypesArray = IIngredientType[];
+type TIngredientTypesArray = IIngredientType[];
 
-const ingredientType: IIngredientTypesArray = [
+const ingredientType: TIngredientTypesArray = [
     {
         "id": "bun",
         "title": "Булки"

@@ -4,7 +4,7 @@ import {WS_ALL_ORDERS_URL} from "../../utils/constants";
 import {TOrder} from "../../types/redux";
 import {Scrollbars} from "react-custom-scrollbars";
 import classNames from "classnames";
-import AppStyle from "../../pages/constructor/constructor.module.css";
+import constructorStyles from "../../pages/constructor/constructor.module.css";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
@@ -70,7 +70,7 @@ const Feed = () => {
                             ))}
                             {(['idle', 'loading'].includes(allOrdersStatus)) && (
                                 <div
-                                    className={classNames(AppStyle.loadingContainer, "text text text_type_main-default")}>
+                                    className={classNames(constructorStyles.loadingContainer, "text text text_type_main-default")}>
                                     Загрузка...
                                 </div>
                             )}

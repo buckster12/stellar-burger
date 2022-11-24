@@ -3,7 +3,7 @@ import React, {ChangeEvent, FormEvent} from "react";
 import classNames from "classnames";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {login, setError, setField, setPasswordVisible} from "../../services/actions/login-slice";
-import LoginStyle from "./login.module.css";
+import styles from "./login.module.css";
 import {ILocationState} from "../../types/types";
 import {useDispatch, useSelector} from "../../utils/hooks";
 
@@ -50,7 +50,7 @@ const Login = () => {
     }
 
     return (
-        <div className={LoginStyle.centeredForm}>
+        <div className={styles.centeredForm}>
             <form onSubmit={onClickLogin}>
                 <div className="pt-6 pb-6">
                     <p className="text text_type_main-medium">Вход</p>
@@ -70,7 +70,7 @@ const Login = () => {
                     Ошибка входа. Проверьте правильность введенных данных.
                 </p>)}
 
-                <div className={classNames("pb-6", LoginStyle.input)}>
+                <div className={classNames("pb-6", styles.input)}>
                     <Input
                         type={'email'}
                         placeholder={'E-mail'}
@@ -81,7 +81,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className={classNames("pb-6", LoginStyle.input)}>
+                <div className={classNames("pb-6", styles.input)}>
                     <Input
                         type={passwordVisible ? 'text' : 'password'}
                         value={password}

@@ -1,6 +1,6 @@
 import React from "react";
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import AppHeaderStyle from './app-header.module.css';
+import styles from './app-header.module.css';
 import classNames from "classnames";
 import {Link, NavLink, useLocation} from "react-router-dom";
 
@@ -9,7 +9,7 @@ function AppHeader() {
     const constructorIconClass = location.pathname === '/' ? 'primary' : 'secondary';
     const feedIconClass = location.pathname === '/feed' ? 'primary' : 'secondary';
 
-    const ProfileIconClass = () => {
+    const profileIconClass = () => {
         if (
             location.pathname.includes('/profile') ||
             location.pathname === '/login'
@@ -20,7 +20,7 @@ function AppHeader() {
         }
     }
 
-    const ProfileTextClass = () => {
+    const profileTextClass = () => {
         if (
             location.pathname.includes('/profile') ||
             location.pathname === '/login'
@@ -32,10 +32,10 @@ function AppHeader() {
     }
 
     return (
-        <header className={AppHeaderStyle.header}>
-            <nav className={AppHeaderStyle.nav}>
+        <header className={styles.header}>
+            <nav className={styles.nav}>
                 <div
-                    className={classNames("text text_type_main-small m-5", AppHeaderStyle.topButton)}>
+                    className={classNames("text text_type_main-small m-5", styles.topButton)}>
                     <BurgerIcon type={constructorIconClass}/>
                     <NavLink to="/" exact={true}
                              activeClassName="text_color_primary">
@@ -44,7 +44,7 @@ function AppHeader() {
                 </div>
 
                 <div
-                    className={classNames("text text_type_main-small text_color_inactive m-5", AppHeaderStyle.topButton)}>
+                    className={classNames("text text_type_main-small text_color_inactive m-5", styles.topButton)}>
                     <ListIcon type={feedIconClass}/>
                     <NavLink to="/feed" exact={true}
                              activeClassName="text_color_primary">
@@ -52,16 +52,16 @@ function AppHeader() {
                     </NavLink>
                 </div>
 
-                <div className={AppHeaderStyle.logo}>
+                <div className={styles.logo}>
                     <Link to={`/`}>
                         <Logo/>
                     </Link>
                 </div>
 
                 <div
-                    className={classNames("text text_type_main-small m-5", AppHeaderStyle.topRightButton)}>
-                    <ProfileIcon type={ProfileIconClass()}/>
-                    <NavLink to="/profile" className={ProfileTextClass()}>
+                    className={classNames("text text_type_main-small m-5", styles.topRightButton)}>
+                    <ProfileIcon type={profileIconClass()}/>
+                    <NavLink to="/profile" className={profileTextClass()}>
                         <span className="pl-1 pt-1">Личный кабинет</span>
                     </NavLink>
                 </div>

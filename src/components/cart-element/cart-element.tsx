@@ -1,7 +1,7 @@
 import {useDrag, useDrop} from "react-dnd";
 import {swapElements, removeIngredient} from "../../services/actions/basket-slice";
 import classNames from "classnames";
-import BurgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
+import styles from "../burger-constructor/burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FC, useRef} from "react";
 import {IIngredient} from "../../types/ingredient-types";
@@ -77,8 +77,8 @@ const CartElement: FC<TCartElementProps> = ({index, ingredient}) => {
     return (
         <li key={ingredient.uuid} ref={elementRef}
             style={{opacity: isDragging ? 0 : 1}}
-            className={classNames("pt-3", BurgerConstructorStyles.mainIngredientLi)}>
-            <div className={BurgerConstructorStyles.dragIcon}>
+            className={classNames("pt-3", styles.mainIngredientLi)}>
+            <div className={styles.dragIcon}>
                 <DragIcon type="primary"/>
             </div>
             <ConstructorElement

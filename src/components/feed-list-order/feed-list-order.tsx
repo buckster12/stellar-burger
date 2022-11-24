@@ -1,4 +1,4 @@
-import feedListOrderStyles from "./feed-list-order.module.css";
+import styles from "./feed-list-order.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngredient} from "../../types/ingredient-types";
 import {preparedDate} from "../../utils/prepared-date";
@@ -44,8 +44,8 @@ const FeedListOrder: FC<TOrderProps> = ({date, name, ingredients, orderNumber, o
     });
 
     return (
-        <div className={feedListOrderStyles.orderContainer}>
-            <div className={feedListOrderStyles.topElements}>
+        <div className={styles.orderContainer}>
+            <div className={styles.topElements}>
                 <p className="text text_type_digits-default">#{orderNumber}</p>
                 <p className="text text_type_main-default text_color_inactive">
                     {preparedDate(date)}
@@ -55,9 +55,9 @@ const FeedListOrder: FC<TOrderProps> = ({date, name, ingredients, orderNumber, o
             <p className={`text_color_success text text_type_main-default mb-5`}>
                 {orderStatus === 'done' ? 'Выполнен' : 'В процессе'}
             </p>
-            <div className={feedListOrderStyles.bottomElements}>
-                <div className={feedListOrderStyles.ingredientCirclesList}>{ingredientsLine}</div>
-                <div className={feedListOrderStyles.burgerConstructorTotal}>
+            <div className={styles.bottomElements}>
+                <div className={styles.ingredientCirclesList}>{ingredientsLine}</div>
+                <div className={styles.burgerConstructorTotal}>
                     <span className="text text_type_digits-default">
                     {ingredients.reduce((totalPrice, item) => {
                         return totalPrice + item.price;

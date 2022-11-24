@@ -1,4 +1,4 @@
-import OrderDetailsStyles from './order-details.module.css';
+import styles from './order-details.module.css';
 import doneSvg from '../../images/done.png';
 import classNames from "classnames";
 import {FC} from "react";
@@ -13,7 +13,7 @@ const OrderDetails: FC<TOrderDetails> = ({isLoading, isOk, orderId}) => {
     return (
         <>
             {isLoading &&
-                <div className={OrderDetailsStyles.textCenter}>
+                <div className={styles.textCenter}>
                     <div className="text text_type_main-medium">
                         Загрузка...
                     </div>
@@ -23,17 +23,17 @@ const OrderDetails: FC<TOrderDetails> = ({isLoading, isOk, orderId}) => {
                 (
                     <>
                         <span
-                            className={classNames(OrderDetailsStyles.orderIdentifier, "text text_type_digits-large")}
+                            className={classNames(styles.orderIdentifier, "text text_type_digits-large")}
                         >{orderId}</span>
                         <span className="pt-6 text text_type_main-medium">идентификатор заказа</span>
-                        <img className={OrderDetailsStyles.imgOk} src={doneSvg} alt="done"/>
+                        <img className={styles.imgOk} src={doneSvg} alt="done"/>
                         <span className="text text_type_main-small">ваш заказ начали готовить</span>
                         <span className="text text_type_main-small text_color_inactive">
                             Дождитесь готовности на орбитальной станции
                         </span>
                     </>)}
             {!isLoading && !isOk &&
-                <div className={OrderDetailsStyles.textCenter}>
+                <div className={styles.textCenter}>
                     <div className="text text_type_main-medium">
                         Произошла ошибка при оформление заказа, попробуйте еще раз
                     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Scrollbars} from 'react-custom-scrollbars';
-import BurgerIngredientsStyle from './burger-ingredients.module.css';
+import styles from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -62,8 +62,8 @@ const BurgerIngredients = () => {
 
     return (
         <div className="mb-10">
-            <h1 className={classNames('text text_type_main-large', BurgerIngredientsStyle.h1)}>Соберите бургер</h1>
-            <div className={classNames(BurgerIngredientsStyle.tabs, "pb-5")}>
+            <h1 className={classNames('text text_type_main-large', styles.h1)}>Соберите бургер</h1>
+            <div className={classNames(styles.tabs, "pb-5")}>
                 {ingredientType.map(function (el: IIngredientType, index: number) {
                     return (
                         <a href={'#' + el.id} key={index}>
@@ -76,9 +76,9 @@ const BurgerIngredients = () => {
                 })}
             </div>
 
-            <div className={BurgerIngredientsStyle.scrollContainer}>
+            <div className={styles.scrollContainer}>
                 <Scrollbars onScroll={handleScroll}>
-                    <div className={classNames(BurgerIngredientsStyle.ingredientBlock, "pr-2")}>
+                    <div className={classNames(styles.ingredientBlock, "pr-2")}>
                         {ingredientType.map(function (type: IIngredientType, index: number) {
                             return (
                                 <IngredientList key={index} id={type.id} title={type.title}>

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import AppStyle from './app.module.css';
+import styles from './app.module.css';
 import AppHeader from "../app-header/app-header";
 import {Route, Switch, useHistory, useLocation} from "react-router-dom";
 import Login from "../../pages/login/login";
@@ -35,11 +35,11 @@ function App() {
     }, [dispatch]);
 
     return (
-        <div className={AppStyle.App}>
+        <div className={styles.App}>
             <div className="mt-5">
                 <AppHeader/>
             </div>
-            <div className={AppStyle.centerContainer}>
+            <div className={styles.centerContainer}>
                 <Switch location={background || location}>
                     <ProtectedRoute path={"/profile/orders/:id"} exact={true}>
                         <FeedOrderPage parent={"orders"} />

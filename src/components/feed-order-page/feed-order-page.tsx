@@ -1,8 +1,8 @@
 import {useLocation, useParams} from "react-router-dom";
-import FeedOrderPageStyles from "./feed-order-page.module.css";
+import styles from "./feed-order-page.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {preparedDate} from "../../utils/prepared-date";
-import OrderDetailsStyles from "../order-details/order-details.module.css";
+import orderDetailsStyles from "../order-details/order-details.module.css";
 import {TOrder} from "../../types/redux";
 import {Scrollbars} from "react-custom-scrollbars";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
@@ -50,7 +50,7 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
 
     if (error) {
         return (
-            <div className={classNames(FeedOrderPageStyles.container, "text text_type_main-small")}>
+            <div className={classNames(styles.container, "text text_type_main-small")}>
                 {error}
             </div>
         )
@@ -58,7 +58,7 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
 
     if (!order) {
         return (
-            <div className={OrderDetailsStyles.textCenter}>
+            <div className={orderDetailsStyles.textCenter}>
                 <div className="text text_type_main-medium">
                     Загрузка...
                 </div>
@@ -67,9 +67,9 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
     }
 
     return (
-        <div className={FeedOrderPageStyles.orderWrapper}>
+        <div className={styles.orderWrapper}>
             {!modal &&
-                <p className={classNames(FeedOrderPageStyles.alignSelfCenter, "text text_type_digits-default mt-10")}>#{order.number}</p>
+                <p className={classNames(styles.alignSelfCenter, "text text_type_digits-default mt-10")}>#{order.number}</p>
             }
             <p className="text text_type_main-medium mt-10 mb-3">{order.name}</p>
             <p className={`text_color_success text text_type_main-default`}>
@@ -85,17 +85,17 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
                             return null;
                         }
                         return currentIngredient && (
-                            <div className={classNames(FeedOrderPageStyles.ingredientElement, 'pr-6')} key={index}>
+                            <div className={classNames(styles.ingredientElement, 'pr-6')} key={index}>
                                 <BorderedIngredientPreview
                                     item={currentIngredient}
-                                    className={FeedOrderPageStyles.ingredientImage}
+                                    className={styles.ingredientImage}
                                 />
                                 <div
-                                    className={classNames(FeedOrderPageStyles.textAlignLeft, "text text_type_main-default")}>
+                                    className={classNames(styles.textAlignLeft, "text text_type_main-default")}>
                                     {currentIngredient.name}
                                 </div>
                                 <div
-                                    className={classNames(FeedOrderPageStyles.ingredientPrice)}>
+                                    className={classNames(styles.ingredientPrice)}>
                                     <span className={"text text_type_digits-default"}>
                                         {order.ingredients.filter((id: string) => id === ingredientId).length}
                                         x {currentIngredient.price}
@@ -107,11 +107,11 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
                     })}
             </Scrollbars>
 
-            <div className={`${FeedOrderPageStyles.bottomElements} mt-5`}>
+            <div className={`${styles.bottomElements} mt-5`}>
                 <p className="text text_type_main-default text_color_inactive">
                     {preparedDate(order.createdAt)}
                 </p>
-                <div className={FeedOrderPageStyles.ingredientPrice}>
+                <div className={styles.ingredientPrice}>
                     <span className={`text text_type_digits-default`}>
                     {order.ingredients.reduce((acc, ingredientId) => {
                         const currentIngredient = allIngredients.find((ingredient) => ingredient._id === ingredientId);

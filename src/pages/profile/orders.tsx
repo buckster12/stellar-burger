@@ -5,7 +5,7 @@ import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../../components/feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
 import classNames from "classnames";
-import AppStyle from "../constructor/constructor.module.css";
+import constructorStyles from "../constructor/constructor.module.css";
 import {Scrollbars} from "react-custom-scrollbars";
 import {getCookie} from "../../services/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
@@ -61,7 +61,7 @@ const Orders = () => {
                 ))}
                 {(['idle', 'loading'].includes(allOrdersStatus)) && (
                     <div
-                        className={classNames(AppStyle.loadingContainer, "text text text_type_main-default")}>
+                        className={classNames(constructorStyles.loadingContainer, "text text text_type_main-default")}>
                         Загрузка...
                     </div>
                 )}

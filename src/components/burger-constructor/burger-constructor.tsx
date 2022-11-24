@@ -4,7 +4,7 @@ import {
     ConstructorElement,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerConstructorStyles from './burger-constructor.module.css'
+import styles from './burger-constructor.module.css'
 import {Scrollbars} from "react-custom-scrollbars";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
@@ -78,10 +78,10 @@ const BurgerConstructor = () => {
     return (
         <>
             <div
-                className={classNames(BurgerConstructorStyles.div, "mb-10")}>
+                className={classNames(styles.div, "mb-10")}>
 
                 <ul ref={dropRef}
-                    className={classNames(BurgerConstructorStyles.ul, (isHover ? BurgerConstructorStyles.hoverBorder : ""))}>
+                    className={classNames(styles.ul, (isHover ? styles.hoverBorder : ""))}>
 
                     {mainBasket.bun && Object.keys(mainBasket.bun).length > 0
                         && <li className="mb-3">
@@ -94,8 +94,8 @@ const BurgerConstructor = () => {
                             />
                         </li>}
 
-                    {mainBasket.ingredients && <div className={BurgerConstructorStyles.mainIngredients}>
-                        <div className={BurgerConstructorStyles.divOverScrollbar}>
+                    {mainBasket.ingredients && <div className={styles.mainIngredients}>
+                        <div className={styles.divOverScrollbar}>
                             <Scrollbars>
                                 {mainBasket.ingredients.map((ingredient, index) =>
                                     <CartElement key={ingredient.uuid} index={index} ingredient={ingredient}/>
@@ -117,8 +117,8 @@ const BurgerConstructor = () => {
                         </li>}
                 </ul>
 
-                <div className={BurgerConstructorStyles.totalAmountContainer}>
-                    <div className={BurgerConstructorStyles.totalPrice}>
+                <div className={styles.totalAmountContainer}>
+                    <div className={styles.totalPrice}>
                         <span className="text text_type_digits-medium">{totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
