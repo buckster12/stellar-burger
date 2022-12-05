@@ -1,0 +1,43 @@
+.orderWrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: left;
+    width: 600px;
+    height: 100%;
+    row-gap: 15px;
+}
+
+.ingredientElement {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.topElements,
+.bottomElements {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredientImage {
+    margin-right: 10px;
+}
+
+.alignSelfCenter {
+    align-self: center;
+}
+
+.ingredientPrice {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.textAlignLeft {
+    text-align: left;
+}

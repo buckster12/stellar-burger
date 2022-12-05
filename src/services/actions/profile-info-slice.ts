@@ -1,12 +1,17 @@
 import {fetchWithRefresh, getCookie} from "../auth";
 import {PROFILE_URL} from "../../utils/constants";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {TUser, IProfileState, TProfileForm} from "../../types/redux";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {IProfileState, TProfileForm, TUser} from "../../types/redux";
 
-export const updateProfile = createAsyncThunk<any, TProfileForm>(
+type TUpdateProfileResponse = {
+    success: boolean;
+    user: TUser;
+}
+
+export const updateProfile = createAsyncThunk<TUpdateProfileResponse, TProfileForm>(
     'profile/update',
-    async (user) => {
-        return await fetchWithRefresh<TUser>(PROFILE_URL, {
+    async (user: TProfileForm) => {
+        return await fetchWithRefresh<TUpdateProfileResponse>(PROFILE_URL, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,25 +63,25 @@ const profileSlice = createSlice({
         name: 'profile',
         initialState,
         reducers: {
-            setName: (state, action) => {
+            setName: (state, action: PayloadAction<string>) => {
                 state.form.name = action.payload;
             },
-            setNameDisabled: (state, action) => {
+            setNameDisabled: (state, action: PayloadAction<boolean>) => {
                 state.disabled.name_disabled = action.payload;
             },
-            setEmail: (state, action) => {
+            setEmail: (state, action: PayloadAction<string>) => {
                 state.form.email = action.payload;
             },
-            setEmailDisabled: (state, action) => {
+            setEmailDisabled: (state, action: PayloadAction<boolean>) => {
                 state.disabled.email_disabled = action.payload;
             },
-            setPassword: (state, action) => {
+            setPassword: (state, action: PayloadAction<string>) => {
                 state.form.password = action.payload;
             },
-            setPasswordDisabled: (state, action) => {
+            setPasswordDisabled: (state, action: PayloadAction<boolean>) => {
                 state.disabled.password_disabled = action.payload;
             },
-            revertChangesInForm: (state) => {
+            revertChangesInForm: (state: IProfileState) => {
                 state.form.name = state.user.name;
                 state.form.email = state.user.email;
                 state.disabled.email_disabled = true;
@@ -108,7 +113,7 @@ const profileSlice = createSlice({
                 state.isLoading = true;
                 state.error = false;
             });
-            builder.addCase(updateProfile.fulfilled, (state: IProfileState, action) => {
+            builder.addCase(updateProfile.fulfilled, (state: IProfileState, action: PayloadAction<TUpdateProfileResponse>) => {
                 state.isLoading = false;
                 state.error = false;
                 state.user = action.payload.user;
@@ -119,7 +124,7 @@ const profileSlice = createSlice({
                 state.disabled.password_disabled = true;
                 state.disabled.name_disabled = true;
             });
-            builder.addCase(updateProfile.rejected, (state) => {
+            builder.addCase(updateProfile.rejected, (state: IProfileState) => {
                 state.isLoading = false;
                 state.error = true;
             });

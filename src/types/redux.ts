@@ -1,27 +1,4 @@
-import {IIngredientsState} from "./ingredient-types";
-import {IBasket, IOrderState} from "./order";
-
-export interface IModalState {
-    modalContent: string;
-    isModalOpen: boolean;
-
-}
-
-interface IResetPasswordState {
-    email: string,
-    error: boolean,
-    isLoading: boolean,
-}
-
-interface ILoginState {
-    isLoggedIn: boolean;
-    error: boolean;
-    passwordVisible: boolean;
-    password: string;
-    email: string;
-    isLoading: boolean;
-
-}
+import store from "../services/store";
 
 export type TUser = {
     name: string,
@@ -48,21 +25,14 @@ export interface IProfileState {
     disabled: TProfileDisabledFields;
 }
 
-interface IRegisterState {
-    email: string;
-    password: string;
+export type TOrder = {
+    _id: string;
+    ingredients: Array<string>;
+    status: "created" | "pending" | "done";
     name: string;
-    error: boolean;
-    isLoading: boolean;
-}
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+};
 
-export interface IMainState {
-    resetPassword: IResetPasswordState;
-    login: ILoginState;
-    basket: IBasket;
-    order: IOrderState;
-    ingredients: IIngredientsState;
-    modal: IModalState;
-    profile: IProfileState;
-    register: IRegisterState;
-}
+export type AppDispatch = typeof store.dispatch;

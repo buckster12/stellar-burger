@@ -18,7 +18,9 @@ export const saveTokens = (refreshToken: string, accessToken: string): void => {
     }
     const inTwentyMinutes: Date = new Date(new Date().getTime() + 20 * 60 * 1000);
     Cookies.set('accessToken', accessToken, {
-        expires: inTwentyMinutes
+        expires: inTwentyMinutes,
+        sameSite: 'None',
+        secure: true
     });
     localStorage.setItem('refreshToken', refreshToken);
 }
@@ -51,8 +53,7 @@ export async function fetchWithRefresh<T>(url: string, options: RequestInit): Pr
 
         return await checkResponse<T>(res);
     } catch (err: any) {
-        console.log('error in auth.js:45: ', err);
-        if (err.message === 'jwt expired') {
+        if (err.message === 'jwt expired' || err.message === 'jwt malformed') {
             const {refreshToken, accessToken}: IRefreshToken = await refreshTokenRequest();
             saveTokens(refreshToken, accessToken);
 

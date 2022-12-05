@@ -3,14 +3,14 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link, useHistory} from "react-router-dom";
 import React, {ChangeEvent, SyntheticEvent} from "react";
 import {saveTokens} from "../../services/auth";
-import {useDispatch, useSelector} from "react-redux";
 import {setRegisterForm, register} from "../../services/actions/register-slice";
 import {setIsLoggedIn} from "../../services/actions/login-slice";
-import {IMainState} from "../../types/redux";
+import {RootState} from "../../services/store";
+import {useDispatch, useSelector} from "../../utils/hooks";
 
 const Register = () => {
     const history = useHistory();
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
 
     const {
         auth,
@@ -19,7 +19,7 @@ const Register = () => {
         password,
         error,
         isLoading,
-    } = useSelector((state: IMainState) => ({
+    } = useSelector((state: RootState) => ({
         auth: state.login.isLoggedIn,
         name: state.register.name,
         email: state.register.email,
@@ -36,14 +36,13 @@ const Register = () => {
 
     async function onClickFunction(e: SyntheticEvent) {
         e.preventDefault();
-        // @ts-ignore
-        const data = await dispatch(register({email, password, name}));
+        const data = await dispatch(register({email, password, name})).unwrap();
         if (data.error) {
             dispatch(setRegisterForm({name: 'error', value: data.error}));
             return;
         }
-        const accessToken = (data.payload.accessToken || '').split('Bearer ')[1];
-        const refreshToken = (data.payload.refreshToken);
+        const accessToken = (data.accessToken || '').split('Bearer ')[1];
+        const refreshToken = (data.refreshToken);
         saveTokens(refreshToken, accessToken);
         dispatch(setIsLoggedIn(true));
         history.push("/");

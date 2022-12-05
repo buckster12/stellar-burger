@@ -1,15 +1,15 @@
 import React from 'react';
-import AppStyle from './constructor.module.css';
+import styles from './constructor.module.css';
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import classNames from "classnames";
-import {useSelector} from "react-redux";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
-import {IMainState} from "../../types/redux";
+import {useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 function App() {
-    const {isLoading, hasError} = useSelector((state: IMainState) => {
+    const {isLoading, hasError} = useSelector((state: RootState) => {
         return {
             isLoading: state.ingredients.isLoading,
             hasError: state.ingredients.hasError,
@@ -18,18 +18,18 @@ function App() {
     });
 
     return (
-        <div className={AppStyle.App}>
+        <div className={styles.App}>
 
             {!isLoading && hasError &&
                 <div className="text text_type_main-large">Произошла ошибка, попробуйте еще раз</div>}
 
             {isLoading && !hasError &&
-                <div className={classNames(AppStyle.loadingContainer, "text text text_type_main-large")}>
+                <div className={classNames(styles.loadingContainer, "text text text_type_main-large")}>
                     Загрузка...
                 </div>}
 
             {!isLoading && !hasError &&
-                (<div className={AppStyle.mainContent}>
+                (<div className={styles.mainContent}>
                     <DndProvider backend={HTML5Backend}>
                         <BurgerIngredients/>
                         <BurgerConstructor/>

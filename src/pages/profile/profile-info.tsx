@@ -7,18 +7,19 @@ import {
     setName,
     setNameDisabled, setPassword, setPasswordDisabled, updateProfile
 } from "../../services/actions/profile-info-slice";
-import {useDispatch, useSelector} from "react-redux";
-import {IMainState} from "../../types/redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
+import styles from './profile.module.css';
 
 const ProfileInfo = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
 
     const {
         isLoading,
         error,
         form,
         disabled
-    } = useSelector((state: IMainState) => state.profile);
+    } = useSelector((state: RootState) => state.profile);
 
     useEffect(() => {
         dispatch(loadProfile());
@@ -40,7 +41,7 @@ const ProfileInfo = () => {
     return !isLoading && !error &&
 
         <form onSubmit={() => dispatch(updateProfile(form))}>
-            <div style={{display: "flex", rowGap: "14px", flexDirection: "column"}}>
+            <div className={styles.profileForm}>
 
                 <Input placeholder="Имя"
                        icon="EditIcon"

@@ -1,24 +1,26 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {IMainState} from "../../types/redux";
-import React from "react";
+import React, {FC} from "react";
+import {useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 type TProtectedRouteProps = {
-    Component: React.ComponentType<any>,
-    path: string,
+    path: string | Array<string>,
+    exact?: boolean,
+    children: React.ReactNode,
 }
 
-const ProtectedRoute = ({Component, path}: TProtectedRouteProps) => {
+const ProtectedRoute: FC<TProtectedRouteProps> = ({path, children, exact = false}) => {
     const location = useLocation();
-    const {auth} = useSelector((state: IMainState) => ({
+    const {auth} = useSelector((state: RootState) => ({
         auth: state.login.isLoggedIn,
     }));
     return (
         <Route
+            exact={exact}
             path={path}
-            render={(props) =>
+            render={() =>
                 auth ? (
-                    <Component {...props} />
+                    children
                 ) : (
                     <Redirect to={{pathname: "/login", state: {from: location}}}/>
                 )

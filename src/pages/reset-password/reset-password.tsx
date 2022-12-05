@@ -4,7 +4,6 @@ import Page404 from "../page404/page404";
 import classNames from "classnames";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import cssStyle from "./reset-password.module.css";
-import {useDispatch, useSelector} from "react-redux";
 import {
     clearData,
     setEmailToken,
@@ -12,16 +11,15 @@ import {
     setNewPasswordRequest
 } from "../../services/actions/reset-password-slice";
 import {ILocationState} from "../../types/types";
-import {IMainState} from "../../types/redux";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 const ResetPassword = () => {
     const history = useHistory();
     const location = useLocation<ILocationState>();
-    const dispatch = useDispatch<any>();
-    //@ts-ignore
-    const {auth} = useSelector((state: IMainState) => state.login.isLoggedIn);
-    //@ts-ignore
-    const {newPassword, emailToken, isLoading, errorMessage} = useSelector((state: IMainState) => state.resetPassword);
+    const dispatch = useDispatch();
+    const auth = useSelector((state: RootState) => state.login.isLoggedIn);
+    const {newPassword, emailToken, isLoading, errorMessage} = useSelector((state) => state.resetPassword);
 
     // if user is logged in, redirect to constructor page
     if (auth) {
@@ -40,8 +38,8 @@ const ResetPassword = () => {
         const data = await dispatch(setNewPasswordRequest({
             token: emailToken,
             password: newPassword
-        }));
-        if (data.payload.success) {
+        })).unwrap();
+        if (data.success) {
             dispatch(clearData());
             history.push("/login");
             history.replace({

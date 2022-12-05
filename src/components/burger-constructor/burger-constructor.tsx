@@ -4,23 +4,22 @@ import {
     ConstructorElement,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerConstructorStyles from './burger-constructor.module.css'
+import styles from './burger-constructor.module.css'
 import {Scrollbars} from "react-custom-scrollbars";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
-import {useDispatch, useSelector} from "react-redux";
 import {addIngredient, resetBasket, selectTotalPrice} from "../../services/actions/basket-slice";
 import {useDrop} from "react-dnd";
 import CartElement from "../cart-element/cart-element";
 import {closeOrderModal, processOrder} from "../../services/actions/order-slice";
 import Modal from "../modal/modal";
 import {useHistory} from "react-router-dom";
-import {IMainState} from "../../types/redux";
-import {IOrder} from "../../types/order";
 import {IIngredient} from "../../types/ingredient-types";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const history = useHistory();
     const totalPrice = useSelector(selectTotalPrice)
 
@@ -31,7 +30,7 @@ const BurgerConstructor = () => {
         isOk,
         isModalOpen,
         auth
-    } = useSelector((state: IMainState) => ({
+    } = useSelector((state: RootState) => ({
         orderId: state.order.orderId,
         isOrderProcessing: state.order.isOrderProcessing,
         isOk: state.order.isOk,
@@ -58,14 +57,15 @@ const BurgerConstructor = () => {
             history.push('/login');
             return;
         }
-        const order: IOrder = {
-            ingredients: [
-                mainBasket.bun,
-                ...mainBasket.ingredients,
-                mainBasket.bun
-            ]
-        };
-        // @ts-ignore
+        if (!mainBasket.bun) {
+            alert('Добавьте булку');
+            return;
+        }
+        const order = [
+            mainBasket.bun._id,
+            ...mainBasket.ingredients.map((ingredient) => ingredient._id),
+            mainBasket.bun._id
+        ];
         dispatch(processOrder(order));
     }
 
@@ -78,12 +78,12 @@ const BurgerConstructor = () => {
     return (
         <>
             <div
-                className={classNames(BurgerConstructorStyles.div, "mb-10")}>
+                className={classNames(styles.div, "mb-10")}>
 
                 <ul ref={dropRef}
-                    className={classNames(BurgerConstructorStyles.ul, (isHover ? BurgerConstructorStyles.hoverBorder : ""))}>
+                    className={classNames(styles.ul, (isHover ? styles.hoverBorder : ""))}>
 
-                    {Object.keys(mainBasket.bun).length > 0
+                    {mainBasket.bun && Object.keys(mainBasket.bun).length > 0
                         && <li className="mb-3">
                             <ConstructorElement
                                 type="top"
@@ -94,8 +94,8 @@ const BurgerConstructor = () => {
                             />
                         </li>}
 
-                    {mainBasket.ingredients && <div className={BurgerConstructorStyles.mainIngredients}>
-                        <div className={BurgerConstructorStyles.divOverScrollbar}>
+                    {mainBasket.ingredients && <div className={styles.mainIngredients}>
+                        <div className={styles.divOverScrollbar}>
                             <Scrollbars>
                                 {mainBasket.ingredients.map((ingredient, index) =>
                                     <CartElement key={ingredient.uuid} index={index} ingredient={ingredient}/>
@@ -105,7 +105,7 @@ const BurgerConstructor = () => {
 
                     </div>}
 
-                    {Object.keys(mainBasket.bun).length > 0
+                    {mainBasket.bun && Object.keys(mainBasket.bun).length > 0
                         && <li className={classNames("mt-3")}>
                             <ConstructorElement
                                 type="bottom"
@@ -117,13 +117,14 @@ const BurgerConstructor = () => {
                         </li>}
                 </ul>
 
-                <div className={BurgerConstructorStyles.totalAmountContainer}>
-                    <div className={BurgerConstructorStyles.totalPrice}>
+                <div className={styles.totalAmountContainer}>
+                    <div className={styles.totalPrice}>
                         <span className="text text_type_digits-medium">{totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
                     {/* @ts-ignore */}
-                    <Button disabled={!mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить заказ</Button>
+                    <Button disabled={!mainBasket.bun || !mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить
+                        заказ</Button>
                 </div>
             </div>
 

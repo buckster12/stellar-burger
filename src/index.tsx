@@ -1,38 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {configureStore} from '@reduxjs/toolkit';
 import {BrowserRouter} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
-import ingredientsReducer from "./services/actions/ingredients-slice";
-import basketReducer from './services/actions/basket-slice';
-import modalReducer from './services/actions/modal-slice';
-import orderReducer from "./services/actions/order-slice";
-import loginReducer from "./services/actions/login-slice";
-import registerReducer from "./services/actions/register-slice";
-import logoutReducer from "./services/actions/logout-slice";
-import profileReducer from "./services/actions/profile-info-slice";
-import resetPasswordReducer from "./services/actions/reset-password-slice";
+import store from "./services/store";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
-
-const store = configureStore({
-    reducer: {
-        ingredients: ingredientsReducer,
-        basket: basketReducer,
-        modal: modalReducer,
-        order: orderReducer,
-        login: loginReducer,
-        register: registerReducer,
-        logout: logoutReducer,
-        profile: profileReducer,
-        resetPassword: resetPasswordReducer
-    },
-    devTools: true,
-});
 
 root.render(
     // React-Router-Dom v5 not compatible with strict mode

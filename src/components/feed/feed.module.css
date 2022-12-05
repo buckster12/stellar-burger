@@ -1,0 +1,46 @@
+.flexCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexBetween {
+    justify-content: space-between;
+}
+
+.bothSides {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.leftSide {
+    min-width: 608px;
+}
+
+.rightSide {
+    display: flex;
+    width: 600px;
+    text-align: left;
+}
+
+.h1 {
+    text-align: left;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.orderNavLink {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.readyOrderNumber {
+    display: flex;
+    flex-direction: column;
+}

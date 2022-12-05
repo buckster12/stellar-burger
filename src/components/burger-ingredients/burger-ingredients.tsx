@@ -1,39 +1,38 @@
 import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Scrollbars} from 'react-custom-scrollbars';
-import BurgerIngredientsStyle from './burger-ingredients.module.css';
+import styles from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ingredientType, {IIngredientType} from "../../utils/types";
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
-import {useDispatch, useSelector} from "react-redux";
 import {hideModal} from "../../services/actions/modal-slice";
 import {useHistory, useLocation} from "react-router-dom";
-import {IMainState} from "../../types/redux";
 import {IIngredient} from "../../types/ingredient-types";
+import {useDispatch, useSelector} from "../../utils/hooks";
+import {RootState} from "../../services/store";
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
 
     const [currentTab, setCurrentTab] = React.useState<string>('bun')
-    const {mainBasket, bunBasket, data} = useSelector((state: IMainState) => ({
+    const {mainBasket, bunBasket, data} = useSelector((state: RootState) => ({
         mainBasket: state.basket.ingredients,
         bunBasket: state.basket.bun,
         data: state.ingredients.data
     }));
 
     // Modal window vars
-    // const modalContent: IIngredient | null = useSelector((state: IMainState) => state.modal.modalContent);
-    const isModalOpen: boolean = useSelector((state: IMainState) => state.modal.isModalOpen);
+    const isModalOpen: boolean = useSelector((state: RootState) => state.modal.isModalOpen);
 
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient: IIngredient): number => {
         let count: number = 0;
-        if (ingredient.type === 'bun' && bunBasket._id === ingredient._id) {
+        if (ingredient.type === 'bun' && bunBasket && bunBasket._id === ingredient._id) {
             return 2;
         }
         mainBasket.forEach(item => {
@@ -63,8 +62,8 @@ const BurgerIngredients = () => {
 
     return (
         <div className="mb-10">
-            <h1 className={classNames('text text_type_main-large', BurgerIngredientsStyle.h1)}>Соберите бургер</h1>
-            <div className={classNames(BurgerIngredientsStyle.tabs, "pb-5")}>
+            <h1 className={classNames('text text_type_main-large', styles.h1)}>Соберите бургер</h1>
+            <div className={classNames(styles.tabs, "pb-5")}>
                 {ingredientType.map(function (el: IIngredientType, index: number) {
                     return (
                         <a href={'#' + el.id} key={index}>
@@ -77,9 +76,9 @@ const BurgerIngredients = () => {
                 })}
             </div>
 
-            <div className={BurgerIngredientsStyle.scrollContainer}>
+            <div className={styles.scrollContainer}>
                 <Scrollbars onScroll={handleScroll}>
-                    <div className={classNames(BurgerIngredientsStyle.ingredientBlock, "pr-2")}>
+                    <div className={classNames(styles.ingredientBlock, "pr-2")}>
                         {ingredientType.map(function (type: IIngredientType, index: number) {
                             return (
                                 <IngredientList key={index} id={type.id} title={type.title}>

@@ -1,19 +1,19 @@
 import {useDrag, useDrop} from "react-dnd";
 import {swapElements, removeIngredient} from "../../services/actions/basket-slice";
-import {useDispatch} from "react-redux";
 import classNames from "classnames";
-import BurgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
+import styles from "../burger-constructor/burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useRef} from "react";
+import React, {FC, useRef} from "react";
 import {IIngredient} from "../../types/ingredient-types";
+import {useDispatch} from "../../utils/hooks";
 
 type TCartElementProps = {
     index: number,
     ingredient: IIngredient
 };
 
-const CartElement = ({index, ingredient}: TCartElementProps) => {
-    const dispatch = useDispatch<any>();
+const CartElement: FC<TCartElementProps> = ({index, ingredient}) => {
+    const dispatch = useDispatch();
     const [{isDragging}, dragRef] = useDrag({
         type: 'cart-element',
         item: {id: ingredient._id, index},
@@ -41,8 +41,7 @@ const CartElement = ({index, ingredient}: TCartElementProps) => {
             }
 
             // Determine rectangle on screen
-            // @ts-ignore
-            const hoverBoundingRect = elementRef.current?.getBoundingClientRect()
+            const hoverBoundingRect = elementRef.current?.getBoundingClientRect();
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             // Determine mouse position
@@ -78,8 +77,8 @@ const CartElement = ({index, ingredient}: TCartElementProps) => {
     return (
         <li key={ingredient.uuid} ref={elementRef}
             style={{opacity: isDragging ? 0 : 1}}
-            className={classNames("pt-3", BurgerConstructorStyles.mainIngredientLi)}>
-            <div className={BurgerConstructorStyles.dragIcon}>
+            className={classNames("pt-3", styles.mainIngredientLi)}>
+            <div className={styles.dragIcon}>
                 <DragIcon type="primary"/>
             </div>
             <ConstructorElement

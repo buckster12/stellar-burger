@@ -1,14 +1,22 @@
-import {createSelector, createSlice} from "@reduxjs/toolkit";
+import {createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {v4 as uuidv4} from 'uuid';
+import {IIngredient} from "../../types/ingredient-types";
+import {RootState} from "../store";
+
+type TBasketState = {
+    bun: IIngredient | null;
+    ingredients: IIngredient[];
+}
+const initialState: TBasketState = {
+    bun: null,
+    ingredients: [],
+};
 
 const basketSlice = createSlice({
     name: 'basket',
-    initialState: {
-        bun: {},
-        ingredients: [],
-    },
+    initialState,
     reducers: {
-        addIngredient: (state, action) => {
+        addIngredient: (state: TBasketState, action: PayloadAction<IIngredient>) => {
             const ingredient = {
                 ...action.payload,
                 uuid: uuidv4(),
@@ -19,15 +27,15 @@ const basketSlice = createSlice({
                 state.ingredients.push(ingredient);
             }
         },
-        removeIngredient: (state, action) => {
+        removeIngredient: (state: TBasketState, action: PayloadAction<string>) => {
             const ingredientUuid = action.payload;
             state.ingredients = state.ingredients.filter(ingredient => ingredient.uuid !== ingredientUuid);
         },
-        resetBasket: (state) => {
+        resetBasket: (state: TBasketState) => {
             state.ingredients = [];
-            state.bun = {};
+            state.bun = null;
         },
-        swapElements: (state, action) => {
+        swapElements: (state: TBasketState, action: PayloadAction<{ dragIndex: number, hoverIndex: number }>) => {
             const {dragIndex, hoverIndex} = action.payload;
             const dragElement = state.ingredients[dragIndex];
             const hoverElement = state.ingredients[hoverIndex];
@@ -37,13 +45,13 @@ const basketSlice = createSlice({
     }
 });
 
-export const selectTotalPrice = createSelector((state) => {
+export const selectTotalPrice = createSelector((state: RootState) => {
         let totalPrice = 0;
         state.basket.ingredients.forEach(item => {
                 totalPrice += item.price;
             }
         );
-        if (state.basket.bun._id) {
+        if (state.basket.bun && state.basket.bun._id) {
             totalPrice += state.basket.bun.price * 2;
         }
         return totalPrice;

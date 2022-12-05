@@ -1,0 +1,30 @@
+
+.ingredientPreviewImg {
+    scale: 50%;
+}
+
+.previewContainer {
+    background-color: #000;
+    border-radius: 50%;
+    border: 2px #801ab3 solid;
+    position: relative;
+    width: 55px;
+    padding: 5px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.previewContainer img {
+    box-sizing: border-box;
+    text-align: center;
+    height: 100%;
+    top: 0;
+}
+
+.additionalText {
+    color: #fff;
+    align-self: center;
+    position: absolute;
+}

@@ -12,10 +12,4 @@ export interface IIngredient {
     price: number;
 }
 
-export interface IIngredientsState {
-    data: IIngredientsArray;
-    isLoading: boolean;
-    hasError: boolean;
-}
-
 export type IIngredientsArray = IIngredient[];
