@@ -1,10 +1,10 @@
 describe("Modal ingredient", function () {
     before(function () {
         // cy.intercept("GET", `${INGREDIENTS_URL}`, {fixture: "ingredients.json"});
-        cy.visit("http://localhost:3000");
     });
 
     beforeEach(function () {
+        cy.visit("http://localhost:3000");
         cy.get("[class^=ingredient_ingredientContainer__]").first().as("ingredient");
     });
 
@@ -14,6 +14,8 @@ describe("Modal ingredient", function () {
     });
 
     it("Close modal ingredient", function () {
+        cy.get("@ingredient").click();
+
         cy.get("[class^=modal_modal__]").as("modal");
         cy.get("@modal").should("be.visible");
         cy.get("@modal").find("span[class^=modal_icon__]").click();
