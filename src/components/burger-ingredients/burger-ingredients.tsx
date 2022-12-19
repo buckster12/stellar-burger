@@ -1,6 +1,6 @@
 import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Scrollbars} from 'react-custom-scrollbars';
+import {Scrollbars} from 'react-custom-scrollbars-2';
 import styles from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";

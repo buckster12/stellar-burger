@@ -5,7 +5,7 @@ import {
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css'
-import {Scrollbars} from "react-custom-scrollbars";
+import {Scrollbars} from "react-custom-scrollbars-2";
 import OrderDetails from "../order-details/order-details";
 import classNames from "classnames";
 import {addIngredient, resetBasket, selectTotalPrice} from "../../services/actions/basket-slice";

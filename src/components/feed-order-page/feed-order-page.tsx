@@ -4,7 +4,7 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {preparedDate} from "../../utils/prepared-date";
 import orderDetailsStyles from "../order-details/order-details.module.css";
 import {TOrder} from "../../types/redux";
-import {Scrollbars} from "react-custom-scrollbars";
+import {Scrollbars} from "react-custom-scrollbars-2";
 import BorderedIngredientPreview from "../feed/bordered-ingredient-preview/bordered-ingredient-preview";
 import classNames from "classnames";
 import {FC, useEffect} from "react";

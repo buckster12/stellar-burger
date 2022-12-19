@@ -6,7 +6,7 @@ import FeedListOrder from "../../components/feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
 import classNames from "classnames";
 import constructorStyles from "../constructor/constructor.module.css";
-import {Scrollbars} from "react-custom-scrollbars";
+import {Scrollbars} from "react-custom-scrollbars-2";
 import {getCookie} from "../../services/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import {RootState} from "../../services/store";

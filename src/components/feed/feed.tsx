@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL} from "../../utils/constants";
 import {TOrder} from "../../types/redux";
-import {Scrollbars} from "react-custom-scrollbars";
+import {Scrollbars} from "react-custom-scrollbars-2";
 import classNames from "classnames";
 import constructorStyles from "../../pages/constructor/constructor.module.css";
 import {NavLink, useLocation} from "react-router-dom";
