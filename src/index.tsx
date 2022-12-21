@@ -15,7 +15,7 @@ root.render(
     // https://github.com/facebook/react/issues/24451#issuecomment-1112591413
     // <React.StrictMode>
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename={"/stellar-burger"}>
             <App/>
         </BrowserRouter>
     </Provider>
