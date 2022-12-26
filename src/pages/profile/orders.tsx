@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {WS_USER_ORDERS_URL} from "../../utils/constants";
-import {TOrder} from "../../types/redux";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../../components/feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
@@ -37,7 +36,7 @@ const Orders = () => {
     return (
         <div className={styles.ordersContainer}>
             <Scrollbars autoHeight={true} width={"100%"} autoHeightMin={500}>
-                {allOrders && allOrders.map((order: TOrder) => (
+                {allOrders && allOrders.map((order) => (
                     <NavLink
                         key={order._id}
                         to={{
@@ -50,7 +49,7 @@ const Orders = () => {
                             orderStatus={order.status}
                             date={order.createdAt}
                             ingredients={
-                                order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
+                                order.ingredients.map((ingredientId) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
                                     .filter(Boolean) as IIngredient[]
                             }
                             name={order.name}

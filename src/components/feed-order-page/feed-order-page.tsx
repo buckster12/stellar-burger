@@ -78,7 +78,7 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
 
             <Scrollbars autoHeight={true} width="100%" autoHeightMin={100}>
                 {
-                    Array.from(new Set(order.ingredients)).map((ingredientId: string, index: number) => {
+                    Array.from(new Set(order.ingredients)).map((ingredientId, index) => {
                         const currentIngredient = allIngredients.find((ingredient) => ingredient._id === ingredientId);
                         if (!currentIngredient) {
                             return null;

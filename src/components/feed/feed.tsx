@@ -46,7 +46,7 @@ const Feed = () => {
                 <div className={styles.bothSides}>
                     <div className={styles.leftSide}>
                         <Scrollbars autoHeight={true} autoHeightMin={window.innerHeight - 100}>
-                            {allOrders && allOrders.map((order: TOrder) => (
+                            {allOrders && allOrders.map((order) => (
                                 <NavLink
                                     key={order._id}
                                     to={{
@@ -59,7 +59,7 @@ const Feed = () => {
                                         date={order.createdAt}
                                         orderStatus={order.status}
                                         ingredients={
-                                            order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
+                                            order.ingredients.map((ingredientId) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
                                                 .filter(Boolean) as IIngredient[]
                                         }
                                         name={order.name}
@@ -82,7 +82,7 @@ const Feed = () => {
                                 <div className="text text_type_main-medium text_color_primary mb-6">Готовы:</div>
                                 <div
                                     className={classNames(styles.flexRow, "text text_type_digits-default text_color_success")}>
-                                    {allOrders && allOrders.reduce((acc: Array<Array<TOrder>>, item: TOrder, index: number) => {
+                                    {allOrders && allOrders.reduce((acc: Array<Array<TOrder>>, item, index) => {
                                             const chunkIndex = Math.floor(index / 10);
                                             if (!acc[chunkIndex]) {
                                                 acc[chunkIndex] = [];
@@ -90,9 +90,9 @@ const Feed = () => {
                                             acc[chunkIndex].push(item);
                                             return acc;
                                         }
-                                        , []).map((item: TOrder[], index: number) => (
+                                        , []).map((item, index) => (
                                         <div key={index} className={styles.readyOrderNumber}>
-                                            {item.map((item: TOrder, index: number) => (
+                                            {item.map((item, index) => (
                                                 <div key={index} className={classNames("mr-2")}>
                                                     {item.number}
                                                 </div>
@@ -104,7 +104,7 @@ const Feed = () => {
                             <div>
                                 <div className="text text_type_main-medium text_color_primary mb-6">В работе:</div>
                                 <div>
-                                    {allOrders && allOrders.filter((item) => item.status === "pending").map((order: TOrder) => (
+                                    {allOrders && allOrders.filter((item) => item.status === "pending").map((order) => (
                                         <div className={"text text_type_digits-default text_color_primary"}
                                              key={order._id}>
                                             {order.number}
