@@ -1,10 +1,4 @@
-import ingredientsReducer from "./ingredients-slice";
-
-const initialState = {
-    isLoading: false,
-    hasError: false,
-    data: []
-};
+import ingredientsReducer, {initialState} from "./ingredients-slice";
 
 const testIngredient = {
     "_id": "60d3b41abdacab0026a733c6",

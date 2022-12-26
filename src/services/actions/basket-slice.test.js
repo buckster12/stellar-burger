@@ -1,11 +1,6 @@
-import basketReducer, {addIngredient, removeIngredient, resetBasket, swapElements} from "./basket-slice";
+import basketReducer, {addIngredient, initialState, removeIngredient, resetBasket, swapElements} from "./basket-slice";
 
 jest.mock('uuid', () => ({v4: () => '123456789'}));
-
-const initialState = {
-    ingredients: [],
-    bun: null,
-}
 
 const bunIngredient = {
     "_id": "60d3b41abdacab0026a733c7",

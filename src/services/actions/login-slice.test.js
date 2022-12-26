@@ -1,15 +1,6 @@
-import Cookies from "js-cookie";
-import loginReducer, {login} from "./login-slice";
+import loginReducer, {initialState, login} from "./login-slice";
 
 describe("loginSlice", () => {
-    const initialState = {
-        email: "",
-        password: "",
-        passwordVisible: false,
-        error: null,
-        isLoading: false,
-        isLoggedIn: (Cookies.get('accessToken') || "").length > 0,
-    };
     it("should return the initial state", () => {
         expect(loginReducer(undefined, {})).toEqual(initialState);
     });

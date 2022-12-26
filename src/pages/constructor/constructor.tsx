@@ -6,10 +6,9 @@ import classNames from "classnames";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import {useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 
 function App() {
-    const {isLoading, hasError} = useSelector((state: RootState) => {
+    const {isLoading, hasError} = useSelector((state) => {
         return {
             isLoading: state.ingredients.isLoading,
             hasError: state.ingredients.hasError,

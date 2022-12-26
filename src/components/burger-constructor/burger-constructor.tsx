@@ -16,7 +16,6 @@ import Modal from "../modal/modal";
 import {useHistory} from "react-router-dom";
 import {IIngredient} from "../../types/ingredient-types";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -30,7 +29,7 @@ const BurgerConstructor = () => {
         isOk,
         isModalOpen,
         auth
-    } = useSelector((state: RootState) => ({
+    } = useSelector((state) => ({
         orderId: state.order.orderId,
         isOrderProcessing: state.order.isOrderProcessing,
         isOk: state.order.isOk,
@@ -122,9 +121,10 @@ const BurgerConstructor = () => {
                         <span className="text text_type_digits-medium">{totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    {/* @ts-ignore */}
-                    <Button disabled={!mainBasket.bun || !mainBasket.bun._id} onClick={onClickProcessOrder}>Оформить
-                        заказ</Button>
+                    <Button
+                        htmlType={'submit'}
+                        disabled={!mainBasket.bun || !mainBasket.bun._id}
+                        onClick={onClickProcessOrder}>Оформить заказ</Button>
                 </div>
             </div>
 

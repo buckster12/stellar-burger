@@ -23,7 +23,7 @@ type TIngredientSliceState = {
     hasError: boolean,
     data: IIngredient[]
 };
-const initialState: TIngredientSliceState = {
+export const initialState: TIngredientSliceState = {
     isLoading: false,
     hasError: false,
     data: []

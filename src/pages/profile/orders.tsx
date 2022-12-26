@@ -9,7 +9,6 @@ import constructorStyles from "../constructor/constructor.module.css";
 import {Scrollbars} from "react-custom-scrollbars-2";
 import {getCookie} from "../../services/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 import styles from "./profile.module.css";
 import {wsClose, wsInit} from "../../services/actions/orders-ws-slice";
 
@@ -28,7 +27,7 @@ const Orders = () => {
         allOrders,
         allOrdersStatus,
         allIngredients
-    } = useSelector((state: RootState) => ({
+    } = useSelector((state) => ({
             allOrders: state.ordersWs.orders,
             allOrdersStatus: state.ordersWs.status,
             allIngredients: state.ingredients.data

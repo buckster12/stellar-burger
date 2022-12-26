@@ -1,27 +1,16 @@
-import ordersWsReducer, {setOrders, wsClose, wsError, wsInit, wsOpen} from "./orders-ws-slice";
+import ordersWsReducer, {initialState, setOrders, wsClose, wsError, wsInit, wsOpen} from "./orders-ws-slice";
 
 describe("orderWsSlice", () => {
 
     it("should return the initial state", () => {
-        expect(ordersWsReducer(undefined, {})).toEqual({
-            wsConnected: false,
-            orders: [],
-            total: 0,
-            totalToday: 0,
-            error: undefined,
-            status: "idle",
-        });
+        expect(ordersWsReducer(undefined, {})).toEqual(initialState);
     });
 
     it("should handle wsInit", () => {
         expect(
             ordersWsReducer(undefined, wsInit())
         ).toEqual({
-            wsConnected: false,
-            orders: [],
-            total: 0,
-            totalToday: 0,
-            error: undefined,
+            ...initialState,
             status: "loading",
         });
     });
@@ -30,11 +19,8 @@ describe("orderWsSlice", () => {
         expect(
             ordersWsReducer(undefined, wsOpen())
         ).toEqual({
+            ...initialState,
             wsConnected: true,
-            orders: [],
-            total: 0,
-            totalToday: 0,
-            error: undefined,
             status: "connected",
         });
     });
@@ -43,12 +29,7 @@ describe("orderWsSlice", () => {
         expect(
             ordersWsReducer(undefined, wsClose())
         ).toEqual({
-            wsConnected: false,
-            orders: [],
-            total: 0,
-            totalToday: 0,
-            error: undefined,
-            status: "idle",
+            ...initialState
         });
     });
 
@@ -56,10 +37,7 @@ describe("orderWsSlice", () => {
         expect(
             ordersWsReducer(undefined, wsError({type: "errorType"}))
         ).toEqual({
-            wsConnected: false,
-            orders: [],
-            total: 0,
-            totalToday: 0,
+            ...initialState,
             error: "errorType",
             status: "failed",
         });
@@ -98,20 +76,15 @@ describe("orderWsSlice", () => {
         expect(
             ordersWsReducer(undefined, setOrders(successTrue))
         ).toEqual({
-            wsConnected: false,
+            ...initialState,
             orders: successTrue.orders,
             total: successTrue.total,
             totalToday: successTrue.totalToday,
-            error: undefined,
-            status: "idle",
         });
 
         expect(
             ordersWsReducer(undefined, setOrders(successFalse))).toEqual({
-            wsConnected: false,
-            orders: [],
-            total: 0,
-            totalToday: 0,
+            ...initialState,
             error: successFalse.message,
             status: "failed",
         });

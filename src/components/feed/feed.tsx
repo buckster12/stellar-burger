@@ -8,14 +8,13 @@ import constructorStyles from "../../pages/constructor/constructor.module.css";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
-import {RootState} from "../../services/store";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import styles from './feed.module.css';
 
 const Feed = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const {allIngredients} = useSelector((state: RootState) => ({
+    const {allIngredients} = useSelector((state) => ({
         allIngredients: state.ingredients.data,
     }));
 
@@ -24,7 +23,7 @@ const Feed = () => {
         totalToday,
         total,
         allOrdersStatus
-    } = useSelector((state: RootState) => ({
+    } = useSelector((state) => ({
             allOrders: state.feedWs.orders,
             allOrdersStatus: state.feedWs.status,
             totalToday: state.feedWs.totalToday,

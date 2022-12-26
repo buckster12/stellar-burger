@@ -1,4 +1,5 @@
 import profileReducer, {
+    initialState,
     revertChangesInForm,
     setEmail,
     setEmailDisabled,
@@ -7,25 +8,6 @@ import profileReducer, {
     setPassword,
     setPasswordDisabled
 } from "./profile-info-slice";
-
-const initialState = {
-    isLoading: false,
-    error: false,
-    form: {
-        name: "",
-        email: "",
-        password: "",
-    },
-    disabled: {
-        name_disabled: true,
-        email_disabled: true,
-        password_disabled: true,
-    },
-    user: {
-        name: "",
-        email: "",
-    }
-}
 
 describe("profileInfoSlice", () => {
     it("initial state", () => {

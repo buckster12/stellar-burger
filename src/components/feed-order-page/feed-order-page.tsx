@@ -11,7 +11,6 @@ import {FC, useEffect} from "react";
 import {feedWsActions} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL, WS_USER_ORDERS_URL} from "../../utils/constants";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 import {getCookie} from "../../services/auth";
 import {ordersWsActions} from "../../services/actions/orders-ws-slice";
 
@@ -41,12 +40,12 @@ const FeedOrderPage: FC<TFeedOrderPageProps> = ({modal = false, parent}) => {
     // find order by id in store by order.number (not id) which is integer not string
 
     const order = useSelector(
-        (store: RootState) => (parent === 'feed') ?
+        (store) => (parent === 'feed') ?
             store.feedWs.orders.find((order: TOrder) => order.number === +id) :
             store.ordersWs.orders.find((order: TOrder) => order.number === +id)
     );
-    const allIngredients = useSelector((state: RootState) => state.ingredients.data);
-    const {error} = useSelector((state: RootState) => parent === 'orders' ? state.ordersWs : state.feedWs);
+    const allIngredients = useSelector((state) => state.ingredients.data);
+    const {error} = useSelector((state) => parent === 'orders' ? state.ordersWs : state.feedWs);
 
     if (error) {
         return (

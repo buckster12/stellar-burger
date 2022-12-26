@@ -3,12 +3,10 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link, Redirect, useHistory} from "react-router-dom";
 import React, {ChangeEvent, FormEvent} from "react";
 import {resetPassword, setEmail} from "../../services/actions/reset-password-slice";
-import {useSelector} from "react-redux";
-import {useDispatch} from "../../utils/hooks";
-import {RootState} from "../../services/store";
+import {useDispatch, useSelector} from "../../utils/hooks";
 
 const ForgotPassword = () => {
-    const auth = useSelector((state: RootState) => state.login.isLoggedIn);
+    const auth = useSelector((state) => state.login.isLoggedIn);
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -16,7 +14,7 @@ const ForgotPassword = () => {
         email,
         error,
         isLoading
-    } = useSelector((state: RootState) => state.resetPassword);
+    } = useSelector((state) => state.resetPassword);
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setEmail(e.target.value));
@@ -64,8 +62,8 @@ const ForgotPassword = () => {
                 />
             </div>
 
-            {/* @ts-ignore */}
             <Button
+                htmlType={'submit'}
                 type="primary"
                 disabled={error}
                 size="medium">

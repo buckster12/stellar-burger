@@ -1,13 +1,4 @@
-import feedWsReducer from "./feed-ws-slice";
-
-const initialState = {
-    wsConnected: false,
-    status: "idle",
-    error: undefined,
-    orders: [],
-    total: 0,
-    totalToday: 0,
-}
+import feedWsReducer, {initialState} from "./feed-ws-slice";
 
 describe("feedWsSlice", () => {
     it("should handle initial state", () => {

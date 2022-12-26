@@ -12,7 +12,6 @@ import {hideModal} from "../../services/actions/modal-slice";
 import {useHistory, useLocation} from "react-router-dom";
 import {IIngredient} from "../../types/ingredient-types";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -20,14 +19,14 @@ const BurgerIngredients = () => {
     const history = useHistory();
 
     const [currentTab, setCurrentTab] = React.useState<string>('bun')
-    const {mainBasket, bunBasket, data} = useSelector((state: RootState) => ({
+    const {mainBasket, bunBasket, data} = useSelector((state) => ({
         mainBasket: state.basket.ingredients,
         bunBasket: state.basket.bun,
         data: state.ingredients.data
     }));
 
     // Modal window vars
-    const isModalOpen: boolean = useSelector((state: RootState) => state.modal.isModalOpen);
+    const isModalOpen: boolean = useSelector((state) => state.modal.isModalOpen);
 
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient: IIngredient): number => {

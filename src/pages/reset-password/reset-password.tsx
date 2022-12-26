@@ -12,13 +12,12 @@ import {
 } from "../../services/actions/reset-password-slice";
 import {ILocationState} from "../../types/types";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 
 const ResetPassword = () => {
     const history = useHistory();
     const location = useLocation<ILocationState>();
     const dispatch = useDispatch();
-    const auth = useSelector((state: RootState) => state.login.isLoggedIn);
+    const auth = useSelector((state) => state.login.isLoggedIn);
     const {newPassword, emailToken, isLoading, errorMessage} = useSelector((state) => state.resetPassword);
 
     // if user is logged in, redirect to constructor page
@@ -90,8 +89,7 @@ const ResetPassword = () => {
                         size={'default'}
                     />
                 </div>
-                {/* @ts-ignore */}
-                <Button type="primary" size="medium">Сохранить</Button>
+                <Button type="primary" htmlType={'submit'} size="medium">Сохранить</Button>
             </form>
 
             <div className={classNames("pt-6 pb-6")}>
