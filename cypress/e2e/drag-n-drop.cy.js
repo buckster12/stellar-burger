@@ -12,6 +12,6 @@ describe('Ingredient drugs and drops', function () {
         cy.get('@drop-zone-target').first().trigger('dragenter').trigger('dragover').trigger('drop');
 
         // check that ul now have 2 li elements
-        cy.get('div.burger-constructor_div__wqk0s.mb-10 > ul').children("li").should('have.length', 2);
+        cy.get('div[class^=burger-constructor_div__] > ul').children("li").should('have.length', 2);
     });
 });
