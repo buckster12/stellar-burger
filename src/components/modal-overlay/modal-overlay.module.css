@@ -1,5 +1,5 @@
 .overlay {
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     width: 100%;
     height: 100%;
@@ -8,6 +8,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /*position: fixed;*/
     background-color: rgba(0, 0, 0, 0.6);
 }

@@ -1,6 +1,10 @@
 .modal {
     min-height: 300px;
-    position: relative;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     width: 640px;
     background-color: #1C1C21;
     border: 1px solid rgba(76, 76, 255, 0.2);
