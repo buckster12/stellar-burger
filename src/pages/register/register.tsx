@@ -5,7 +5,6 @@ import React, {ChangeEvent, SyntheticEvent} from "react";
 import {saveTokens} from "../../services/auth";
 import {setRegisterForm, register} from "../../services/actions/register-slice";
 import {setIsLoggedIn} from "../../services/actions/login-slice";
-import {RootState} from "../../services/store";
 import {useDispatch, useSelector} from "../../utils/hooks";
 
 const Register = () => {
@@ -19,7 +18,7 @@ const Register = () => {
         password,
         error,
         isLoading,
-    } = useSelector((state: RootState) => ({
+    } = useSelector((state) => ({
         auth: state.login.isLoggedIn,
         name: state.register.name,
         email: state.register.email,
@@ -99,8 +98,8 @@ const Register = () => {
                 />
             </div>
 
-            {/* @ts-ignore */}
             <Button
+                htmlType={'submit'}
                 type="primary"
                 size="medium">
                 Зарегистрироваться

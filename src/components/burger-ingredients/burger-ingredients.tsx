@@ -1,18 +1,17 @@
 import React from "react";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Scrollbars} from 'react-custom-scrollbars';
+import {Scrollbars} from 'react-custom-scrollbars-2';
 import styles from './burger-ingredients.module.css';
 import IngredientList from "../ingredient-list/ingredient-list";
 import classNames from "classnames";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import ingredientType, {IIngredientType} from "../../utils/types";
+import ingredientType from "../../utils/types";
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
 import {hideModal} from "../../services/actions/modal-slice";
 import {useHistory, useLocation} from "react-router-dom";
 import {IIngredient} from "../../types/ingredient-types";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -20,14 +19,14 @@ const BurgerIngredients = () => {
     const history = useHistory();
 
     const [currentTab, setCurrentTab] = React.useState<string>('bun')
-    const {mainBasket, bunBasket, data} = useSelector((state: RootState) => ({
+    const {mainBasket, bunBasket, data} = useSelector((state) => ({
         mainBasket: state.basket.ingredients,
         bunBasket: state.basket.bun,
         data: state.ingredients.data
     }));
 
     // Modal window vars
-    const isModalOpen: boolean = useSelector((state: RootState) => state.modal.isModalOpen);
+    const isModalOpen: boolean = useSelector((state) => state.modal.isModalOpen);
 
     // function which count current ingredient in basket
     const countCurrentIngredient = (ingredient: IIngredient): number => {
@@ -64,7 +63,7 @@ const BurgerIngredients = () => {
         <div className="mb-10">
             <h1 className={classNames('text text_type_main-large', styles.h1)}>Соберите бургер</h1>
             <div className={classNames(styles.tabs, "pb-5")}>
-                {ingredientType.map(function (el: IIngredientType, index: number) {
+                {ingredientType.map(function (el, index) {
                     return (
                         <a href={'#' + el.id} key={index}>
                             {/* @ts-ignore */}
@@ -79,12 +78,12 @@ const BurgerIngredients = () => {
             <div className={styles.scrollContainer}>
                 <Scrollbars onScroll={handleScroll}>
                     <div className={classNames(styles.ingredientBlock, "pr-2")}>
-                        {ingredientType.map(function (type: IIngredientType, index: number) {
+                        {ingredientType.map(function (type, index) {
                             return (
                                 <IngredientList key={index} id={type.id} title={type.title}>
                                     {data
-                                        .filter((x: IIngredient) => x.type === type.id)
-                                        .map((mapIngredient: IIngredient, index: number) => {
+                                        .filter((x) => x.type === type.id)
+                                        .map((mapIngredient, index) => {
                                                 return (
                                                     <Ingredient
                                                         key={mapIngredient._id ?? index}

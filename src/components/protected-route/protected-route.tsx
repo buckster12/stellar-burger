@@ -1,7 +1,6 @@
 import {Redirect, Route, useLocation} from "react-router-dom";
 import React, {FC} from "react";
 import {useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 
 type TProtectedRouteProps = {
     path: string | Array<string>,
@@ -11,7 +10,7 @@ type TProtectedRouteProps = {
 
 const ProtectedRoute: FC<TProtectedRouteProps> = ({path, children, exact = false}) => {
     const location = useLocation();
-    const {auth} = useSelector((state: RootState) => ({
+    const {auth} = useSelector((state) => ({
         auth: state.login.isLoggedIn,
     }));
     return (

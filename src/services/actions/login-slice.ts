@@ -42,7 +42,7 @@ type TLoginState = {
     isLoading: boolean;
     isLoggedIn: boolean;
 }
-const initialState: TLoginState = {
+export const initialState: TLoginState = {
     email: "",
     password: "",
     passwordVisible: false,

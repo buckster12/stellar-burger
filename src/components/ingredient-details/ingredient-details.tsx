@@ -1,14 +1,13 @@
 import styles from './ingredient-details.module.css';
 import classNames from "classnames";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {IIngredient, IIngredientsArray} from "../../types/ingredient-types";
 import React from "react";
-import {RootState} from "../../services/store";
+import {useSelector} from "../../utils/hooks";
 
 const IngredientDetails = () => {
     let ingredientId: string = useParams<{ ingredientId: string }>().ingredientId;
-    const ingredients: IIngredientsArray = useSelector((state: RootState) => state.ingredients.data);
+    const ingredients: IIngredientsArray = useSelector((state) => state.ingredients.data);
     const chosenIngredient: IIngredient | undefined = ingredients.find((item: IIngredient) => item._id === ingredientId);
 
     if (!chosenIngredient) {

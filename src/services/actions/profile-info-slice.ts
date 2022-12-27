@@ -40,7 +40,7 @@ export const loadProfile = createAsyncThunk<TLoadProfileResponse>(
             });
     });
 
-const initialState: IProfileState = {
+export const initialState: IProfileState = {
     isLoading: false,
     error: false,
     form: {

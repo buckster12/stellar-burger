@@ -55,7 +55,7 @@ const orderSlice = createSlice({
             state.orderId = 0; // сбрасываем ордер из памяти
             state.isOk = false; // сбрасываем статус отправки заказа
         },
-        setIsOk: (state: TOrderState, action) => {
+        setIsOk: (state: TOrderState, action: PayloadAction<boolean>) => {
             state.isOk = action.payload;
         },
     },
@@ -78,6 +78,7 @@ const orderSlice = createSlice({
 
 export const {
     closeOrderModal,
+    setIsOk,
 } = orderSlice.actions;
 
 const orderReducer = orderSlice.reducer;

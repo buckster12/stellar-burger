@@ -11,7 +11,7 @@ interface IOrdersWsState {
     totalToday: number;
 }
 
-const initialState: IOrdersWsState = {
+export const initialState: IOrdersWsState = {
     wsConnected: false,
     status: "idle",
     error: undefined,

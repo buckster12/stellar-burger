@@ -94,8 +94,7 @@ const Login = () => {
                     />
                 </div>
 
-                {/* @ts-ignore */}
-                <Button type="primary" size="medium">Войти</Button>
+                <Button htmlType={'submit'} type="primary" size="medium">Войти</Button>
 
                 <div className={classNames("pt-6 pb-6")}>
                     <p className="text text_type_main-small text_color_inactive">

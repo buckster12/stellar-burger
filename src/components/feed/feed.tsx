@@ -2,20 +2,19 @@ import React, {useEffect} from "react";
 import {wsClose, wsInit} from "../../services/actions/feed-ws-slice";
 import {WS_ALL_ORDERS_URL} from "../../utils/constants";
 import {TOrder} from "../../types/redux";
-import {Scrollbars} from "react-custom-scrollbars";
+import {Scrollbars} from "react-custom-scrollbars-2";
 import classNames from "classnames";
 import constructorStyles from "../../pages/constructor/constructor.module.css";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
-import {RootState} from "../../services/store";
 import {useDispatch, useSelector} from "../../utils/hooks";
 import styles from './feed.module.css';
 
 const Feed = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const {allIngredients} = useSelector((state: RootState) => ({
+    const {allIngredients} = useSelector((state) => ({
         allIngredients: state.ingredients.data,
     }));
 
@@ -24,7 +23,7 @@ const Feed = () => {
         totalToday,
         total,
         allOrdersStatus
-    } = useSelector((state: RootState) => ({
+    } = useSelector((state) => ({
             allOrders: state.feedWs.orders,
             allOrdersStatus: state.feedWs.status,
             totalToday: state.feedWs.totalToday,
@@ -47,7 +46,7 @@ const Feed = () => {
                 <div className={styles.bothSides}>
                     <div className={styles.leftSide}>
                         <Scrollbars autoHeight={true} autoHeightMin={window.innerHeight - 100}>
-                            {allOrders && allOrders.map((order: TOrder) => (
+                            {allOrders && allOrders.map((order) => (
                                 <NavLink
                                     key={order._id}
                                     to={{
@@ -60,7 +59,7 @@ const Feed = () => {
                                         date={order.createdAt}
                                         orderStatus={order.status}
                                         ingredients={
-                                            order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
+                                            order.ingredients.map((ingredientId) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
                                                 .filter(Boolean) as IIngredient[]
                                         }
                                         name={order.name}
@@ -83,7 +82,7 @@ const Feed = () => {
                                 <div className="text text_type_main-medium text_color_primary mb-6">Готовы:</div>
                                 <div
                                     className={classNames(styles.flexRow, "text text_type_digits-default text_color_success")}>
-                                    {allOrders && allOrders.reduce((acc: Array<Array<TOrder>>, item: TOrder, index: number) => {
+                                    {allOrders && allOrders.reduce((acc: Array<Array<TOrder>>, item, index) => {
                                             const chunkIndex = Math.floor(index / 10);
                                             if (!acc[chunkIndex]) {
                                                 acc[chunkIndex] = [];
@@ -91,9 +90,9 @@ const Feed = () => {
                                             acc[chunkIndex].push(item);
                                             return acc;
                                         }
-                                        , []).map((item: TOrder[], index: number) => (
+                                        , []).map((item, index) => (
                                         <div key={index} className={styles.readyOrderNumber}>
-                                            {item.map((item: TOrder, index: number) => (
+                                            {item.map((item, index) => (
                                                 <div key={index} className={classNames("mr-2")}>
                                                     {item.number}
                                                 </div>
@@ -105,7 +104,7 @@ const Feed = () => {
                             <div>
                                 <div className="text text_type_main-medium text_color_primary mb-6">В работе:</div>
                                 <div>
-                                    {allOrders && allOrders.filter((item) => item.status === "pending").map((order: TOrder) => (
+                                    {allOrders && allOrders.filter((item) => item.status === "pending").map((order) => (
                                         <div className={"text text_type_digits-default text_color_primary"}
                                              key={order._id}>
                                             {order.number}

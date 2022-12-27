@@ -1,15 +1,13 @@
 import React, {useEffect} from "react";
 import {WS_USER_ORDERS_URL} from "../../utils/constants";
-import {TOrder} from "../../types/redux";
 import {NavLink, useLocation} from "react-router-dom";
 import FeedListOrder from "../../components/feed-list-order/feed-list-order";
 import {IIngredient} from "../../types/ingredient-types";
 import classNames from "classnames";
 import constructorStyles from "../constructor/constructor.module.css";
-import {Scrollbars} from "react-custom-scrollbars";
+import {Scrollbars} from "react-custom-scrollbars-2";
 import {getCookie} from "../../services/auth";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 import styles from "./profile.module.css";
 import {wsClose, wsInit} from "../../services/actions/orders-ws-slice";
 
@@ -28,7 +26,7 @@ const Orders = () => {
         allOrders,
         allOrdersStatus,
         allIngredients
-    } = useSelector((state: RootState) => ({
+    } = useSelector((state) => ({
             allOrders: state.ordersWs.orders,
             allOrdersStatus: state.ordersWs.status,
             allIngredients: state.ingredients.data
@@ -38,7 +36,7 @@ const Orders = () => {
     return (
         <div className={styles.ordersContainer}>
             <Scrollbars autoHeight={true} width={"100%"} autoHeightMin={500}>
-                {allOrders && allOrders.map((order: TOrder) => (
+                {allOrders && allOrders.map((order) => (
                     <NavLink
                         key={order._id}
                         to={{
@@ -51,7 +49,7 @@ const Orders = () => {
                             orderStatus={order.status}
                             date={order.createdAt}
                             ingredients={
-                                order.ingredients.map((ingredientId: string) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
+                                order.ingredients.map((ingredientId) => allIngredients.find((ingredient) => ingredient._id === ingredientId))
                                     .filter(Boolean) as IIngredient[]
                             }
                             name={order.name}

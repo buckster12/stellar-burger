@@ -8,7 +8,6 @@ import {
     setNameDisabled, setPassword, setPasswordDisabled, updateProfile
 } from "../../services/actions/profile-info-slice";
 import {useDispatch, useSelector} from "../../utils/hooks";
-import {RootState} from "../../services/store";
 import styles from './profile.module.css';
 
 const ProfileInfo = () => {
@@ -19,7 +18,7 @@ const ProfileInfo = () => {
         error,
         form,
         disabled
-    } = useSelector((state: RootState) => state.profile);
+    } = useSelector((state) => state.profile);
 
     useEffect(() => {
         dispatch(loadProfile());
@@ -72,10 +71,9 @@ const ProfileInfo = () => {
 
                 {!disabled.password_disabled || !disabled.email_disabled || !disabled.name_disabled ?
                     (<div className={"pl-10"}>
-                        {/* @ts-ignore */}
-                        <Button size={"small"} type={"primary"}>Сохранить</Button>
-                        {/* @ts-ignore */}
-                        <Button size={"small"} type='secondary' onClick={cancelEditing}>Отменить</Button>
+                        <Button size={"small"} htmlType={"submit"} type={"primary"}>Сохранить</Button>
+                        <Button size={"small"} htmlType={'reset'} type='secondary'
+                                onClick={cancelEditing}>Отменить</Button>
                     </div>) : null}
 
             </div>

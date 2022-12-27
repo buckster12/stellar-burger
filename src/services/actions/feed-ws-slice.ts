@@ -11,7 +11,7 @@ interface IFeedWsState {
     totalToday: number;
 }
 
-const initialState: IFeedWsState = {
+export const initialState: IFeedWsState = {
     wsConnected: false,
     status: "idle",
     error: undefined,

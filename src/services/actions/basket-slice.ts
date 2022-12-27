@@ -7,7 +7,8 @@ type TBasketState = {
     bun: IIngredient | null;
     ingredients: IIngredient[];
 }
-const initialState: TBasketState = {
+
+export const initialState: TBasketState = {
     bun: null,
     ingredients: [],
 };
